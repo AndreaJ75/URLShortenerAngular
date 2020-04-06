@@ -1,0 +1,72 @@
+<div class="url"> 
+    <h1> UrlLink Form </h1>
+    <form [formGroup]="urlLinkForm" (ngSubmit) = "onSubmit(urlLinkForm.value)">
+        <div id="urlL">
+            <input id="urlLong" type="text"
+            placeholder='Type URL to be shortened' formControlName="urlLong">
+            <button class= "button" type="submit"> Create </button>
+        </div>
+    </form>
+</div>
+
+
+<table>
+    <thead>
+    <tr>
+      <th class = "short_cell "> <a (click) = 'sortOnCreationDate()'> Creation Date         </a> </th>
+      <th class = "long_cell" > <a (click) = 'sortOnUrlLong()'> UrlLong                     </a> </th>
+      <th class = "short_cell"> <a (click) = 'sortOnShort()'> UrlShort                      </a> </th>
+      <th class = "long_cell" > <a (click) = 'sortOnClickNumber()'> Click Number            </a> </th>
+      <th class = "long_cell" > <a (click) = 'sortOnExpirationDate()'> Expiration Date      </a> </th>
+      <th class = "short_cell"> <a (click) = 'sortOnLastUpdateDate()'> Last update Date     </a> </th>  
+      <th class = "short_cell"> <a (click) = 'sortOnMaxClickNumber()'> Maximum Click Number </a> </th>  
+    </tr>
+    </thead>
+    <tr>
+      <td>{{ urlLinkCreated?.creationDate | date : 'dd/MM/yyyy' }}</td>
+      <td>{{ urlLinkCreated?.urlLong }} </td>
+      <td> <a href="http://localhost:8080/{{ urlLinkCreated?.urlShortKey }}"> </a></td>
+      <td>{{ urlLinkCreated?.clickNumber }}</td>
+      <td>{{ urlLinkCreated?.expirationDate }}</td>
+      <td>{{ urlLinkCreated?.updateDate }}</td>
+      <td>{{ urlLinkCreated?.maxClickNumber }}</td>
+    </tr>
+  </table>
+
+
+
+<!-- <div class="urlLinks" *ngIf="callUrlLink && urlLinks && isLoggedIn && userLogin == urlLink.appUser?.name">     
+    <table>
+        <thead>
+        <tr>
+          <th class = "short_cell "> <a (click) = 'sortOnCreationDate()'> Creation Date         </a> </th>
+          <th class = "long_cell" > <a (click) = 'sortOnUrlLong()'> UrlLong                     </a> </th>
+          <th class = "short_cell"> <a (click) = 'sortOnShort()'> UrlShort                      </a> </th>
+          <th class = "long_cell" > <a (click) = 'sortOnClickNumber()'> Click Number            </a> </th>
+          <th class = "long_cell" > <a (click) = 'sortOnExpirationDate()'> Expiration Date      </a> </th>
+          <th class = "short_cell"> <a (click) = 'sortOnLastUpdateDate()'> Last update Date     </a> </th>  
+          <th class = "short_cell"> <a (click) = 'sortOnMaxClickNumber()'> Maximum Click Number </a> </th>  
+          <th *ngIf="isLoggedIn && userLogin == urlLink.appUser?.name" class = "short_cell" > Edit   </th>
+          <th *ngIf="isLoggedIn && userLogin == urlLink.appUser?.name" class = "short_cell" > Delete </th>
+        </tr>
+        </thead>
+        <tr *ngFor="let urlLink of urlLinks; let ind = index">
+          <td>{{ urlLink?.creationDate | date : 'dd/MM/yyyy' }}</td>
+          <td>{{ urlLink?.urlLong }} </td>
+          <td> <a href="http://localhost:8080/{{ urlLink?.urlShortKey }}"> </a></td>
+          <td>{{ urlLink?.clickNumber }}</td>
+          <td>{{ urlLink?.expirationDate }}</td>
+          <td>{{ urlLink?.updateDate }}</td>
+          <td>{{ urlLink?.maxClickNumber }}</td>
+          <td *ngIf="isLoggedIn && userLogin == urlLink.appUser?.name">
+            <button [routerLink]="['urlLink-update', item.id]">Edit</button>
+          </td>
+          <td *ngIf="isLoggedIn && userLogin == urlLink.appUser?.name">
+            <button (click)="deleteurlLink(urlLinks[ind])">Delete</button>
+          </td>
+        </tr>
+      </table>
+      <button (click)="changePagination('rewind')" *ngIf="!firstPage">-</button>
+      <button (click)="changePagination('forward')" *ngIf="!lastPage">+</button> 
+</div> -->
+

@@ -5,24 +5,27 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
-import { WelcomePageComponent } from './welcome-page/welcome-page.component';
-import { TopBarComponent } from './top-bar/top-bar.component';
-import { UrlManagementComponent } from './url-management/url-management.component';
+import { HomePageComponent } from './components/home-page/home-page.component';
+import { TopBarComponent } from './components/top-bar/top-bar.component';
+import { UrlManagementComponent } from './components/url-management/url-management.component';
+import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    WelcomePageComponent,
+    HomePageComponent,
     TopBarComponent,
-    UrlManagementComponent
+    UrlManagementComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     ReactiveFormsModule,
     RouterModule.forRoot([
-      { path: '', component: WelcomePageComponent},
-      { path: 'url-management', component: UrlManagementComponent}    // chemin du path correspond à ce qui est saisi dans "route.param" 
+      { path: '', component: HomePageComponent},
+      { path: 'login', component: LoginComponent},
+      { path: 'url-management', component: UrlManagementComponent}    // chemin du path correspond à ce qui est saisi dans "route.param"
     ])
   ],
   providers: [],

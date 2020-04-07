@@ -1,0 +1,13 @@
+<div class="Signature">
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm.value)">
+    <div id="Sign">
+      <input id="login" type="text"
+             placeholder="Fill in uid" formControlName="login" required>
+      <input id="passW" type="password"
+             placeholder="Fill in password" formControlName="password" required>
+      <button class= "button" type="submit"> Login </button>
+    </div>
+
+  </form>
+</div>
+

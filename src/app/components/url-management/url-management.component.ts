@@ -12,4 +12,33 @@ export class UrlManagementComponent implements OnInit {
   ngOnInit() {
   }
 
+  sortOnCreationDate() {
+
+  }
+
+  sortOnUrlLong() {
+
+  }
+
+  sortOnShort() {
+
+  }
+
+  sortOnClickNumber() {
+
+  }
+
+  sortOnExpirationDate() {
+
+  }
+
+  sortOnLastUpdateDate() {
+
+  }
+
+  sortOnMaxClickNumber() {
+
+  }
+
+
 }

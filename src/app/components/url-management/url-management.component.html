@@ -1,6 +1,4 @@
-<p>url-management works!</p>
-
-<!-- <div class="urlLinks" *ngIf="callUrlLink && urlLinks && isLoggedIn && userLogin == urlLink.appUser?.name">
+<div class="urlLinks">
     <table>
         <thead>
         <tr>
@@ -11,8 +9,8 @@
           <th class = "long_cell" > <a (click) = 'sortOnExpirationDate()'> Expiration Date      </a> </th>
           <th class = "short_cell"> <a (click) = 'sortOnLastUpdateDate()'> Last update Date     </a> </th>
           <th class = "short_cell"> <a (click) = 'sortOnMaxClickNumber()'> Maximum Click Number </a> </th>
-          <th *ngIf="isLoggedIn && userLogin == urlLink.appUser?.name" class = "short_cell" > Edit   </th>
-          <th *ngIf="isLoggedIn && userLogin == urlLink.appUser?.name" class = "short_cell" > Delete </th>
+<!--          <th class = "short_cell" > Edit   </th>-->
+<!--          <th class = "short_cell" > Delete </th>-->
         </tr>
         </thead>
         <tr *ngFor="let urlLink of urlLinks; let ind = index">
@@ -23,15 +21,15 @@
           <td>{{ urlLink?.expirationDate }}</td>
           <td>{{ urlLink?.updateDate }}</td>
           <td>{{ urlLink?.maxClickNumber }}</td>
-          <td *ngIf="isLoggedIn && userLogin == urlLink.appUser?.name">
-            <button [routerLink]="['urlLink-update', item.id]">Edit</button>
-          </td>
-          <td *ngIf="isLoggedIn && userLogin == urlLink.appUser?.name">
-            <button (click)="deleteurlLink(urlLinks[ind])">Delete</button>
-          </td>
+<!--          <td>-->
+<!--            <button [routerLink]="['urlLink-update', item.id]">Edit</button>-->
+<!--          </td>-->
+<!--          <td>-->
+<!--            <button (click)="deleteurlLink(urlLinks[ind])">Delete</button>-->
+<!--          </td>-->
         </tr>
       </table>
-      <button (click)="changePagination('rewind')" *ngIf="!firstPage">-</button>
-      <button (click)="changePagination('forward')" *ngIf="!lastPage">+</button>
-</div> -->
+<!--      <button (click)="changePagination('rewind')" *ngIf="!firstPage">-</button>-->
+<!--      <button (click)="changePagination('forward')" *ngIf="!lastPage">+</button>-->
+</div>
 

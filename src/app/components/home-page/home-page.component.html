@@ -1,16 +1,64 @@
-<div class="url">
-    <form [formGroup]="urlLinkForm" (ngSubmit) = "onSubmit(urlLinkForm.value)">
-        <div id="urlL">
-            <input id="urlLong" type="text"
-            placeholder='Type URL to be shortened' formControlName="urlLong">
-            <button class= "button" type="submit"> Create </button>
-        </div>
+<div class="UserHomePage" *ngIf="accountService.isLoggedIn; else loggedOut">
+  <div class="urlLong">
+    <form [formGroup]="urlLinkFormUser" (ngSubmit) = "onSubmit(urlLinkFormUser.value)">
+      <div id="urlLongU">
+        <input id="urlLongUser" type="text"
+               placeholder='Type URL to be shortened' formControlName="urlLong">
+        <input id="expirDate" type="date"
+               placeholder='Type URL expiration date' formControlName="expirationDate">
+        <input id="urlPass" type="password"
+               placeholder='Type URL password' formControlName="appPassword">
+        <input id="maxClickNbr" type="number"
+               placeholder='Type URL maximum Click Number' formControlName="maxClickNumber">
+        <button class= "button" type="submit"> Create </button>
+      </div>
     </form>
+  </div>
+
+  <div class="urlLinks" *ngIf="urlLinks && callUrlLink">
+    <table>
+      <thead>
+      <tr>
+        <th class = "short_cell "> Creation Date      </th>
+        <th class = "long_cell" > UrlLong             </th>
+        <th class = "short_cell"> UrlShort            </th>
+        <th class = "long_cell" > Click Number        </th>
+        <th class = "long_cell" > Expiration Date     </th>
+        <th class = "short_cell"> Last update Date    </th>
+        <th class = "short_cell"> Maximum Click Number</th>
+      </tr>
+      </thead>
+      <tr *ngFor="let urlLink of urlLinks; let ind = index">
+        <td>{{ urlLink?.creationDate | date : 'dd/MM/yyyy' }}</td>
+        <td>{{ urlLink?.urlLong }} </td>
+        <td> <a href="{{ urlStart }}{{ urlLink?.urlShortKey }}">
+          {{ urlStart }}{{ urlLink?.urlShortKey }} </a></td>
+        <td>{{ urlLink?.clickNumber }}</td>
+        <td>{{ urlLink?.expirationDate | date : 'dd/MM/yyyy'}}</td>
+        <td>{{ urlLink?.updateDate }}</td>
+        <td>{{ urlLink?.maxClickNumber }}</td>
+      </tr>
+    </table>
+  </div>
 </div>
 
-<div class ="urlShort" *ngIf="callUrlLink">
-  <h4> URLLink Created : </h4>
-  <p> <a href="{{ urlStart }}{{ urlLinkCreated?.urlShortKey }}">
-    http://localhost:8080/{{ urlLinkCreated?.urlShortKey }}  </a></p>
-</div>
 
+<ng-template class="GuestHomePage" #loggedOut>
+  <div>
+    <div class="urlLong">
+      <form [formGroup]="urlLinkForm">
+        <div id="urlL">
+          <input id="urlLong" type="text"
+                 placeholder='Type URL to be shortened' formControlName="urlLong">
+          <button class= "button" (click)="onURLForGuest(urlLinkForm.value)"> Create </button>
+        </div>
+      </form>
+    </div>
+
+    <div class ="urlShort" *ngIf="callUrlLink">
+      <h4> URLLink Created : </h4>
+      <p> <a href="{{ urlStart }}{{ urlLinkCreated?.urlShortKey }}">
+        {{ urlStart }}{{ urlLinkCreated?.urlShortKey }}  </a></p>
+    </div>
+  </div>
+</ng-template>

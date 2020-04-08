@@ -5,6 +5,7 @@ import {LoginService} from '../../services/login.service';
 import {AccountService} from '../../services/account.service';
 import {Router} from '@angular/router';
 import {Login} from '../../interfaces/login';
+import {TokenInt} from '../../interfaces/token-int';
 
 @Component({
   selector: 'app-sign-up',
@@ -14,6 +15,7 @@ import {Login} from '../../interfaces/login';
 export class LoginComponent implements OnInit {
 
   loginForm;
+  tokenToStore:TokenInt;
 
   constructor(private formbuilder: FormBuilder,
               private loginService: LoginService,
@@ -33,8 +35,9 @@ export class LoginComponent implements OnInit {
   onSubmit(signLogin: Login) {
     this.loginService.authenticateUser(signLogin).subscribe(
       token => {
+        this.tokenToStore = token;
         // Call accountService to store token
-        this.accountService.OnAuthentication(token, signLogin.login);
+        this.accountService.OnAuthentication(token);
         alert('Welcome ' + signLogin.login);
         // inform top-bar about status change before going back to home page
         this.accountService.ngOnInit();

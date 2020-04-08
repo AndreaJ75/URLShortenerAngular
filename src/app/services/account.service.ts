@@ -1,21 +1,21 @@
 import { Injectable } from '@angular/core';
-import {Token} from '@angular/compiler';
-import {Tokenlogin} from '../interfaces/tokenlogin';
+import {TokenInt} from '../interfaces/token-int';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AccountService {
 
-  tokenLogin: Tokenlogin;
+  token: string;
   isLoggedIn : boolean = false;
 
   constructor() { }
 
   ngOnInit() {
-    // Read user's tokenlogin data
-    let key = 'tokenLogin';
-    this.tokenLogin = JSON.parse(localStorage.getItem(key));
+    // Read user's token data
+    let key = 'token';
+
+    this.token = localStorage.getItem(key);
 
     if (localStorage.length > 0) {
       this.isLoggedIn = true;
@@ -24,11 +24,10 @@ export class AccountService {
     }
   }
 
-  OnAuthentication(token:Token, login:string) {
-    let key = 'tokenLogin';
-    this.tokenLogin = {tokenStored : token, loginStored : login};
+  OnAuthentication(token:TokenInt) {
+    let key = 'token';
 
-    localStorage.setItem(key,JSON.stringify(this.tokenLogin));
+    localStorage.setItem(key,token.token);
   }
 
 }

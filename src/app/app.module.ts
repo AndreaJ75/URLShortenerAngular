@@ -9,6 +9,7 @@ import { HomePageComponent } from './components/home-page/home-page.component';
 import { TopBarComponent } from './components/top-bar/top-bar.component';
 import { UrlManagementComponent } from './components/url-management/url-management.component';
 import { LoginComponent } from './components/login/login.component';
+import { UrlCreateComponent } from './components/url-create/url-create.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { LoginComponent } from './components/login/login.component';
     HomePageComponent,
     TopBarComponent,
     UrlManagementComponent,
-    LoginComponent
+    LoginComponent,
+    UrlCreateComponent
   ],
   imports: [
     BrowserModule,
@@ -25,6 +27,7 @@ import { LoginComponent } from './components/login/login.component';
     RouterModule.forRoot([
       { path: '', component: HomePageComponent},
       { path: 'login', component: LoginComponent},
+      { path: 'url-create', component: UrlCreateComponent},
       { path: 'url-management', component: UrlManagementComponent}    // chemin du path correspond à ce qui est saisi dans "route.param"
     ])
   ],

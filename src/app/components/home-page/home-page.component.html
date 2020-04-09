@@ -15,7 +15,7 @@
     </form>
   </div>
 
-  <div class="urlLinks" *ngIf="urlLinks && callUrlLink">
+  <div class="urlLinks" *ngIf="urlLinks">
     <table>
       <thead>
       <tr>
@@ -57,8 +57,10 @@
 
     <div class ="urlShort" *ngIf="callUrlLink">
       <h4> URLLink Created : </h4>
-      <p> <a href="{{ urlStart }}{{ urlLinkCreated?.urlShortKey }}">
-        {{ urlStart }}{{ urlLinkCreated?.urlShortKey }}  </a></p>
+      <div class="passwordCheck">
+          <p> <a href="{{ urlStart }}{{ urlLinkCreated?.urlShortKey }}">
+            {{ urlStart }}{{ urlLinkCreated?.urlShortKey }}  </a></p>
+      </div>
     </div>
   </div>
 </ng-template>

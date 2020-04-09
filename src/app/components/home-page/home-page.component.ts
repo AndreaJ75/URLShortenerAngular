@@ -47,9 +47,9 @@ export class HomePageComponent implements OnInit {
 
     this.accountService.ngOnInit();
     this.token = this.accountService.token;
-    this.urlCreationService.getUrlLinks(this.token).subscribe(
+    this.urlCreationService.getUrlLinks().subscribe(
       urlLinkList =>
-      {if (urlLinkList.content !=null) {
+      {if (urlLinkList !=null) {
         this.urlLinks = urlLinkList.content
       }
       },
@@ -77,10 +77,9 @@ export class HomePageComponent implements OnInit {
     this.token = this.accountService.token;
     console.log('urlLong.exp date = ' + urlLongForUser.expirationDate);
 
-    this.urlCreationService.createUrlLinkForUser(urlLongForUser, this.token).subscribe(
+    this.urlCreationService.createUrlLinkForUser(urlLongForUser).subscribe(
       urlLink => {
         this.urlLinks.push(urlLink);
-        this.callUrlLink = true;
       },
       // Show error wrong login
       err => alert('UrlLink creation KO')

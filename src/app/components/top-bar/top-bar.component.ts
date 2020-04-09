@@ -11,6 +11,7 @@ export class TopBarComponent implements OnInit {
   constructor(private accountService: AccountService) {
     accountService.ngOnInit();
     accountService.isLoggedIn = this.accountService.isLoggedIn;
+    accountService.login = this.accountService.login;
   }
 
   ngOnInit() {

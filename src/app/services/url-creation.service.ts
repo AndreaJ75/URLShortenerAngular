@@ -26,36 +26,14 @@ export class UrlCreationService {
     return this.http.post<UrlLink>(urlForCreation, urlLong);
   }
 
-  getUrlLinks(token:string): Observable<any> {
+  getUrlLinks(): Observable<any> {
     const urlForCreation = API_URL + 'urlLinks/user/getsorted';
-
-    this.autoCheck = 'Bearer ' + token;
-
-      console.log('token in service = ' + token);
-
-    let headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': this.autoCheck });
-    let options = { headers: headers };
-
-    console.log('tokennFull = ' + this.autoCheck);
-
-    return this.http.get<UrlLink>(urlForCreation,options);
+    return this.http.get<UrlLink>(urlForCreation);
   }
 
-  createUrlLinkForUser(urlLongForUser: UrlForUser, token:string):Observable<UrlLink> {
-    // AVOIR : Rajout du Header avec token provided
-    // create headers
-    console.log('token in service = ' + token);
-    this.autoCheck = 'Bearer ' + token;
-    console.log('autocheck = ' + this.autoCheck);
-    let headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': this.autoCheck });
-    let options = { headers: headers };
+  createUrlLinkForUser(urlLongForUser: UrlForUser):Observable<UrlLink> {
 
     const urlForCreation = API_URL + 'urlLinks/user';
-    return this.http.post<UrlLink>(urlForCreation, urlLongForUser, options);
-
+    return this.http.post<UrlLink>(urlForCreation, urlLongForUser);
   }
 }

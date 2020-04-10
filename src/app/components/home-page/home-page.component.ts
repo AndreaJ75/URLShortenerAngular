@@ -82,7 +82,7 @@ export class HomePageComponent implements OnInit {
         this.urlLinks.push(urlLink);
       },
       // Show error wrong login
-      err => alert('UrlLink creation KO')
+      err => alert('UrlLink for user creation KO')
     );
 
     // clear user creation form once creation completed

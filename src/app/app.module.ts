@@ -9,7 +9,8 @@ import { HomePageComponent } from './components/home-page/home-page.component';
 import { TopBarComponent } from './components/top-bar/top-bar.component';
 import { UrlManagementComponent } from './components/url-management/url-management.component';
 import { LoginComponent } from './components/login/login.component';
-import {TokenInterceptor} from './interceptor/token-interceptor';
+import {TokenInterceptor} from './interceptors/token-interceptor';
+import { MyAdminIfDirective } from './custom-directives/admin-directive';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import {TokenInterceptor} from './interceptor/token-interceptor';
     HomePageComponent,
     TopBarComponent,
     UrlManagementComponent,
-    LoginComponent
+    LoginComponent,
+    MyAdminIfDirective
   ],
   imports: [
     BrowserModule,

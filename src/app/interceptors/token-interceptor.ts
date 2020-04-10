@@ -16,7 +16,6 @@ export class TokenInterceptor implements HttpInterceptor{
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
     // If token stored in LocalStorage and user still loggedIn, create Header with token
-
     if (localStorage.length > 0) {
       request = request.clone({
         setHeaders: {

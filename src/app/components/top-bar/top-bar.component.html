@@ -12,23 +12,21 @@
   </div>
 </div>
 
-  <!-- Show only once connected-->
-
-  <section *ngIf="accountService?.isLoggedIn">
+<!-- Show only once connected-->
+<section *ngIf="accountService?.isLoggedIn">
     <div class="center">
-        <button class="buttonList" routerLink="url-management"> Url Management </button>
-<!--        <div class="admin" *ngIf="Iswebmaster">-->
-<!--            <button class="buttonList" routerLink="user-profile"> Users Management </button>-->
-<!--            <button class="buttonList" routerLink="user-profile"> Urls Management </button>-->
-<!--        </div>-->
+        <button class="buttonList" routerLink="url-management"> Urls Management </button>
+        <div class="admin" *myAdminIf="accountService?.isAdmin">
+            <button class="buttonList" routerLink="user-profile"> Users Management </button>
+        </div>
     </div>
 
     <div class ="login">
-        <p> Login :  {{ accountService?.login }} </p>
+        <p> Login :  {{ accountService.loginAuthoLevel?.loginCon }} </p>
+        <p> AuthoLevel : {{accountService.loginAuthoLevel?.authoLevel}}</p>
     </div>
     <div class="disconnect">
       <button id="disconnect" (click)="disconnect()" routerLink=""> Disconnect </button>
     </div>
-
-  </section>
+</section>
 

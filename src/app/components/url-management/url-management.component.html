@@ -1,0 +1,35 @@
+<div class="urlLinks">
+    <table>
+        <thead>
+        <tr>
+          <th class = "short_cell "> <a (click) = 'sortOnCreationDate()'> Creation Date         </a> </th>
+          <th class = "long_cell" > <a (click) = 'sortOnUrlLong()'> UrlLong                     </a> </th>
+          <th class = "short_cell"> <a (click) = 'sortOnShort()'> UrlShort                      </a> </th>
+          <th class = "long_cell" > <a (click) = 'sortOnClickNumber()'> Click Number            </a> </th>
+          <th class = "long_cell" > <a (click) = 'sortOnExpirationDate()'> Expiration Date      </a> </th>
+          <th class = "short_cell"> <a (click) = 'sortOnLastUpdateDate()'> Last update Date     </a> </th>
+          <th class = "short_cell"> <a (click) = 'sortOnMaxClickNumber()'> Maximum Click Number </a> </th>
+<!--          <th class = "short_cell" > Edit   </th>-->
+<!--          <th class = "short_cell" > Delete </th>-->
+        </tr>
+        </thead>
+        <tr *ngFor="let urlLink of urlLinks; let ind = index">
+          <td>{{ urlLink?.creationDate | date : 'dd/MM/yyyy' }}</td>
+          <td>{{ urlLink?.urlLong }} </td>
+          <td> <a href="http://localhost:8080/{{ urlLink?.urlShortKey }}"> </a></td>
+          <td>{{ urlLink?.clickNumber }}</td>
+          <td>{{ urlLink?.expirationDate }}</td>
+          <td>{{ urlLink?.updateDate }}</td>
+          <td>{{ urlLink?.maxClickNumber }}</td>
+<!--          <td>-->
+<!--            <button [routerLink]="['urlLink-update', item.id]">Edit</button>-->
+<!--          </td>-->
+<!--          <td>-->
+<!--            <button (click)="deleteurlLink(urlLinks[ind])">Delete</button>-->
+<!--          </td>-->
+        </tr>
+      </table>
+<!--      <button (click)="changePagination('rewind')" *ngIf="!firstPage">-</button>-->
+<!--      <button (click)="changePagination('forward')" *ngIf="!lastPage">+</button>-->
+</div>
+

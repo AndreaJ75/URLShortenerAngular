@@ -1,0 +1,34 @@
+<h1> URL Shortener Service </h1>
+
+<head><link href="https://fonts.googleapis.com/css?family=Bree+Serif&display=swap" rel="stylesheet"></head>
+
+<div class="Bar-control">
+
+  <div class="center">
+      <button class="buttonList" routerLink=""> HOME </button>
+  </div>
+  <div class="center">
+    <button class="buttonList" routerLink="login"> SIGN-IN </button>
+  </div>
+</div>
+
+  <!-- Show only once connected-->
+
+  <section *ngIf="accountService?.isLoggedIn">
+    <div class="center">
+        <button class="buttonList" routerLink="url-management"> Url Management </button>
+<!--        <div class="admin" *ngIf="Iswebmaster">-->
+<!--            <button class="buttonList" routerLink="user-profile"> Users Management </button>-->
+<!--            <button class="buttonList" routerLink="user-profile"> Urls Management </button>-->
+<!--        </div>-->
+    </div>
+
+    <div class ="login">
+        <p> Login :  {{ accountService?.login }} </p>
+    </div>
+    <div class="disconnect">
+      <button id="disconnect" (click)="disconnect()" routerLink=""> Disconnect </button>
+    </div>
+
+  </section>
+

@@ -1,13 +1,10 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { UrlLink } from '../interfaces/url-link';
 import {API_URL} from '../app.constants';
 import {UrlForUser} from '../interfaces/url-for-user';
-import {stringify} from 'querystring';
-import {TokenInt} from '../interfaces/token-int';
-import {Token} from '@angular/compiler';
 
 
 @Injectable({
@@ -15,10 +12,7 @@ import {Token} from '@angular/compiler';
 })
 export class UrlCreationService {
 
-  autoCheck;
-
   constructor(private http: HttpClient) {
-
   }
 
   createUrlLink(urlLong: string): Observable<UrlLink> {
@@ -28,7 +22,7 @@ export class UrlCreationService {
 
   getUrlLinks(): Observable<any> {
     const urlForCreation = API_URL + 'urlLinks/user/getsorted';
-    return this.http.get<UrlLink>(urlForCreation);
+    return this.http.get<any>(urlForCreation);
   }
 
   createUrlLinkForUser(urlLongForUser: UrlForUser):Observable<UrlLink> {

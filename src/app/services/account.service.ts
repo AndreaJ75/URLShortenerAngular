@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import {TokenInt} from '../interfaces/token-int';
 import {Observable} from 'rxjs';
 import {API_URL} from '../app.constants';
-import {HttpClient, HttpResponse} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
+import {LoginAuthoLevel} from '../interfaces/login-autho-level';
 
 @Injectable({
   providedIn: 'root'
@@ -10,9 +11,10 @@ import {HttpClient, HttpResponse} from '@angular/common/http';
 
 export class AccountService {
 
+  public isAdmin = false;
   token: string;
   isLoggedIn : boolean = false;
-  login: String;
+  loginAuthoLevel: LoginAuthoLevel;
 
   constructor(private http: HttpClient) { }
 
@@ -25,6 +27,24 @@ export class AccountService {
         this.CheckTokenValidity().subscribe(
           isActive => {
             this.isLoggedIn = isActive;
+
+            console.log('is Active ? = ' + isActive);
+            if (isActive == true) {
+              // If loggedIn get User Login and authoLevel
+                this.getUserLoginAndAuthoLevel().subscribe(
+                loginAutho => {
+                  this.loginAuthoLevel = loginAutho;
+                  if (this.loginAuthoLevel.authoLevel === "ROLE_ADMIN") {
+                    this.isAdmin = true;
+                  } else {
+                    this.isAdmin = false;
+                  }
+                  console.log('login retrieved = ' + this.loginAuthoLevel);
+                },
+                error => console.log ('Login retrieval failed = ' + error)
+              );
+            }
+
           },
           // Show error wrong login
           err =>  {
@@ -32,12 +52,6 @@ export class AccountService {
           }
         );
 
-        this.getUserLogin().subscribe(
-          login => {this.login = login;
-            console.log('login retrieved = ' + this.login);
-          },
-          error => console.log ('Login failed Error = ' + error)
-        );
       } else {
         this.isLoggedIn = false;
       }
@@ -58,8 +72,8 @@ export class AccountService {
     return this.http.get<boolean>(urlForAuthentication);
   }
 
-  getUserLogin(): Observable<String> {
-    const urlForLogin = API_URL + 'getUserLogin';
-    return this.http.get<String>(urlForLogin);
+  getUserLoginAndAuthoLevel(): Observable<LoginAuthoLevel> {
+    const urlForLogin = API_URL + 'appuser/getUserLoginAndAuthoLevel';
+    return this.http.get<LoginAuthoLevel>(urlForLogin);
   }
 }

@@ -8,10 +8,12 @@ import {AccountService} from '../../services/account.service';
 })
 export class TopBarComponent implements OnInit {
 
+
   constructor(private accountService: AccountService) {
     accountService.ngOnInit();
-    accountService.isLoggedIn = this.accountService.isLoggedIn;
-    accountService.login = this.accountService.login;
+    this.accountService.isLoggedIn = accountService.isLoggedIn;
+    this.accountService.loginAuthoLevel= accountService.loginAuthoLevel;
+    this.accountService.isAdmin = accountService.isAdmin;
   }
 
   ngOnInit() {
@@ -21,5 +23,4 @@ export class TopBarComponent implements OnInit {
     localStorage.clear();
     this.accountService.ngOnInit();
   }
-
 }

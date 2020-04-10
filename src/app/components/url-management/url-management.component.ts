@@ -41,6 +41,4 @@ export class UrlManagementComponent implements OnInit {
   sortOnMaxClickNumber() {
 
   }
-
-
 }

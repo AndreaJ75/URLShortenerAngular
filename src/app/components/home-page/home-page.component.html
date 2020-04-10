@@ -1,6 +1,6 @@
-<div class="UserHomePage" *ngIf="accountService.isLoggedIn; else loggedOut">
+<div class="UserHomePage" *ngIf="accountService?.isLoggedIn; else loggedOut">
   <div class="urlLong">
-    <form [formGroup]="urlLinkFormUser" (ngSubmit) = "onSubmit(urlLinkFormUser.value)">
+    <form [formGroup]="urlLinkFormUser" (ngSubmit)= "onSubmit(urlLinkFormUser.value)">
       <div id="urlLongU">
         <input id="urlLongUser" type="text"
                placeholder='Type URL to be shortened' formControlName="urlLong">
@@ -19,7 +19,7 @@
     <table>
       <thead>
       <tr>
-        <th class = "short_cell "> Creation Date      </th>
+        <th class = "short_cell"> Creation Date       </th>
         <th class = "long_cell" > UrlLong             </th>
         <th class = "short_cell"> UrlShort            </th>
         <th class = "long_cell" > Click Number        </th>

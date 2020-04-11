@@ -1,7 +1,8 @@
 <div class="UserHomePage" *ngIf="accountService?.isLoggedIn; else loggedOut">
   <div class="urlLong">
-    <form [formGroup]="urlLinkFormUser" (ngSubmit)= "onSubmit(urlLinkFormUser.value)">
+    <form [formGroup]="urlLinkFormUser">
       <div id="urlLongU">
+        <input id="id" type="hidden" formControlName="id">
         <input id="urlLongUser" type="text"
                placeholder='Type URL to be shortened' formControlName="urlLong">
         <input id="expirDate" type="date"
@@ -10,7 +11,8 @@
                placeholder='Type URL password' formControlName="appPassword">
         <input id="maxClickNbr" type="number"
                placeholder='Type URL maximum Click Number' formControlName="maxClickNumber">
-        <button class= "button" type="submit"> Create </button>
+        <button class= "button" (click)="onCreateUrlLink(urlLinkFormUser.value)"> Create </button>
+        <button class= "button" (click)="onUpdateUrlLink(urlLinkFormUser.value)"> Update </button>
       </div>
     </form>
   </div>
@@ -20,12 +22,15 @@
       <thead>
       <tr>
         <th class = "short_cell"> Creation Date       </th>
-        <th class = "long_cell" > UrlLong             </th>
+        <th class = "short_cell" > UrlLong             </th>
         <th class = "short_cell"> UrlShort            </th>
-        <th class = "long_cell" > Click Number        </th>
-        <th class = "long_cell" > Expiration Date     </th>
+        <th class = "short_cell" > Click Number        </th>
+        <th class = "short_cell" > Expiration Date     </th>
         <th class = "short_cell"> Last update Date    </th>
         <th class = "short_cell"> Maximum Click Number</th>
+        <th class = "short_cell" > Edit   </th>
+        <th class = "short_cell" > Edit id</th>
+        <th class = "short_cell" > Delete </th>
       </tr>
       </thead>
       <tr *ngFor="let urlLink of urlLinks; let ind = index">
@@ -37,6 +42,15 @@
         <td>{{ urlLink?.expirationDate | date : 'dd/MM/yyyy'}}</td>
         <td>{{ urlLink?.updateDate }}</td>
         <td>{{ urlLink?.maxClickNumber }}</td>
+        <td>
+            <button (click)="onEditUrlLink(urlLink)"> Edit</button>
+        </td>
+        <td>
+          <button (click)="onEditUrlLinkById(urlLink.id)"> Edit id</button>
+        </td>
+        <td>
+            <button (click)="onDeleteUrlLink(urlLink)">Delete</button>
+        </td>
       </tr>
     </table>
   </div>

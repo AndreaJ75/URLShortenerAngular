@@ -46,6 +46,10 @@ export class HomePageComponent implements OnInit {
 
   ngOnInit() {
 
+    this.getUrlLinksForUser();
+  }
+
+  getUrlLinksForUser(){
     this.accountService.ngOnInit();
     this.token = this.accountService.token;
     this.urlCreationService.getUrlLinks().subscribe(
@@ -56,7 +60,6 @@ export class HomePageComponent implements OnInit {
       },
       err => console.log('UrlLinks for users not accessible')
     );
-
   }
 
   onURLForGuest(urlLong: string) {
@@ -130,7 +133,7 @@ export class HomePageComponent implements OnInit {
     this.urlCreationService.updateUrlFeedLinkForUser(urlLongForUser).subscribe(
       urlLink => {
           // Get all urlLinks for dedicated user
-        this.ngOnInit();
+        this.getUrlLinksForUser();
       },
       error => alert('Urllink for Update KO')
     );

@@ -11,9 +11,9 @@ import {LoginAuthoLevel} from '../interfaces/login-autho-level';
 
 export class AccountService {
 
-  public isAdmin = false;
+  isAdmin: boolean = false;
   token: string;
-  isLoggedIn : boolean = false;
+  isLoggedIn: boolean = false;
   loginAuthoLevel: LoginAuthoLevel;
 
   constructor(private http: HttpClient) { }
@@ -31,7 +31,7 @@ export class AccountService {
             console.log('is Active ? = ' + isActive);
             if (isActive == true) {
               // If loggedIn get User Login and authoLevel
-                this.getUserLoginAndAuthoLevel().subscribe(
+                this.getCurrentUserLoginAndAuthoLevel().subscribe(
                 loginAutho => {
                   this.loginAuthoLevel = loginAutho;
                   if (this.loginAuthoLevel.authoLevel === "ROLE_ADMIN") {
@@ -39,7 +39,7 @@ export class AccountService {
                   } else {
                     this.isAdmin = false;
                   }
-                  console.log('login retrieved = ' + this.loginAuthoLevel);
+                  console.log('login retrieved = ' + this.loginAuthoLevel.loginCon);
                 },
                 error => console.log ('Login retrieval failed = ' + error)
               );
@@ -72,8 +72,8 @@ export class AccountService {
     return this.http.get<boolean>(urlForAuthentication);
   }
 
-  getUserLoginAndAuthoLevel(): Observable<LoginAuthoLevel> {
-    const urlForLogin = API_URL + 'appuser/getUserLoginAndAuthoLevel';
+  getCurrentUserLoginAndAuthoLevel(): Observable<LoginAuthoLevel> {
+    const urlForLogin = API_URL + 'appUser/getCurrentUserLoginAndAuthoLevel';
     return this.http.get<LoginAuthoLevel>(urlForLogin);
   }
 }

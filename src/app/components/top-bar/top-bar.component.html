@@ -5,7 +5,7 @@
 <div class="Bar-control">
 
   <div class="center">
-      <button class="buttonList" routerLink=""> HOME </button>
+      <button class="buttonList" routerLink=""> URLLink </button>
   </div>
   <div class="center">
     <button class="buttonList" routerLink="login"> SIGN-IN </button>
@@ -14,12 +14,9 @@
 
 <!-- Show only once connected-->
 <section *ngIf="accountService?.isLoggedIn">
-    <div class="center">
-        <button class="buttonList" routerLink="url-management"> Urls Management </button>
-        <div class="admin" *myAdminIf="accountService?.isAdmin">
-            <button class="buttonList" routerLink="user-profile"> Users Management </button>
-        </div>
-    </div>
+  <div class="admin" *myAdminIf="accountService?.isAdmin">
+       <button class="buttonList" routerLink="user-management"> Users Management </button>
+  </div>
 
     <div class ="login">
         <p> Login :  {{ accountService.loginAuthoLevel?.loginCon }} </p>

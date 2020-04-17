@@ -1,0 +1,42 @@
+<div class="admin" *myAdminIf="accountService?.isAdmin">
+  <form [formGroup]="searchForm">
+    <div id="search">
+      <input id="searchField" type="text"
+             placeholder='Search field : ' formControlName="searchField">
+      <button class= "button" (click)="onSearch(searchForm.value)"> Search </button>
+    </div>
+  </form>
+
+  <table *ngIf="appUsersAndHighestAutho">
+    <thead>
+    <tr>
+      <th class="short_cell"> Login             </th>
+      <th class="short_cell"> Complete name     </th>
+      <th class="short_cell"> Current Role      </th>
+      <th class="short_cell"> Role Management   </th>
+      <th class="short_cell"> Delete            </th>
+    </tr>
+    </thead>
+    <tr *ngFor="let appUserAutho of appUsersAuthoAndAuthoChange; let ind = index">
+      <td> {{ appUserAutho.appUserLocal.appUser?.uid }} </td>
+      <td> {{ appUserAutho.appUserLocal.appUser?.completeName }} </td>
+      <td> {{ appUserAutho.appUserLocal?.highestAuthorityLevel }} </td>
+      <td>
+        <form [formGroup]="authoLevelForm">
+          <select id="authoLevelSelect" formControlName="authoLevel"
+                  (change)="authoLevelSelectChange($event.target.value,
+                  appUserAutho.appUserLocal?.appUser)">
+            <option [value]="appUserAutho.appUserLocal.highestAuthorityLevel">
+              {{ appUserAutho.appUserLocal?.highestAuthorityLevel }} </option>
+            <option [value]="appUserAutho.authoLevelChange">
+              {{ appUserAutho?.authoLevelChange }} </option>
+          </select>
+        </form>
+      </td>
+      <td>
+        <button (click)="onDeleteUser(appUserAutho)">Delete</button>
+      </td>
+    </tr>
+  </table>
+</div>
+

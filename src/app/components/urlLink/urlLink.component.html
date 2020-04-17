@@ -21,16 +21,18 @@
     <table>
       <thead>
       <tr>
-        <th class = "short_cell"> Creation Date       </th>
-        <th class = "short_cell" > UrlLong             </th>
-        <th class = "short_cell"> UrlShort            </th>
-        <th class = "short_cell" > Click Number        </th>
-        <th class = "short_cell" > Expiration Date     </th>
-        <th class = "short_cell"> Last update Date    </th>
-        <th class = "short_cell"> Maximum Click Number</th>
-        <th class = "short_cell" > Edit   </th>
-        <th class = "short_cell" > Edit id</th>
-        <th class = "short_cell" > Delete </th>
+        <th class="short_cell"> Creation Date       </th>
+        <th class="short_cell"> UrlLong             </th>
+        <th class="short_cell"> UrlShort            </th>
+        <th class="short_cell"> Click Number        </th>
+        <th class="short_cell"> Expiration Date     </th>
+        <th class="short_cell"> Last update Date    </th>
+        <th class="short_cell"> Maximum Click Number</th>
+        <th class="admin" *myAdminIf="accountService?.isAdmin">
+                                  User </th>
+        <th class="short_cell" > Edit   </th>
+        <th class="short_cell" > Edit id</th>
+        <th class="short_cell" > Delete </th>
       </tr>
       </thead>
       <tr *ngFor="let urlLink of urlLinks; let ind = index">
@@ -42,6 +44,8 @@
         <td>{{ urlLink?.expirationDate | date : 'dd/MM/yyyy'}}</td>
         <td>{{ urlLink?.updateDate }}</td>
         <td>{{ urlLink?.maxClickNumber }}</td>
+        <td class="admin" *myAdminIf="isAdmin">
+            {{ urlLink.appUser?.completeName }} </td>
         <td>
             <button (click)="onEditUrlLink(urlLink)"> Edit</button>
         </td>

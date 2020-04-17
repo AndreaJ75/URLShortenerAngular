@@ -5,30 +5,30 @@ import { ReactiveFormsModule } from '@angular/forms';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 
 import { AppComponent } from './app.component';
-import { HomePageComponent } from './components/home-page/home-page.component';
+import { UrlLinkComponent } from './components/urlLink/urlLink.component';
 import { TopBarComponent } from './components/top-bar/top-bar.component';
-import { UrlManagementComponent } from './components/url-management/url-management.component';
 import { LoginComponent } from './components/login/login.component';
 import {TokenInterceptor} from './interceptors/token-interceptor';
 import { MyAdminIfDirective } from './custom-directives/admin-directive';
+import { UserManagementComponent } from './components/user-management/user-management.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomePageComponent,
+    UrlLinkComponent,
     TopBarComponent,
-    UrlManagementComponent,
     LoginComponent,
-    MyAdminIfDirective
+    MyAdminIfDirective,
+    UserManagementComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     ReactiveFormsModule,
     RouterModule.forRoot([
-      { path: '', component: HomePageComponent},
+      { path: '', component: UrlLinkComponent},
       { path: 'login', component: LoginComponent},
-      { path: 'url-management', component: UrlManagementComponent}    // chemin du path correspond à ce qui est saisi dans "route.param"
+      { path: 'user-management', component: UserManagementComponent}
     ])
   ],
   providers: [

@@ -1,19 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { UrlCreationService } from '../../services/url-creation.service';
-import { Router } from '@angular/router';
+import { UrlManagementService } from '../../services/url-management.service';
 import { UrlLink } from '../../interfaces/url-link';
 import {API_URL_Short} from '../../app.constants';
 import {AccountService} from '../../services/account.service';
 import {UrlForUser} from '../../interfaces/url-for-user';
+import {LoginAuthoLevel} from '../../interfaces/login-autho-level';
 
 
 @Component({
   selector: 'app-home-page',
-  templateUrl: './home-page.component.html',
-  styleUrls: ['./home-page.component.css']
+  templateUrl: './urlLink.component.html',
+  styleUrls: ['./urlLink.component.css']
 })
-export class HomePageComponent implements OnInit {
+export class UrlLinkComponent implements OnInit {
 
   urlLinkForm ;
   urlLinkFormUser;
@@ -22,12 +22,15 @@ export class HomePageComponent implements OnInit {
   urlStart = API_URL_Short;
   token:string;
   urlLinks:UrlLink[] =[];
+  loginAuthoLevel: LoginAuthoLevel;
+  isAdmin:boolean;
+
 
   constructor(private formbuilder: FormBuilder,
               private formbuilderUser: FormBuilder,
-              private urlCreationService: UrlCreationService,
-              private accountService: AccountService,
-              private routerNav: Router) {
+              private urlManagementService: UrlManagementService,
+              private accountService: AccountService) {
+
     this.urlLinkForm = this.formbuilder.group (
         {
           urlLong : ''
@@ -45,14 +48,50 @@ export class HomePageComponent implements OnInit {
    }
 
   ngOnInit() {
+    // Get if connected
+    this.token = this.accountService.token;
 
-    this.getUrlLinksForUser();
+    if (this.token != null) {
+      this.getUrlLinks();
+    }
+
   }
 
+  getUrlLinks(){
+
+     this.accountService.getCurrentUserLoginAndAuthoLevel().subscribe(
+        loginAuthoLevel => {this.loginAuthoLevel = loginAuthoLevel;
+          if (this.loginAuthoLevel.authoLevel =='ROLE_ADMIN') {
+            this.isAdmin = true;
+          } else {
+            this.isAdmin = false;
+          };
+          console.log('isAdmin ***** ? = ' + this.isAdmin);
+          if (this.isAdmin) {
+            this.getUrlLinksForAdmin();
+          } else {
+            this.getUrlLinksForUser();
+          }
+        },
+        error=> console.log('AuthoLevelAccess error')
+      )
+    }
+
+
+  getUrlLinksForAdmin() {
+
+    this.urlManagementService.getUrlLinksForAdmin().subscribe(
+      urlLinkList =>
+      {if (urlLinkList !=null) {
+        this.urlLinks = urlLinkList.content
+      }
+      },
+      err => console.log('UrlLinks for admin   not accessible')
+    );
+  }
   getUrlLinksForUser(){
-    this.accountService.ngOnInit();
-    this.token = this.accountService.token;
-    this.urlCreationService.getUrlLinks().subscribe(
+
+    this.urlManagementService.getUrlLinksForUser().subscribe(
       urlLinkList =>
       {if (urlLinkList !=null) {
         this.urlLinks = urlLinkList.content
@@ -63,7 +102,7 @@ export class HomePageComponent implements OnInit {
   }
 
   onURLForGuest(urlLong: string) {
-    this.urlCreationService.createUrlLink(urlLong).subscribe(
+    this.urlManagementService.createUrlLink(urlLong).subscribe(
       urlLink => {
         this.urlLinkCreated = urlLink;
         this.callUrlLink = true;
@@ -81,7 +120,7 @@ export class HomePageComponent implements OnInit {
     this.token = this.accountService.token;
     console.log('urlLong.exp date = ' + urlLongForUser.expirationDate);
 
-    this.urlCreationService.createUrlLinkForUser(urlLongForUser).subscribe(
+    this.urlManagementService.createUrlLinkForUser(urlLongForUser).subscribe(
       urlLink => {
         this.urlLinks.push(urlLink);
       },
@@ -110,7 +149,7 @@ export class HomePageComponent implements OnInit {
   onEditUrlLinkById(urlLinkId : number){
 
     // Retrieve user data from database using its userId
-    this.urlCreationService.getUrlLinkById(urlLinkId).subscribe(
+    this.urlManagementService.getUrlLinkById(urlLinkId).subscribe(
       urlLink => {
         // If Response Entity OK => pre-fill the form with user's retrieved data
         this.urlLinkFormUser = this.formbuilderUser.group({
@@ -130,10 +169,15 @@ export class HomePageComponent implements OnInit {
   onUpdateUrlLink(urlLongForUser: UrlForUser) {
 
     // Update urlLink on urlFeedLink data (3 attributes) for dedicated user
-    this.urlCreationService.updateUrlFeedLinkForUser(urlLongForUser).subscribe(
+    this.urlManagementService.updateUrlFeedLinkForUser(urlLongForUser).subscribe(
       urlLink => {
+        if(this.accountService.isAdmin) {
+          // Get all urlLinks for Admin
+          this.getUrlLinksForAdmin();
+        } else {
           // Get all urlLinks for dedicated user
-        this.getUrlLinksForUser();
+          this.getUrlLinksForUser();
+        }
       },
       error => alert('Urllink for Update KO')
     );
@@ -148,7 +192,7 @@ export class HomePageComponent implements OnInit {
     const index: number = this.urlLinks.indexOf(urlLinkToDelete);
 
     if (confirm ('Do you really want to Delete urlLink ' + urlLinkToDelete.urlShortKey)) {
-       this.urlCreationService.delUrllLink(urlLinkToDelete.id).subscribe(
+       this.urlManagementService.delUrllLink(urlLinkToDelete.id).subscribe(
        status => {
        this.urlLinks.splice(index, 1)},
       err => console.log('Delete UrlLink KO' + err)

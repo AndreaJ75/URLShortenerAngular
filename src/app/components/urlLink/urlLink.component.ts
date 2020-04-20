@@ -167,7 +167,6 @@ export class UrlLinkComponent implements OnInit {
   }
 
   onUpdateUrlLink(urlLongForUser: UrlForUser) {
-
     // Update urlLink on urlFeedLink data (3 attributes) for dedicated user
     this.urlManagementService.updateUrlFeedLinkForUser(urlLongForUser).subscribe(
       urlLink => {

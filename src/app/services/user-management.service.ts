@@ -20,7 +20,8 @@ export class UserManagementService {
   }
 
   getAllUsersWithHighestAutho(): Observable<any> {
-    const urlForGetAllUserHighestAutho = API_URL + ADMIN_USER + '/appUserAllWithHighestAutho';
+    const urlForGetAllUserHighestAutho = API_URL + ADMIN_USER
+      + '/appUserAllWithHighestAutho';
     return this.http.get<any>(urlForGetAllUserHighestAutho);
   }
 

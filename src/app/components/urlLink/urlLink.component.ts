@@ -6,6 +6,7 @@ import {API_URL_Short} from '../../app.constants';
 import {AccountService} from '../../services/account.service';
 import {UrlForUser} from '../../interfaces/url-for-user';
 import {LoginAuthoLevel} from '../../interfaces/login-autho-level';
+import {PagerService} from '../../services';
 
 
 @Component({
@@ -20,32 +21,40 @@ export class UrlLinkComponent implements OnInit {
   callUrlLink = false;
   urlLinkCreated: UrlLink;
   urlStart = API_URL_Short;
-  token:string;
-  urlLinks:UrlLink[] =[];
+  token: string;
+  urlLinks: UrlLink[] =[];
   loginAuthoLevel: LoginAuthoLevel;
-  isAdmin:boolean;
+  isAdmin: boolean;
+
+  // array of all items to be paged
+  private allItems: any[];
+  // pager object
+  pager: any = {};
+  // paged items
+  pagedItems: UrlLink[];
 
 
   constructor(private formbuilder: FormBuilder,
               private formbuilderUser: FormBuilder,
               private urlManagementService: UrlManagementService,
-              private accountService: AccountService) {
+              private accountService: AccountService,
+              private pagerService: PagerService) {
 
     this.urlLinkForm = this.formbuilder.group (
-        {
-          urlLong : ''
-        }
-      );
+      {
+        urlLong : ''
+      }
+    );
     this.urlLinkFormUser = this.formbuilderUser.group (
       {
-        id:'',
+        id: '',
         urlLong: '',
         expirationDate: '',
         appPassword: '',
         maxClickNumber: ''
       }
     );
-   }
+  }
 
   ngOnInit() {
     // Get if connected
@@ -59,31 +68,34 @@ export class UrlLinkComponent implements OnInit {
 
   getUrlLinks(){
 
-     this.accountService.getCurrentUserLoginAndAuthoLevel().subscribe(
-        loginAuthoLevel => {this.loginAuthoLevel = loginAuthoLevel;
-          if (this.loginAuthoLevel.authoLevel =='ROLE_ADMIN') {
-            this.isAdmin = true;
-          } else {
-            this.isAdmin = false;
-          };
-          console.log('isAdmin ***** ? = ' + this.isAdmin);
-          if (this.isAdmin) {
-            this.getUrlLinksForAdmin();
-          } else {
-            this.getUrlLinksForUser();
-          }
-        },
-        error=> console.log('AuthoLevelAccess error')
-      )
-    }
+    this.accountService.getCurrentUserLoginAndAuthoLevel().subscribe(
+      loginAuthoLevel => {this.loginAuthoLevel = loginAuthoLevel;
+        if (this.loginAuthoLevel.authoLevel === 'ROLE_ADMIN') {
+          this.isAdmin = true;
+        } else {
+          this.isAdmin = false;
+        };
+        console.log('isAdmin ***** ? = ' + this.isAdmin);
+        if (this.isAdmin) {
+          this.getUrlLinksForAdmin();
+        } else {
+          this.getUrlLinksForUser();
+        }
+      },
+      error => console.log('AuthoLevelAccess error')
+    );
+  }
 
 
   getUrlLinksForAdmin() {
 
     this.urlManagementService.getUrlLinksForAdmin().subscribe(
       urlLinkList =>
-      {if (urlLinkList !=null) {
-        this.urlLinks = urlLinkList.content
+      {if (urlLinkList != null) {
+        this.urlLinks = urlLinkList.content;
+        // Initialize Pagination
+        this.allItems = this.urlLinks;
+        this.setPage(1);
       }
       },
       err => console.log('UrlLinks for admin   not accessible')
@@ -93,12 +105,26 @@ export class UrlLinkComponent implements OnInit {
 
     this.urlManagementService.getUrlLinksForUser().subscribe(
       urlLinkList =>
-      {if (urlLinkList !=null) {
-        this.urlLinks = urlLinkList.content
+      {if (urlLinkList != null) {
+        this.urlLinks = urlLinkList.content;
+        // Initialize Pagination
+        this.allItems = this.urlLinks;
+        this.setPage(1);
       }
       },
       err => console.log('UrlLinks for users not accessible')
     );
+  }
+
+  setPage(page: number) {
+    if (page < 1 || page > this.pager.totalPages) {
+      return;
+    }
+
+    // get pager object from service
+    this.pager = this.pagerService.getPager(this.allItems.length, page);
+    // get current page of items
+    this.pagedItems = this.allItems.slice(this.pager.startIndex, this.pager.endIndex + 1);
   }
 
   onURLForGuest(urlLong: string) {
@@ -106,15 +132,15 @@ export class UrlLinkComponent implements OnInit {
       urlLink => {
         this.urlLinkCreated = urlLink;
         this.callUrlLink = true;
-        },
-        // Show error wrong login
+      },
+      // Show error wrong login
       err => alert('UrlLink creation KO')
-      );
+    );
     // clear guest creation form once creation completed
     this.urlLinkForm.reset();
   }
 
-  onCreateUrlLink(urlLongForUser:UrlForUser) {
+  onCreateUrlLink(urlLongForUser: UrlForUser) {
 
     this.accountService.ngOnInit();
     this.token = this.accountService.token;
@@ -132,7 +158,7 @@ export class UrlLinkComponent implements OnInit {
     this.urlLinkFormUser.reset();
   }
 
-  onEditUrlLink(urlLinkToEdit:UrlLink) {
+  onEditUrlLink(urlLinkToEdit: UrlLink) {
 
     // pre-filled the form with existing user's data
     this.urlLinkFormUser = this.formbuilderUser.group({
@@ -146,7 +172,7 @@ export class UrlLinkComponent implements OnInit {
     alert ('Please update required fields');
   }
 
-  onEditUrlLinkById(urlLinkId : number){
+  onEditUrlLinkById(urlLinkId: number) {
 
     // Retrieve user data from database using its userId
     this.urlManagementService.getUrlLinkById(urlLinkId).subscribe(
@@ -158,12 +184,12 @@ export class UrlLinkComponent implements OnInit {
             expirationDate: urlLink.expirationDate,
             appPassword: urlLink.urlPassword,
             maxClickNumber: urlLink.maxClickNumber
-        }
+          }
         );
         alert ('Please update required fields');
       },
       err => alert ('urlLink data retrieval failure : ' + err)
-    )
+    );
   }
 
   onUpdateUrlLink(urlLongForUser: UrlForUser) {
@@ -185,16 +211,16 @@ export class UrlLinkComponent implements OnInit {
   }
 
 
-  onDeleteUrlLink(urlLinkToDelete : UrlLink) {
+  onDeleteUrlLink(urlLinkToDelete: UrlLink) {
     console.log('****** on delete ');
     // Retrieve UrlLink data from database using its urlLinkId
     const index: number = this.urlLinks.indexOf(urlLinkToDelete);
 
     if (confirm ('Do you really want to Delete urlLink ' + urlLinkToDelete.urlShortKey)) {
-       this.urlManagementService.delUrllLink(urlLinkToDelete.id).subscribe(
-       status => {
-       this.urlLinks.splice(index, 1)},
-      err => console.log('Delete UrlLink KO' + err)
+      this.urlManagementService.delUrllLink(urlLinkToDelete.id).subscribe(
+        status => {
+          this.urlLinks.splice(index, 1)},
+        err => console.log('Delete UrlLink KO' + err)
       );
     }
   }

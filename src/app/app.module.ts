@@ -11,6 +11,7 @@ import { LoginComponent } from './components/login/login.component';
 import {TokenInterceptor} from './interceptors/token-interceptor';
 import { MyAdminIfDirective } from './custom-directives/admin-directive';
 import { UserManagementComponent } from './components/user-management/user-management.component';
+import {PagerService} from './services/pager.service';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { UserManagementComponent } from './components/user-management/user-manag
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
       multi: true
-    }
+    },
+    PagerService
   ],
   bootstrap: [AppComponent]
 })

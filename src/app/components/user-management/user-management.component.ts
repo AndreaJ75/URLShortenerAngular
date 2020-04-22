@@ -5,6 +5,8 @@ import {AppUser} from '../../interfaces/app-user';
 import {FormBuilder} from '@angular/forms';
 import {AppUserLocal} from '../../interfaces/app-user-local';
 import {AppUserAuthoChange} from '../../interfaces/app-user-autho-change';
+import {UrlLink} from '../../interfaces/url-link';
+import {PagerService} from '../../services';
 
 @Component({
   selector: 'app-user-management',
@@ -13,7 +15,6 @@ import {AppUserAuthoChange} from '../../interfaces/app-user-autho-change';
 })
 export class UserManagementComponent implements OnInit {
 
-  appUsers: AppUser[] = [];
   searchForm;
   authoLevelForm;
   appUserAuthoLevel: AppUserLocal;
@@ -21,11 +22,19 @@ export class UserManagementComponent implements OnInit {
   appUsersAuthoAndAuthoChange: AppUserAuthoChange[] = [];
   appUserAuthoAndAuthoChange: AppUserAuthoChange;
   authoLevelChange: string;
+  // array of all items to be paged
+  private allItems: any[];
+  // pager object
+  pager: any = {};
+  // paged items
+  pagedItems: AppUserAuthoChange[] = [];
+
 
   constructor(private accountService: AccountService,
               private userManagementService: UserManagementService,
               private formbuilder: FormBuilder,
-              private formbuilder2: FormBuilder) {
+              private formbuilder2: FormBuilder,
+              private pagerService: PagerService) {
     this.searchForm = this.formbuilder.group (
       {
         searchField : ''
@@ -42,7 +51,7 @@ export class UserManagementComponent implements OnInit {
   ngOnInit() {
 
     this.accountService.ngOnInit();
-    //this.getAllUsers();
+    // this.getAllUsers();
     this.getAllUsersWithHighestAutho();
 
   }
@@ -83,7 +92,11 @@ export class UserManagementComponent implements OnInit {
             }
             // Creation of List of AppUser together with their AuthoLevel and AuthoLevelChange
             this.appUsersAuthoAndAuthoChange.push(this.appUserAuthoAndAuthoChange);
-          })
+            // Initialize Pagination
+            this.allItems = this.appUsersAuthoAndAuthoChange;
+            this.setPage(1);
+
+          });
         }
       }
       ,
@@ -91,7 +104,18 @@ export class UserManagementComponent implements OnInit {
     );
   }
 
-  authoLevelSelectChange(authoLevelChange,appUser:AppUser){
+  setPage(page: number) {
+    if (page < 1 || page > this.pager.totalPages) {
+      return;
+    }
+
+    // get pager object from service
+    this.pager = this.pagerService.getPager(this.allItems.length, page);
+    // get current page of items
+    this.pagedItems = this.allItems.slice(this.pager.startIndex, this.pager.endIndex + 1);
+  }
+
+  authoLevelSelectChange(authoLevelChange, appUser: AppUser){
 
 
     if(confirm ('Do you really want to change user\'s authoritylevel change : ' + appUser.completeName)) {
@@ -99,15 +123,15 @@ export class UserManagementComponent implements OnInit {
       console.log('authoLevelChange ? ' + authoLevelChange);
       if (authoLevelChange == 'ROLE_USER') {
         console.log ('GO REMOVE ROLE ADMIN');
-         this.userManagementService.removeAppUserRole(appUser).subscribe(
-           appUserAuthoPage => {
-             this.getAllUsersWithHighestAutho();
-           },
-           error => console.log ('AuthorityLevel removal KO')
-         )
+        this.userManagementService.removeAppUserRole(appUser).subscribe(
+          appUserAuthoPage => {
+            this.getAllUsersWithHighestAutho();
+          },
+          error => console.log ('AuthorityLevel removal KO')
+        )
       } else {
         console.log ('GO CREATE ROLE ADMIN');
-          this.userManagementService.createAppUserRole(appUser).subscribe(
+        this.userManagementService.createAppUserRole(appUser).subscribe(
           appUserAuthoPage => {
             this.getAllUsersWithHighestAutho();
           },
@@ -119,9 +143,9 @@ export class UserManagementComponent implements OnInit {
 
   onSearch(searchForm) {
 
- }
+  }
 
-  onDeleteUser(userToDelete:AppUserAuthoChange){
+  onDeleteUser(userToDelete: AppUserAuthoChange){
 
     const index: number = this.appUsersAuthoAndAuthoChange.indexOf(userToDelete);
 

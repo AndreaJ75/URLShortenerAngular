@@ -29,13 +29,13 @@
         <th class="short_cell"> Last update Date    </th>
         <th class="short_cell"> Maximum Click Number</th>
         <th class="admin" *myAdminIf="accountService?.isAdmin">
-                                  User </th>
+          User </th>
         <th class="short_cell" > Edit   </th>
         <th class="short_cell" > Edit id</th>
         <th class="short_cell" > Delete </th>
       </tr>
       </thead>
-      <tr *ngFor="let urlLink of urlLinks; let ind = index">
+      <tr *ngFor="let urlLink of pagedItems; let ind = index">
         <td>{{ urlLink?.creationDate | date : 'dd/MM/yyyy' }}</td>
         <td>{{ urlLink?.urlLong }} </td>
         <td> <a href="{{ urlStart }}{{ urlLink?.urlShortKey }}">
@@ -45,18 +45,38 @@
         <td>{{ urlLink?.updateDate }}</td>
         <td>{{ urlLink?.maxClickNumber }}</td>
         <td class="admin" *myAdminIf="isAdmin">
-            {{ urlLink.appUser?.completeName }} </td>
+          {{ urlLink.appUser?.completeName }} </td>
         <td>
-            <button (click)="onEditUrlLink(urlLink)"> Edit</button>
+          <button (click)="onEditUrlLink(urlLink)"> Edit</button>
         </td>
         <td>
           <button (click)="onEditUrlLinkById(urlLink.id)"> Edit id</button>
         </td>
         <td>
-            <button (click)="onDeleteUrlLink(urlLink)">Delete</button>
+          <button (click)="onDeleteUrlLink(urlLink)">Delete</button>
         </td>
       </tr>
     </table>
+
+    <!-- pager *******************-->
+    <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
+      <li [ngClass]="{disabled:pager.currentPage === 1}">
+        <a (click)="setPage(1)">First</a>
+      </li>
+      <li [ngClass]="{disabled:pager.currentPage === 1}">
+        <a (click)="setPage(pager.currentPage - 1)">Previous</a>
+      </li>
+      <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+        <a (click)="setPage(page)">{{page}}</a>
+      </li>
+      <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+        <a (click)="setPage(pager.currentPage + 1)">Next</a>
+      </li>
+      <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+        <a (click)="setPage(pager.totalPages)">Last</a>
+      </li>
+    </ul>
+    <!--*******************************-->
   </div>
 </div>
 
@@ -76,8 +96,8 @@
     <div class ="urlShort" *ngIf="callUrlLink">
       <h4> URLLink Created : </h4>
       <div class="passwordCheck">
-          <p> <a href="{{ urlStart }}{{ urlLinkCreated?.urlShortKey }}">
-            {{ urlStart }}{{ urlLinkCreated?.urlShortKey }}  </a></p>
+        <p> <a href="{{ urlStart }}{{ urlLinkCreated?.urlShortKey }}">
+          {{ urlStart }}{{ urlLinkCreated?.urlShortKey }}  </a></p>
       </div>
     </div>
   </div>

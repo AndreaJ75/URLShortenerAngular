@@ -149,6 +149,9 @@ export class UrlLinkComponent implements OnInit {
     this.urlManagementService.createUrlLinkForUser(urlLongForUser).subscribe(
       urlLink => {
         this.urlLinks.push(urlLink);
+        // Initialize Pagination
+        this.allItems = this.urlLinks;
+        this.setPage(1);
       },
       // Show error wrong login
       err => alert('UrlLink for UrlLink creation KO')

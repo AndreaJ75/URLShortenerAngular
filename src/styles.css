@@ -1,7 +1,68 @@
 /* You can add global styles to this file, and also import other style files */
 
+body{
+  margin: 0;
+  padding: 0;
+  background-color: rgba(32, 199, 167, 0.99);
+  font-family: rgba(32, 199, 167, 0.99);
+  color: white;
+}
+
+.container{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  background-color: rgba(32, 199, 167, 0.99);
+  text-align: center;
+  margin-top: 0;
+  margin-left: 15%;
+  margin-right: 15%;
+}
+.nav-tab{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin-bottom: 0;
+  font-size: large;
+}
+
+.page-header,
+.jumbotron{
+  background-color: rgba(32, 199, 167, 0.99);
+  text-align: center;
+  font-weight: bold;
+  font-size: larger;
+  margin-left: 15%;
+  margin-right: 15%;
+}
+.signature,
+.UserHomePage{
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.loginInfo {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+#Sign,
+.urlLong{
+  color: darkblue;
+}
+
+.UrlLinks{
+  border: 1px solid mediumseagreen;
+  padding: 2%;
+}
+
 a {
+  font-size: larger;
   cursor: pointer;
+  size: A3;
+
 }
 .urlShort {
     display: flex;

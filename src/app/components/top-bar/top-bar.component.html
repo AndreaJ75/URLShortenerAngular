@@ -1,29 +1,33 @@
-<h1> URL Shortener Service </h1>
-
-<head><link href="https://fonts.googleapis.com/css?family=Bree+Serif&display=swap" rel="stylesheet"></head>
-
-<div class="Bar-control">
-
-  <div class="center">
-      <button class="buttonList" routerLink=""> URLLink </button>
-  </div>
-  <div class="center">
-    <button class="buttonList" routerLink="login"> SIGN-IN </button>
-  </div>
+<div class="page-title">
+  <h1> URL Shortener Service </h1>
 </div>
 
-<!-- Show only once connected-->
-<section *ngIf="accountService?.isLoggedIn">
-  <div class="admin" *myAdminIf="accountService?.isAdmin">
-       <button class="buttonList" routerLink="user-management"> Users Management </button>
+<div class="jumbotron">
+  <p> This Application will allow you to shorten your URL.
+   It is provided by BNP Paribas as a secure approved tool.
+   Do not use for any personal reason </p>
+</div>
+
+<div class="nav-tab">
+  <div>
+    <a routerLink=""> HOME </a>
+  </div>
+  <div>
+    <a routerLink="login"> SIGN IN </a>
   </div>
 
+  <!-- Show only once connected-->
+  <section *ngIf="accountService?.isLoggedIn" class="loginInfo">
+    <div class="admin" *myAdminIf="accountService?.isAdmin">
+      <a routerLink="user-management"> USERS MANAGEMENT </a>
+    </div>
+
     <div class ="login">
-        <p> Login :  {{ accountService.loginAuthoLevel?.loginCon }} </p>
-        <p> AuthoLevel : {{accountService.loginAuthoLevel?.authoLevel}}</p>
+      <p> {{ accountService.loginAuthoLevel?.loginCon }}
+       {{accountService.loginAuthoLevel?.authoLevel}}</p>
     </div>
     <div class="disconnect">
-      <button id="disconnect" (click)="disconnect()" routerLink=""> Disconnect </button>
+      <a id="disconnect" (click)="disconnect()" routerLink=""> Disconnect </a>
     </div>
-</section>
-
+  </section>
+</div>

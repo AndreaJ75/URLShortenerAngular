@@ -80,10 +80,10 @@ export class UserManagementComponent implements OnInit {
           this.appUsersAndHighestAutho.forEach((appUserAutho) => {
 
             this.appUserAuthoLevel = appUserAutho;
-            if (appUserAutho.highestAuthorityLevel == 'ROLE_USER') {
-              this.authoLevelChange = 'ROLE_ADMIN'
+            if (appUserAutho.highestAuthorityLevel === 'ROLE_USER') {
+              this.authoLevelChange = 'ROLE_ADMIN';
             } else {
-              this.authoLevelChange = 'ROLE_USER'
+              this.authoLevelChange = 'ROLE_USER';
             }
 
             this.appUserAuthoAndAuthoChange = {

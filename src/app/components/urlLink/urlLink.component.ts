@@ -7,6 +7,7 @@ import {AccountService} from '../../services/account.service';
 import {UrlForUser} from '../../interfaces/url-for-user';
 import {LoginAuthoLevel} from '../../interfaces/login-autho-level';
 import {PagerService} from '../../services';
+import {ActivatedRoute, Router} from '@angular/router';
 
 
 @Component({
@@ -38,22 +39,23 @@ export class UrlLinkComponent implements OnInit {
               private formbuilderUser: FormBuilder,
               private urlManagementService: UrlManagementService,
               private accountService: AccountService,
-              private pagerService: PagerService) {
+              private pagerService: PagerService,
+              private routerNav: Router) {
 
-    this.urlLinkForm = this.formbuilder.group (
-      {
-        urlLong : ''
-      }
-    );
-    this.urlLinkFormUser = this.formbuilderUser.group (
-      {
-        id: '',
-        urlLong: '',
-        expirationDate: '',
-        appPassword: '',
-        maxClickNumber: ''
-      }
-    );
+    // this.urlLinkForm = this.formbuilder.group (
+    //   {
+    //     urlLong : ''
+    //   }
+    // );
+    // this.urlLinkFormUser = this.formbuilderUser.group (
+    //   {
+    //     id: '',
+    //     urlLong: '',
+    //     expirationDate: '',
+    //     appPassword: '',
+    //     maxClickNumber: ''
+    //   }
+    // );
   }
 
   ngOnInit() {
@@ -94,6 +96,7 @@ export class UrlLinkComponent implements OnInit {
       {if (urlLinkList != null) {
         this.urlLinks = urlLinkList.content;
         // Initialize Pagination
+        console.log('URLLINKS SIZE ADMIN = ' + this.urlLinks.length);
         this.allItems = this.urlLinks;
         this.setPage(1);
       }
@@ -107,6 +110,7 @@ export class UrlLinkComponent implements OnInit {
       urlLinkList =>
       {if (urlLinkList != null) {
         this.urlLinks = urlLinkList.content;
+        console.log('URLLINKS SIZE USER = ' + this.urlLinks.length);
         // Initialize Pagination
         this.allItems = this.urlLinks;
         this.setPage(1);
@@ -127,92 +131,53 @@ export class UrlLinkComponent implements OnInit {
     this.pagedItems = this.allItems.slice(this.pager.startIndex, this.pager.endIndex + 1);
   }
 
-  onURLForGuest(urlLong: string) {
-    this.urlManagementService.createUrlLink(urlLong).subscribe(
-      urlLink => {
-        this.urlLinkCreated = urlLink;
-        this.callUrlLink = true;
-      },
-      // Show error wrong login
-      err => alert('UrlLink creation KO')
-    );
-    // clear guest creation form once creation completed
-    this.urlLinkForm.reset();
-  }
-
-  onCreateUrlLink(urlLongForUser: UrlForUser) {
-
-    this.accountService.ngOnInit();
-    this.token = this.accountService.token;
-    console.log('urlLong.exp date = ' + urlLongForUser.expirationDate);
-
-    this.urlManagementService.createUrlLinkForUser(urlLongForUser).subscribe(
-      urlLink => {
-        this.urlLinks.push(urlLink);
-        // Initialize Pagination
-        this.allItems = this.urlLinks;
-        this.setPage(1);
-      },
-      // Show error wrong login
-      err => alert('UrlLink for UrlLink creation KO')
-    );
-
-    // clear user creation form once creation completed
-    this.urlLinkFormUser.reset();
-  }
+  // onURLForGuest(urlLong: string) {
+  //   this.urlManagementService.createUrlLink(urlLong).subscribe(
+  //     urlLink => {
+  //       this.urlLinkCreated = urlLink;
+  //       this.callUrlLink = true;
+  //     },
+  //     // Show error wrong login
+  //     err => alert('UrlLink creation KO')
+  //   );
+  //   // clear guest creation form once creation completed
+  //   this.urlLinkForm.reset();
+  // }
+  //
+  // onCreateUrlLink(urlLongForUser: UrlForUser) {
+  //
+  //   this.accountService.ngOnInit();
+  //   this.token = this.accountService.token;
+  //   console.log('urlLong.exp date = ' + urlLongForUser.expirationDate);
+  //
+  //   this.urlManagementService.createUrlLinkForUser(urlLongForUser).subscribe(
+  //     urlLink => {
+  //       this.urlLinks.push(urlLink);
+  //       // Initialize Pagination
+  //       this.allItems = this.urlLinks;
+  //       this.setPage(1);
+  //     },
+  //     // Show error wrong login
+  //     err => alert('UrlLink for UrlLink creation KO')
+  //   );
+  //
+  //   // clear user creation form once creation completed
+  //   this.urlLinkFormUser.reset();
+  // }
 
   onEditUrlLink(urlLinkToEdit: UrlLink) {
-
-    // pre-filled the form with existing user's data
-    this.urlLinkFormUser = this.formbuilderUser.group({
-      id: urlLinkToEdit.id,
-      urlLong: urlLinkToEdit.urlLong,
-      expirationDate: urlLinkToEdit.expirationDate,
-      appPassword: urlLinkToEdit.urlPassword,
-      maxClickNumber: urlLinkToEdit.maxClickNumber
-    });
-
-    alert ('Please update required fields');
+    this.routerNav.navigate(['url-update/' + urlLinkToEdit.id]);
+    // // pre-filled the form with existing user's data
+    // this.urlLinkFormUser = this.formbuilderUser.group({
+    //   id: urlLinkToEdit.id,
+    //   urlLong: urlLinkToEdit.urlLong,
+    //   expirationDate: urlLinkToEdit.expirationDate,
+    //   appPassword: urlLinkToEdit.urlPassword,
+    //   maxClickNumber: urlLinkToEdit.maxClickNumber
+    // });
+    //
+    // alert ('Please update required fields');
   }
-
-  onEditUrlLinkById(urlLinkId: number) {
-
-    // Retrieve user data from database using its userId
-    this.urlManagementService.getUrlLinkById(urlLinkId).subscribe(
-      urlLink => {
-        // If Response Entity OK => pre-fill the form with user's retrieved data
-        this.urlLinkFormUser = this.formbuilderUser.group({
-            id: urlLink.id,
-            urlLong: urlLink.urlLong,
-            expirationDate: urlLink.expirationDate,
-            appPassword: urlLink.urlPassword,
-            maxClickNumber: urlLink.maxClickNumber
-          }
-        );
-        alert ('Please update required fields');
-      },
-      err => alert ('urlLink data retrieval failure : ' + err)
-    );
-  }
-
-  onUpdateUrlLink(urlLongForUser: UrlForUser) {
-    // Update urlLink on urlFeedLink data (3 attributes) for dedicated user
-    this.urlManagementService.updateUrlFeedLinkForUser(urlLongForUser).subscribe(
-      urlLink => {
-        if(this.accountService.isAdmin) {
-          // Get all urlLinks for Admin
-          this.getUrlLinksForAdmin();
-        } else {
-          // Get all urlLinks for dedicated user
-          this.getUrlLinksForUser();
-        }
-      },
-      error => alert('Urllink for Update KO')
-    );
-    // clear user creation form once creation completed
-    this.urlLinkFormUser.reset();
-  }
-
 
   onDeleteUrlLink(urlLinkToDelete: UrlLink) {
     console.log('****** on delete ');
@@ -222,7 +187,10 @@ export class UrlLinkComponent implements OnInit {
     if (confirm ('Do you really want to Delete urlLink ' + urlLinkToDelete.urlShortKey)) {
       this.urlManagementService.delUrllLink(urlLinkToDelete.id).subscribe(
         status => {
-          this.urlLinks.splice(index, 1)},
+          this.urlLinks.splice(index, 1);
+          this.allItems = this.urlLinks;
+          this.setPage(1);
+        },
         err => console.log('Delete UrlLink KO' + err)
       );
     }

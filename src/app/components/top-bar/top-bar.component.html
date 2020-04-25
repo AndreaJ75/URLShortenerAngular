@@ -1,33 +1,41 @@
-<div class="page-title">
-  <h1> URL Shortener Service </h1>
-</div>
+<section class="identification">
+  <div class="signIn">
+    <a routerLink="login"> SIGNIN </a>
+  </div>
+  <!-- Show only once connected-->
+  <div class ="signin" *ngIf="accountService?.isLoggedIn">
+    <p> {{ accountService.loginAuthoLevel?.loginCon }} &nbsp;
+     {{accountService.loginAuthoLevel?.authoLevel}} &nbsp;
 
-<div class="jumbotron">
-  <p> This Application will allow you to shorten your URL.
-   It is provided by BNP Paribas as a secure approved tool.
-   Do not use for any personal reason </p>
-</div>
+    <a class="disconnect" (click)="disconnect()" routerLink=""> disconnect </a></p>
+  </div>
+
+</section>
 
 <div class="nav-tab">
-  <div>
+  <div class="nav-capt">
     <a routerLink=""> HOME </a>
   </div>
-  <div>
-    <a routerLink="login"> SIGN IN </a>
-  </div>
-
   <!-- Show only once connected-->
-  <section *ngIf="accountService?.isLoggedIn" class="loginInfo">
-    <div class="admin" *myAdminIf="accountService?.isAdmin">
-      <a routerLink="user-management"> USERS MANAGEMENT </a>
+  <section *ngIf="accountService?.isLoggedIn" class="connected">
+    <div class="nav-capt">
+      <a routerLink="my-url-links"> MYURLLINKS </a>
     </div>
-
-    <div class ="login">
-      <p> {{ accountService.loginAuthoLevel?.loginCon }}
-       {{accountService.loginAuthoLevel?.authoLevel}}</p>
-    </div>
-    <div class="disconnect">
-      <a id="disconnect" (click)="disconnect()" routerLink=""> Disconnect </a>
+    <div class="nav-capt" *myAdminIf="accountService?.isAdmin">
+      <a routerLink="user-management"> MANAGEMENT </a>
     </div>
   </section>
+
+</div>
+
+<div class="page-header">
+  <div class="page-title">
+    <h1> URL Shortener Service </h1>
+  </div>
+
+  <div class="jumbotron">
+    <p> This Application will allow you to shorten your URL.
+      It is provided by BNP Paribas as a secure approved tool.
+      Do not use for any personal reason </p>
+  </div>
 </div>

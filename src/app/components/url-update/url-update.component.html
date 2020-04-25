@@ -1,0 +1,29 @@
+<div class="UserHomePage" *ngIf="accountService?.isLoggedIn">
+
+  <div class ="urlShort" *ngIf="callUrlLink">
+    <h4> URLLink Created : </h4>
+    <div class="passwordCheck">
+      <p> <a href="{{ urlStart }}{{ urlLinkToEdit?.urlShortKey }}">
+        {{ urlStart }}{{ urlLinkToEdit?.urlShortKey }}  </a></p>
+    </div>
+  </div>
+
+  <div class="urlLong">
+    <form [formGroup]="urlLinkFormUser">
+      <div id="urlLongU">
+        <input id="id" type="hidden" formControlName="id">
+        <input class="urlLongField" type="text"
+               placeholder='Type URL to be shortened' formControlName="urlLong">
+        <input class="urlLongform" type="date"
+               placeholder='Type URL expiration date' formControlName="expirationDate">
+        <input class="urlLongform" type="password"
+               placeholder='Type URL password' formControlName="appPassword">
+        <input class="urlLongform" type="number"
+               placeholder='Type URL maximum Click Number' formControlName="maxClickNumber">
+        <button class= "urlLongform"
+                (click)="onUpdateUrlLink(urlLinkFormUser.value)"> Update </button>
+      </div>
+    </form>
+  </div>
+</div>
+

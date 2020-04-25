@@ -1,11 +1,14 @@
 <div class="signature">
   <form [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm.value)">
-    <div id="Sign">
-      <input id="login" type="text"
-             placeholder="Fill in uid" formControlName="login" required>
-      <input id="passW" type="password"
-             placeholder="Fill in password" formControlName="password" required>
-      <button class= "button" type="submit"> Login </button>
+    <div class="sign">
+      <p> &nbsp; User uid </p>
+      <input class="loginform" type="text"
+             placeholder="" formControlName="login" required>
+      <p> &nbsp; User password </p>
+      <input class="loginform" type="password"
+             placeholder="" formControlName="password" required>
+      <p></p>
+      <button class= "loginform" type="submit"> Sign In </button>
     </div>
 
   </form>

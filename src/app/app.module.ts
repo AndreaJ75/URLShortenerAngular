@@ -12,6 +12,8 @@ import {TokenInterceptor} from './interceptors/token-interceptor';
 import { MyAdminIfDirective } from './custom-directives/admin-directive';
 import { UserManagementComponent } from './components/user-management/user-management.component';
 import {PagerService} from './services/pager.service';
+import { HomePageComponent } from './components/home/homePage.component';
+import { UrlUpdateComponent } from './components/url-update/url-update.component';
 
 @NgModule({
   declarations: [
@@ -20,15 +22,19 @@ import {PagerService} from './services/pager.service';
     TopBarComponent,
     LoginComponent,
     MyAdminIfDirective,
-    UserManagementComponent
+    UserManagementComponent,
+    HomePageComponent,
+    UrlUpdateComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     ReactiveFormsModule,
     RouterModule.forRoot([
-      { path: '', component: UrlLinkComponent},
+      { path: '', component: HomePageComponent},
+      { path: 'my-url-links', component: UrlLinkComponent},
       { path: 'login', component: LoginComponent},
+      { path: 'url-update/:urlInd' , component: UrlUpdateComponent},
       { path: 'user-management', component: UserManagementComponent}
     ])
   ],

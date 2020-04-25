@@ -1,29 +1,41 @@
-<h1> URL Shortener Service </h1>
-
-<head><link href="https://fonts.googleapis.com/css?family=Bree+Serif&display=swap" rel="stylesheet"></head>
-
-<div class="Bar-control">
-
-  <div class="center">
-      <button class="buttonList" routerLink=""> URLLink </button>
+<section class="identification">
+  <div class="signIn">
+    <a routerLink="login"> SIGNIN </a>
   </div>
-  <div class="center">
-    <button class="buttonList" routerLink="login"> SIGN-IN </button>
-  </div>
-</div>
+  <!-- Show only once connected-->
+  <div class ="signin" *ngIf="accountService?.isLoggedIn">
+    <p> {{ accountService.loginAuthoLevel?.loginCon }} &nbsp;
+     {{accountService.loginAuthoLevel?.authoLevel}} &nbsp;
 
-<!-- Show only once connected-->
-<section *ngIf="accountService?.isLoggedIn">
-  <div class="admin" *myAdminIf="accountService?.isAdmin">
-       <button class="buttonList" routerLink="user-management"> Users Management </button>
+    <a class="disconnect" (click)="disconnect()" routerLink=""> disconnect </a></p>
   </div>
 
-    <div class ="login">
-        <p> Login :  {{ accountService.loginAuthoLevel?.loginCon }} </p>
-        <p> AuthoLevel : {{accountService.loginAuthoLevel?.authoLevel}}</p>
-    </div>
-    <div class="disconnect">
-      <button id="disconnect" (click)="disconnect()" routerLink=""> Disconnect </button>
-    </div>
 </section>
 
+<div class="nav-tab">
+  <div class="nav-capt">
+    <a routerLink=""> HOME </a>
+  </div>
+  <!-- Show only once connected-->
+  <section *ngIf="accountService?.isLoggedIn" class="connected">
+    <div class="nav-capt">
+      <a routerLink="my-url-links"> MYURLLINKS </a>
+    </div>
+    <div class="nav-capt" *myAdminIf="accountService?.isAdmin">
+      <a routerLink="user-management"> MANAGEMENT </a>
+    </div>
+  </section>
+
+</div>
+
+<div class="page-header">
+  <div class="page-title">
+    <h1> URL Shortener Service </h1>
+  </div>
+
+  <div class="jumbotron">
+    <p> This Application will allow you to shorten your URL.
+      It is provided by BNP Paribas as a secure approved tool.
+      Do not use for any personal reason </p>
+  </div>
+</div>

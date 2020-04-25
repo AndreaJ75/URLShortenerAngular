@@ -1,56 +1,51 @@
-<div class="UserHomePage" *ngIf="accountService?.isLoggedIn; else loggedOut">
-  <div class="urlLong">
-    <form [formGroup]="urlLinkFormUser">
-      <div id="urlLongU">
-        <input id="id" type="hidden" formControlName="id">
-        <input id="urlLongUser" type="text"
-               placeholder='Type URL to be shortened' formControlName="urlLong">
-        <input id="expirDate" type="date"
-               placeholder='Type URL expiration date' formControlName="expirationDate">
-        <input id="urlPass" type="password"
-               placeholder='Type URL password' formControlName="appPassword">
-        <input id="maxClickNbr" type="number"
-               placeholder='Type URL maximum Click Number' formControlName="maxClickNumber">
-        <button class= "button" (click)="onCreateUrlLink(urlLinkFormUser.value)"> Create </button>
-        <button class= "button" (click)="onUpdateUrlLink(urlLinkFormUser.value)"> Update </button>
-      </div>
-    </form>
-  </div>
+<!--<div class="UserHomePage" *ngIf="accountService?.isLoggedIn; else loggedOut">-->
+<!--  <div class="urlLong">-->
+<!--    <form [formGroup]="urlLinkFormUser">-->
+<!--      <div id="urlLongU">-->
+<!--        <input id="id" type="hidden" formControlName="id">-->
+<!--        <input class="urlLongField" type="text"-->
+<!--               placeholder='Type URL to be shortened' formControlName="urlLong">-->
+<!--        <input class="urlLongform" type="date"-->
+<!--               placeholder='Type URL expiration date' formControlName="expirationDate">-->
+<!--        <input class="urlLongform" type="password"-->
+<!--               placeholder='Type URL password' formControlName="appPassword">-->
+<!--        <input class="urlLongform" type="number"-->
+<!--               placeholder='Type URL maximum Click Number' formControlName="maxClickNumber">-->
+<!--        <button class= "urlLongform" (click)="onCreateUrlLink(urlLinkFormUser.value)"> Create </button>-->
+<!--        <button class= "urlLongform" (click)="onUpdateUrlLink(urlLinkFormUser.value)"> Update </button>-->
+<!--      </div>-->
+<!--    </form>-->
+<!--  </div>-->
 
   <div class="urlLinks" *ngIf="urlLinks">
     <table>
       <thead>
       <tr>
-        <th class="short_cell"> Creation Date       </th>
-        <th class="short_cell"> UrlLong             </th>
-        <th class="short_cell"> UrlShort            </th>
-        <th class="short_cell"> Click Number        </th>
-        <th class="short_cell"> Expiration Date     </th>
-        <th class="short_cell"> Last update Date    </th>
-        <th class="short_cell"> Maximum Click Number</th>
+        <th class="short_cell"> Creation Date           </th>
+        <th class="short_cell"> UrlLong                 </th>
+        <th class="short_cell"> UrlShort                </th>
+        <th class="short_cell"> Click Number/Max click  </th>
+        <th class="short_cell"> Expiration Date         </th>
+        <th class="short_cell"> Last update Date        </th>
         <th class="admin" *myAdminIf="accountService?.isAdmin">
-          User </th>
-        <th class="short_cell" > Edit   </th>
-        <th class="short_cell" > Edit id</th>
-        <th class="short_cell" > Delete </th>
+                                User                    </th>
+        <th class="short_cell"> Edit                    </th>
+        <th class="short_cell"> Delete                  </th>
       </tr>
       </thead>
-      <tr *ngFor="let urlLink of pagedItems; let ind = index">
-        <td>{{ urlLink?.creationDate | date : 'dd/MM/yyyy' }}</td>
+      <tr *ngFor="let urlLink of pagedItems; index as urlInd">
+          <td>{{ urlLink?.creationDate | date : 'dd/MM/yyyy' }}</td>
         <td>{{ urlLink?.urlLong }} </td>
         <td> <a href="{{ urlStart }}{{ urlLink?.urlShortKey }}">
           {{ urlStart }}{{ urlLink?.urlShortKey }} </a></td>
-        <td>{{ urlLink?.clickNumber }}</td>
+        <td>{{ urlLink?.clickNumber }} / {{ urlLink?.maxClickNumber }} </td>
         <td>{{ urlLink?.expirationDate | date : 'dd/MM/yyyy'}}</td>
-        <td>{{ urlLink?.updateDate }}</td>
-        <td>{{ urlLink?.maxClickNumber }}</td>
+        <td>{{ urlLink?.updateDate  | date : 'dd/MM/yyyy' }}</td>
         <td class="admin" *myAdminIf="isAdmin">
           {{ urlLink.appUser?.completeName }} </td>
         <td>
-          <button (click)="onEditUrlLink(urlLink)"> Edit</button>
-        </td>
-        <td>
-          <button (click)="onEditUrlLinkById(urlLink.id)"> Edit id</button>
+          <button (click)="onEditUrlLink(urlLink)"
+                  [routerLink]="['url-update', urlInd]"> Edit</button>
         </td>
         <td>
           <button (click)="onDeleteUrlLink(urlLink)">Delete</button>
@@ -78,27 +73,27 @@
     </ul>
     <!--*******************************-->
   </div>
-</div>
+<!--</div>-->
 
 
-<ng-template class="GuestHomePage" #loggedOut>
-  <div>
-    <div class="urlLong">
-      <form [formGroup]="urlLinkForm">
-        <div id="urlL">
-          <input id="urlLong" type="text"
-                 placeholder='Type URL to be shortened' formControlName="urlLong">
-          <button class= "button" (click)="onURLForGuest(urlLinkForm.value)"> Create </button>
-        </div>
-      </form>
-    </div>
+<!--<ng-template class="GuestHomePage" #loggedOut>-->
+<!--  <div>-->
+<!--    <div class="urlLong">-->
+<!--      <form [formGroup]="urlLinkForm">-->
+<!--        <div id="urlL">-->
+<!--          <input id="urlLong" type="text"-->
+<!--                 placeholder='Type URL to be shortened' formControlName="urlLong">-->
+<!--          <button class= "button" (click)="onURLForGuest(urlLinkForm.value)"> Create </button>-->
+<!--        </div>-->
+<!--      </form>-->
+<!--    </div>-->
 
-    <div class ="urlShort" *ngIf="callUrlLink">
-      <h4> URLLink Created : </h4>
-      <div class="passwordCheck">
-        <p> <a href="{{ urlStart }}{{ urlLinkCreated?.urlShortKey }}">
-          {{ urlStart }}{{ urlLinkCreated?.urlShortKey }}  </a></p>
-      </div>
-    </div>
-  </div>
-</ng-template>
+<!--    <div class ="urlShort" *ngIf="callUrlLink">-->
+<!--      <h4> URLLink Created : </h4>-->
+<!--      <div class="passwordCheck">-->
+<!--        <p> <a href="{{ urlStart }}{{ urlLinkCreated?.urlShortKey }}">-->
+<!--          {{ urlStart }}{{ urlLinkCreated?.urlShortKey }}  </a></p>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</ng-template>-->

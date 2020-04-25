@@ -5,12 +5,15 @@ import { Observable } from 'rxjs';
 import { UrlLink } from '../interfaces/url-link';
 import {ADMIN_URL, API_URL, USER_URL} from '../app.constants';
 import {UrlForUser} from '../interfaces/url-for-user';
+import {UrlDateReformat} from '../interfaces/urlDateReformat';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class UrlManagementService {
+
+  urlDateReformat: UrlDateReformat;
 
   constructor(private http: HttpClient) {
   }
@@ -28,7 +31,7 @@ export class UrlManagementService {
   }
   getUrlLinksForAdmin(): Observable<any>{
     console.log('Admin urlLinks');
-    const urlForGetAdminsUrls = API_URL + ADMIN_URL +'/urlsAll';
+    const urlForGetAdminsUrls = API_URL + ADMIN_URL + '/urlsAll';
     return this.http.get<any>(urlForGetAdminsUrls);
   }
 
@@ -38,20 +41,33 @@ export class UrlManagementService {
     return this.http.get<any>(urlForGetUsersUrls);
   }
 
-  createUrlLinkForUser(urlLongForUser: UrlForUser):Observable<UrlLink> {
+  createUrlLinkForUser(urlLongForUser: UrlForUser): Observable<UrlLink> {
     const urlForCreation = API_URL + USER_URL;
-    return this.http.post<UrlLink>(urlForCreation, urlLongForUser);
+    console.log('BEF CREATE expiration date =' + urlLongForUser.expirationDate);
+    this.urlDateReformat = this.urlForUserDateReformat(urlLongForUser);
+    return this.http.post<UrlLink>(urlForCreation, this.urlDateReformat);
   }
 
-  updateUrlFeedLinkForUser(urlLongForUser:UrlForUser): Observable<UrlLink> {
+  updateUrlFeedLinkForUser(urlLongForUser: UrlForUser): Observable<UrlLink> {
     const urlForUpdate = API_URL + USER_URL;
-    return this.http.put<UrlLink>(urlForUpdate, urlLongForUser);
+    this.urlDateReformat = this.urlForUserDateReformat(urlLongForUser);
+    console.log('LIEN UPDATE = ' + urlForUpdate);
+    return this.http.put<UrlLink>(urlForUpdate, this.urlDateReformat);
   }
 
-  delUrllLink(urlLinkIdToDelete:number) : Observable<any>{
-    const urlForDelete = API_URL + USER_URL +'/deleteUrl/'+ urlLinkIdToDelete ;
+  delUrllLink(urlLinkIdToDelete: number): Observable<any>{
+    const urlForDelete = API_URL + USER_URL + '/deleteUrl/' + urlLinkIdToDelete ;
     console.log('urlfor delete = ' + urlForDelete);
-    //return this.http.delete<any>(urlForDelete +`${urlLinkIdToDelete}`);
+    // return this.http.delete<any>(urlForDelete +`${urlLinkIdToDelete}`);
     return this.http.delete<any>(urlForDelete);
+  }
+  urlForUserDateReformat(urlLongForUser: UrlForUser): UrlDateReformat {
+    return this.urlDateReformat = {
+      id: urlLongForUser.id,
+      urlLong: urlLongForUser.urlLong,
+      maxClickNumber: urlLongForUser.maxClickNumber,
+      expirationDate: urlLongForUser.expirationDate + 'T00:00:00.000',
+      appPassword: urlLongForUser.appPassword
+    };
   }
 }

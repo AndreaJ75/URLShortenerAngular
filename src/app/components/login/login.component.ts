@@ -14,13 +14,13 @@ import {TokenInt} from '../../interfaces/token-int';
 export class LoginComponent implements OnInit {
 
   loginForm;
-  tokenToStore:TokenInt;
+  tokenToStore: TokenInt;
 
-  constructor(private formbuilder: FormBuilder,
+  constructor(private formBuilder: FormBuilder,
               private loginService: LoginService,
               private routerNav: Router,
               private accountService: AccountService) {
-    this.loginForm = this.formbuilder.group (
+    this.loginForm = this.formBuilder.group (
       {
         login : '',
         password : ''
@@ -46,7 +46,7 @@ export class LoginComponent implements OnInit {
       err => alert('Invalid Authentication')
     );
 
-    // clear user creation form once creation completed
+    // clear user login form once completed
     this.loginForm.reset();
   }
 }

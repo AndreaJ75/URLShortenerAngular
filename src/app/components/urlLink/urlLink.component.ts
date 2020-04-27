@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { UrlManagementService } from '../../services/url-management.service';
 import { UrlLink } from '../../interfaces/url-link';
-import {API_URL_Short} from '../../app.constants';
+import {API_URL_SHORT} from '../../app.constants';
 import {AccountService} from '../../services/account.service';
 import {UrlForUser} from '../../interfaces/url-for-user';
 import {LoginAuthoLevel} from '../../interfaces/login-autho-level';
@@ -21,7 +21,7 @@ export class UrlLinkComponent implements OnInit {
   urlLinkFormUser;
   callUrlLink = false;
   urlLinkCreated: UrlLink;
-  urlStart = API_URL_Short;
+  urlStart = API_URL_SHORT;
   token: string;
   urlLinks: UrlLink[] =[];
   loginAuthoLevel: LoginAuthoLevel;
@@ -35,27 +35,10 @@ export class UrlLinkComponent implements OnInit {
   pagedItems: UrlLink[];
 
 
-  constructor(private formbuilder: FormBuilder,
-              private formbuilderUser: FormBuilder,
-              private urlManagementService: UrlManagementService,
+  constructor(private urlManagementService: UrlManagementService,
               private accountService: AccountService,
               private pagerService: PagerService,
               private routerNav: Router) {
-
-    // this.urlLinkForm = this.formbuilder.group (
-    //   {
-    //     urlLong : ''
-    //   }
-    // );
-    // this.urlLinkFormUser = this.formbuilderUser.group (
-    //   {
-    //     id: '',
-    //     urlLong: '',
-    //     expirationDate: '',
-    //     appPassword: '',
-    //     maxClickNumber: ''
-    //   }
-    // );
   }
 
   ngOnInit() {
@@ -65,7 +48,6 @@ export class UrlLinkComponent implements OnInit {
     if (this.token != null) {
       this.getUrlLinks();
     }
-
   }
 
   getUrlLinks(){
@@ -87,7 +69,6 @@ export class UrlLinkComponent implements OnInit {
       error => console.log('AuthoLevelAccess error')
     );
   }
-
 
   getUrlLinksForAdmin() {
 
@@ -131,52 +112,8 @@ export class UrlLinkComponent implements OnInit {
     this.pagedItems = this.allItems.slice(this.pager.startIndex, this.pager.endIndex + 1);
   }
 
-  // onURLForGuest(urlLong: string) {
-  //   this.urlManagementService.createUrlLink(urlLong).subscribe(
-  //     urlLink => {
-  //       this.urlLinkCreated = urlLink;
-  //       this.callUrlLink = true;
-  //     },
-  //     // Show error wrong login
-  //     err => alert('UrlLink creation KO')
-  //   );
-  //   // clear guest creation form once creation completed
-  //   this.urlLinkForm.reset();
-  // }
-  //
-  // onCreateUrlLink(urlLongForUser: UrlForUser) {
-  //
-  //   this.accountService.ngOnInit();
-  //   this.token = this.accountService.token;
-  //   console.log('urlLong.exp date = ' + urlLongForUser.expirationDate);
-  //
-  //   this.urlManagementService.createUrlLinkForUser(urlLongForUser).subscribe(
-  //     urlLink => {
-  //       this.urlLinks.push(urlLink);
-  //       // Initialize Pagination
-  //       this.allItems = this.urlLinks;
-  //       this.setPage(1);
-  //     },
-  //     // Show error wrong login
-  //     err => alert('UrlLink for UrlLink creation KO')
-  //   );
-  //
-  //   // clear user creation form once creation completed
-  //   this.urlLinkFormUser.reset();
-  // }
-
   onEditUrlLink(urlLinkToEdit: UrlLink) {
     this.routerNav.navigate(['url-update/' + urlLinkToEdit.id]);
-    // // pre-filled the form with existing user's data
-    // this.urlLinkFormUser = this.formbuilderUser.group({
-    //   id: urlLinkToEdit.id,
-    //   urlLong: urlLinkToEdit.urlLong,
-    //   expirationDate: urlLinkToEdit.expirationDate,
-    //   appPassword: urlLinkToEdit.urlPassword,
-    //   maxClickNumber: urlLinkToEdit.maxClickNumber
-    // });
-    //
-    // alert ('Please update required fields');
   }
 
   onDeleteUrlLink(urlLinkToDelete: UrlLink) {

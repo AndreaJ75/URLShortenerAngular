@@ -2,32 +2,27 @@
 
 body{
   background-color: rgba(32, 199, 167, 0.99);
-  /*font-family: rgba(32, 199, 167, 0.99);*/
+  opacity: 0.85;
   color: white;
-  border-radius: 5px;
 }
+
+.container{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 2% 15% 2% 15%;
+  padding: 0;
+}
+
 a {
   font-size: larger;
   cursor: pointer;
   size: A3;
   margin: 2%;
 }
-.nav-tab,
-.connected {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  /*margin: 0% 3% 0% 3%;*/
-  font-size: large;
-  margin: 1.5%;
-  font-size: x-large;
-  font-weight: bolder;
-  font-family: Arial,x-locale-body,sans-serif;
-  font-stretch: condensed;
-}
-
-.nav-capt{
-  margin: 2%;
+img{
+  font-size: larger;
+  cursor: pointer;
 }
 
 .page-header,
@@ -40,68 +35,99 @@ a {
   margin: 2% 3% 3% 2%;
   padding: 0;
 }
-.identification,
-.signin{
+.identification{
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
-  font-size: 15px;
-  width: 50%;
-}
-.signIn{
-  display: flex;
-  justify-content: flex-end;
-  font-size: 15px;
-  font-weight: bold;
+  font-size: 14px;
   width: 100%;
-  width: 700px;
 }
-.signin>p,
-.signin>a{
-  margin: 0.5%;
-  font-weight: initial;
-  font-size: small;
-  margin : 0.5% 1% 0.5% 1%;
-  width: 250px;
+.signin {
+  margin-right: 1%;
+  margin-top: 1%;
+  text-align: right;
 }
 
-/*.userManag {*/
-/*  display: flex;*/
-/*  flex-direction: row;*/
-/*  justify-content: space-evenly;*/
-/*}*/
+connectImg{
+  background-image: url("src/app/icons/loginButton.png");
+  background-repeat: no-repeat;
+}
+disconnectImg{
+  background-image: url("src/app/icons/logoutButton.png");
+  background-repeat: no-repeat;
+}
 
-.container{
+.icon1{
+  width: 13%;
+  height: 13%;
+  border-radius: 8px;
+}
+.icon2{
+  width: 9%;
+  height: 9%;
+  border-radius: 8px;
+}
+.icon3{
+  margin-left: 5%;
+  width: 30%;
+  height: 22%;
+  border-radius: 6px;
+}
+.icon4{
+  margin-left: 5%;
+  width: 45%;
+  height: 17%;
+}
+.nav-tab,
+.connected {
   display: flex;
   flex-direction: row;
-  justify-content: center;
-  background-color: rgba(32, 199, 167, 0.99);
+  margin: 0%;
+  font-size: x-large;
+  font-weight: bolder;
   text-align: center;
-  margin: 3% 15%;
+  align-items: center;
 }
 
-
-p {
-
+.nav-capt{
+  margin: 1.5%;
+  align-content: center;
+}
+.nav-capt2{
+  margin: 4%;
+  align-content: center;
+  white-space : nowrap;
+}
+.urlGuest{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 130%;
+  white-space: nowrap;
 }
 
 .sign,
-.urlLong{
-  text-align: left;
+.urlLong,
+.guestP{
   display: flex;
   flex-direction: column;
   justify-content: center;
+  justify-content: space-between;
+  text-align: left;
   color: darkblue;
   margin: 3%;
   font-weight: bolder;
   font-size: medium;
+}
+.urlLongU>button{
+  margin-left: 38.5%;
 }
 
 .urlLongField {
   margin: 3%;
   border: none;
   height: 40px;
-  width: 100%;
+  width: 94%;
   border-radius: 5px;
 }
 
@@ -114,17 +140,89 @@ p {
   border-radius: 5px;
 }
 
+.button{
+  margin: 3%;
+  border: none;
+  height: 40px;
+  width: 250px;
+  border-radius: 5px;
+}
+
 .UrlLinks{
   border: 1px solid mediumseagreen;
   margin-top: 5%;
 }
 
-
 .urlShort {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    background-color: darkcyan;
+    width: 130%;
+    height: 80px;
+    text-align: center;
+    margin-bottom: 7%;
+}
+.guestLink>a{
+  color: darkblue;
 }
 
-.buttonList {
+.admin{
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  color: darkslategray;
+  margin: 0%;
+  padding: 0%;
+  font-weight: normal;
 
+}
+.search{
+  margin-bottom: 2%;
+}
+
+#searchField{
+  height: 40px;
+  width: 40%;
+  border-radius: 8px;
+}
+
+th, td{
+  color: white;
+}
+th {
+  font-size: 25px;
+  height: 50px;
+}
+td {
+  font-size: 18px;
+}
+#authoLevelSelect{
+  color: lightseagreen;
+}
+.medium_cell{
+  width: 200px;
+  white-space: nowrap;
+}
+.pagination{
+  margin-top: 8%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  font-size: 14px;
+}
+tr:nth-child(even) {
+  background-color: lightseagreen;
+}
+trashCanImg{
+  background-image: url("src/app/icons/trashGreen.png");
+  background-repeat: no-repeat;
+}
+editButton{
+  background-image: url("src/app/icons/pencilWhite.png");
+  background-repeat: no-repeat;
+}
+
+.shorten_cell{
+  width: 20%;
 }

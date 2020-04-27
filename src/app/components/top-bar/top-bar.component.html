@@ -1,31 +1,33 @@
-<section class="identification">
-  <div class="signIn">
-    <a routerLink="login"> SIGNIN </a>
+<div class="identification">
+  <div class="signin">
+    <p> SignIn
+      <a class="connectImg" routerLink="login">
+        <img src="loginButton.png" class="icon1"> </a>
+    </p>
   </div>
   <!-- Show only once connected-->
   <div class ="signin" *ngIf="accountService?.isLoggedIn">
     <p> {{ accountService.loginAuthoLevel?.loginCon }} &nbsp;
      {{accountService.loginAuthoLevel?.authoLevel}} &nbsp;
 
-    <a class="disconnect" (click)="disconnect()" routerLink=""> disconnect </a></p>
+    <a class="disconnectImg" (click)="disconnect()" routerLink="">
+      <img src="logoutButton.png" class="icon2"> </a></p>
   </div>
-
-</section>
+</div>
 
 <div class="nav-tab">
   <div class="nav-capt">
     <a routerLink=""> HOME </a>
   </div>
   <!-- Show only once connected-->
-  <section *ngIf="accountService?.isLoggedIn" class="connected">
-    <div class="nav-capt">
-      <a routerLink="my-url-links"> MYURLLINKS </a>
+  <div *ngIf="accountService?.isLoggedIn" class="connected">
+    <div class="nav-capt2">
+      <a routerLink="my-url-links"> URLLINKS </a>
     </div>
-    <div class="nav-capt" *myAdminIf="accountService?.isAdmin">
-      <a routerLink="user-management"> MANAGEMENT </a>
+    <div class="nav-capt2" *myAdminIf="accountService?.isAdmin">
+      <a routerLink="user-management"> USERS ADMIN </a>
     </div>
-  </section>
-
+  </div>
 </div>
 
 <div class="page-header">
@@ -36,6 +38,8 @@
   <div class="jumbotron">
     <p> This Application will allow you to shorten your URL.
       It is provided by BNP Paribas as a secure approved tool.
-      Do not use for any personal reason </p>
+      Do not use for any personal reason
+     If you meet any issue, please contact support team :
+    support@bnppf.com </p>
   </div>
 </div>

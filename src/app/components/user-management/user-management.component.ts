@@ -5,7 +5,6 @@ import {AppUser} from '../../interfaces/app-user';
 import {FormBuilder} from '@angular/forms';
 import {AppUserLocal} from '../../interfaces/app-user-local';
 import {AppUserAuthoChange} from '../../interfaces/app-user-autho-change';
-import {UrlLink} from '../../interfaces/url-link';
 import {PagerService} from '../../services';
 
 @Component({
@@ -49,27 +48,12 @@ export class UserManagementComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    // get all Users with their highest authority level
     this.accountService.ngOnInit();
-    // this.getAllUsers();
     this.getAllUsersWithHighestAutho();
-
   }
 
-  // getAllUsers(){
-  //
-  //   this.userManagementService.getUsers().subscribe(
-  //     userPage => {
-  //       if (userPage != null) {
-  //         this.appUsers = userPage.content;
-  //       }
-  //     }
-  //     ,
-  //     error => console.log('Users retrieval KO')
-  //   );
-  // }
-
-  getAllUsersWithHighestAutho(){
+  getAllUsersWithHighestAutho() {
 
     this.appUsersAuthoAndAuthoChange = [];
     this.userManagementService.getAllUsersWithHighestAutho().subscribe(
@@ -128,7 +112,7 @@ export class UserManagementComponent implements OnInit {
             this.getAllUsersWithHighestAutho();
           },
           error => console.log ('AuthorityLevel removal KO')
-        )
+        );
       } else {
         console.log ('GO CREATE ROLE ADMIN');
         this.userManagementService.createAppUserRole(appUser).subscribe(
@@ -136,13 +120,12 @@ export class UserManagementComponent implements OnInit {
             this.getAllUsersWithHighestAutho();
           },
           error => console.log('AuthorityLevel creation KO')
-        )
+        );
       }
     }
   }
 
   onSearch(searchForm) {
-
   }
 
   onDeleteUser(userToDelete: AppUserAuthoChange){
@@ -152,9 +135,10 @@ export class UserManagementComponent implements OnInit {
     if(confirm ('Do you really want to delete user : ' +
       userToDelete.appUserLocal.appUser.completeName)) {
       this.userManagementService.deleteUser(userToDelete.appUserLocal.appUser.id).subscribe(
-        status => {this.appUsersAuthoAndAuthoChange.splice(index, 1);},
-        error => console.log('Delete user KO ' + error))
+        status => {
+          this.appUsersAuthoAndAuthoChange.splice(index, 1);
+          this.getAllUsersWithHighestAutho();},
+        error => console.log('Delete user KO ' + error));
     }
   }
-
 }

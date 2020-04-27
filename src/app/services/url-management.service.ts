@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
 import { UrlLink } from '../interfaces/url-link';
 import {ADMIN_URL, API_URL, USER_URL} from '../app.constants';
 import {UrlForUser} from '../interfaces/url-for-user';
@@ -24,7 +23,6 @@ export class UrlManagementService {
   }
 
   getUrlLinkById(urlLinkId): Observable<UrlLink> {
-    console.log('********** get UrllinkById');
     const urlForGetById = API_URL + USER_URL + '/getById/' + urlLinkId;
     console.log('URL for GETBy ID = ' + urlForGetById);
     return this.http.get<UrlLink>(urlForGetById);
@@ -58,7 +56,6 @@ export class UrlManagementService {
   delUrllLink(urlLinkIdToDelete: number): Observable<any>{
     const urlForDelete = API_URL + USER_URL + '/deleteUrl/' + urlLinkIdToDelete ;
     console.log('urlfor delete = ' + urlForDelete);
-    // return this.http.delete<any>(urlForDelete +`${urlLinkIdToDelete}`);
     return this.http.delete<any>(urlForDelete);
   }
   urlForUserDateReformat(urlLongForUser: UrlForUser): UrlDateReformat {

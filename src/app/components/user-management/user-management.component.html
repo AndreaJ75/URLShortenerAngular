@@ -1,8 +1,8 @@
 <div class="admin" *myAdminIf="accountService?.isAdmin">
   <form [formGroup]="searchForm">
-    <div id="search">
+    <div class="search">
       <input id="searchField" type="text"
-             placeholder='Search field : ' formControlName="searchField">
+             placeholder='Search data : ' formControlName="searchField">
       <button class= "button" (click)="onSearch(searchForm.value)"> Search </button>
     </div>
   </form>
@@ -10,11 +10,11 @@
   <table *ngIf="appUsersAndHighestAutho">
     <thead>
     <tr>
-      <th class="short_cell"> Login             </th>
-      <th class="short_cell"> Complete name     </th>
-      <th class="short_cell"> Current Role      </th>
-      <th class="short_cell"> Role Management   </th>
-      <th class="short_cell"> Delete            </th>
+      <th class="medium_cell"> Login             </th>
+      <th class="medium_cell"> Complete name     </th>
+      <th class="medium_cell"> Current Role      </th>
+      <th class="medium_cell"> Role Management   </th>
+      <th class="medium_cell">                   </th>
     </tr>
     </thead>
     <tr *ngFor="let appUserAutho of pagedItems; let ind = index">
@@ -33,8 +33,8 @@
           </select>
         </form>
       </td>
-      <td>
-        <button (click)="onDeleteUser(appUserAutho)">Delete</button>
+      <td class="trashCanImg">
+          <img src="trashGreen.png" class="icon1" (click)="onDeleteUser(appUserAutho)">
       </td>
     </tr>
   </table>
@@ -57,6 +57,5 @@
     </li>
   </ul>
   <!--*******************************-->
-
 </div>
 

@@ -5,7 +5,7 @@ import {UrlManagementService} from '../../services/url-management.service';
 import {UrlLink} from '../../interfaces/url-link';
 import {AccountService} from '../../services/account.service';
 import {UrlForUser} from '../../interfaces/url-for-user';
-import {API_URL_Short} from '../../app.constants';
+import {API_URL_SHORT} from '../../app.constants';
 
 @Component({
   selector: 'app-url-update',
@@ -17,7 +17,7 @@ export class UrlUpdateComponent implements OnInit {
   urlLinkFormUser;
   urlLinkToEdit: UrlLink;
   callUrlLink = false;
-  urlStart = API_URL_Short;
+  urlStart = API_URL_SHORT;
 
   constructor(private formbuilderUser: FormBuilder,
               private routeAct: ActivatedRoute,
@@ -68,7 +68,7 @@ export class UrlUpdateComponent implements OnInit {
       },
       error => alert('Urllink for Update KO')
     );
-    // clear user creation form once creation completed
+    // clear urlLink update form once update completed
     this.urlLinkFormUser.reset();
   }
 }

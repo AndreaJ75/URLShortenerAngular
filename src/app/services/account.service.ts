@@ -11,9 +11,9 @@ import {LoginAuthoLevel} from '../interfaces/login-autho-level';
 
 export class AccountService {
 
-  isAdmin: boolean = false;
+  isAdmin = false;
   token: string;
-  isLoggedIn: boolean = false;
+  isLoggedIn = false;
   loginAuthoLevel: LoginAuthoLevel;
 
   constructor(private http: HttpClient) { }
@@ -29,12 +29,12 @@ export class AccountService {
             this.isLoggedIn = isActive;
 
             console.log('is Active ? = ' + isActive);
-            if (isActive == true) {
+            if (isActive === true) {
               // If loggedIn get User Login and authoLevel
                 this.getCurrentUserLoginAndAuthoLevel().subscribe(
                 loginAutho => {
                   this.loginAuthoLevel = loginAutho;
-                  if (this.loginAuthoLevel.authoLevel === "ROLE_ADMIN") {
+                  if (this.loginAuthoLevel.authoLevel === 'ROLE_ADMIN') {
                     this.isAdmin = true;
                   } else {
                     this.isAdmin = false;
@@ -44,11 +44,10 @@ export class AccountService {
                 error => console.log ('Login retrieval failed = ' + error)
               );
             }
-
           },
           // Show error wrong login
           err =>  {
-            alert('Authentification Check KO')
+            alert('Authentification Check KO');
           }
         );
 
@@ -61,10 +60,10 @@ export class AccountService {
     return localStorage.getItem('token');
   }
 
-  OnAuthentication(token:TokenInt) {
+  OnAuthentication(token: TokenInt) {
     let key = 'token';
 
-    localStorage.setItem(key,token.token);
+    localStorage.setItem(key, token.token);
   }
 
   CheckTokenValidity(): Observable<boolean>{

@@ -34,7 +34,6 @@ export class UrlLinkComponent implements OnInit {
   // paged items
   pagedItems: UrlLink[];
 
-
   constructor(private urlManagementService: UrlManagementService,
               private accountService: AccountService,
               private pagerService: PagerService,

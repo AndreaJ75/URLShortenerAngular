@@ -6,6 +6,8 @@ import {UrlManagementService} from '../../services/url-management.service';
 import {AccountService} from '../../services/account.service';
 import {UrlForUser} from '../../interfaces/url-for-user';
 import { Router} from '@angular/router';
+import DateTimeFormat = Intl.DateTimeFormat;
+import {stringify} from 'querystring';
 
 @Component({
   selector: 'app-home',
@@ -64,13 +66,15 @@ export class HomePageComponent implements OnInit {
 
     this.accountService.ngOnInit();
     this.token = this.accountService.token;
-    console.log('urlLong.exp date = ' + urlLongForUser.expirationDate);
 
     this.urlManagementService.createUrlLinkForUser(urlLongForUser).subscribe(
       urlLink => {
         // Update list of urllinks
         this.urlLinks.push(urlLink);
-        this.routerNav.navigate(['my-url-links']);
+        this.urlLinkCreated = urlLink;
+        this.callUrlLink = true;
+        this.routerNav.navigate(['']);
+        // this.routerNav.navigate(['my-url-links']);
       },
       // Show error can not create urlLink for user
       err => alert('UrlLink for UrlLink creation KO')

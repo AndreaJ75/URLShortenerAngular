@@ -5,6 +5,10 @@ import { UrlLink } from '../interfaces/url-link';
 import {ADMIN_URL, API_URL, USER_URL} from '../app.constants';
 import {UrlForUser} from '../interfaces/url-for-user';
 import {UrlDateReformat} from '../interfaces/urlDateReformat';
+import {timestamp} from 'rxjs/operators';
+import {isNotNullOrUndefined} from 'codelyzer/util/isNotNullOrUndefined';
+import {isNullOrUndefined} from 'util';
+import {DatePipe} from '@angular/common';
 
 
 @Injectable({
@@ -13,8 +17,10 @@ import {UrlDateReformat} from '../interfaces/urlDateReformat';
 export class UrlManagementService {
 
   urlDateReformat: UrlDateReformat;
+  dateReformated: string;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+              public datepipe: DatePipe) {
   }
 
   createUrlLink(urlLong: string): Observable<UrlLink> {
@@ -43,6 +49,7 @@ export class UrlManagementService {
     const urlForCreation = API_URL + USER_URL;
     console.log('BEF CREATE expiration date =' + urlLongForUser.expirationDate);
     this.urlDateReformat = this.urlForUserDateReformat(urlLongForUser);
+
     return this.http.post<UrlLink>(urlForCreation, this.urlDateReformat);
   }
 
@@ -58,13 +65,41 @@ export class UrlManagementService {
     console.log('urlfor delete = ' + urlForDelete);
     return this.http.delete<any>(urlForDelete);
   }
+
   urlForUserDateReformat(urlLongForUser: UrlForUser): UrlDateReformat {
-    return this.urlDateReformat = {
-      id: urlLongForUser.id,
-      urlLong: urlLongForUser.urlLong,
-      maxClickNumber: urlLongForUser.maxClickNumber,
-      expirationDate: urlLongForUser.expirationDate + 'T00:00:00.000',
-      appPassword: urlLongForUser.appPassword
-    };
+    let date: string;
+    // tslint:disable-next-line:no-unused-expression
+    if (!urlLongForUser.expirationDate ) {
+      date = this.datepipe.transform(new Date(Date.now()), 'yyyy-MM-ddT00:00:00.000');
+
+      return this.urlDateReformat = {
+        id: urlLongForUser.id,
+        urlLong: urlLongForUser.urlLong,
+        maxClickNumber: urlLongForUser.maxClickNumber,
+        expirationDate: date,
+        appPassword: urlLongForUser.appPassword
+      };
+    } else {
+      return this.urlDateReformat = {
+        id: urlLongForUser.id,
+        urlLong: urlLongForUser.urlLong,
+        maxClickNumber: urlLongForUser.maxClickNumber,
+        expirationDate: urlLongForUser.expirationDate + 'T00:00:00.000',
+        appPassword: urlLongForUser.appPassword
+      };
+    }
+  }
+
+  ReformatDate(datetoReformat) {
+    const dateTransfoYY = datetoReformat.substring(0, 4);
+    const dateTransfoMM = datetoReformat.substring(5, 7);
+    const dateTransfoDD = datetoReformat.substring(8, 10);
+
+    console.log('datetoReformat = ' + datetoReformat);
+    console.log('dateTransfoDD = '    + dateTransfoDD);
+    console.log('dateTransfoMM = '    + dateTransfoMM);
+    console.log('dateTransfoYYYY = '  + dateTransfoYY);
+    this.dateReformated = dateTransfoYY + '-' + dateTransfoMM + '-' + dateTransfoDD;
+    return this.dateReformated;
   }
 }

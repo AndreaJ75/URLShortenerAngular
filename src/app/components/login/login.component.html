@@ -4,9 +4,25 @@
       <p> &nbsp; User uid </p>
       <input class="loginform" type="text"
              placeholder="" formControlName="login" required>
+
+      <!--check error on field :
+   -when the user submits the form  -->
+      <div *ngIf="(isSubmitted && loginForm.get('login').errors)">
+        <div *ngIf="loginForm.get('login').errors" class="error">
+          Login must be provided
+        </div>
+      </div>
+
       <p> &nbsp; User password </p>
       <input class="loginform" type="password"
              placeholder="" formControlName="password" required>
+      <!--check error on field :
+-when the user submits the form  -->
+      <div *ngIf="(isSubmitted && loginForm.get('password').errors)">
+        <div *ngIf="loginForm.get('password').errors" class="error">
+          Password must be provided
+        </div>
+      </div>
       <p></p>
       <button class= "loginform" type="submit"> Sign In </button>
     </div>

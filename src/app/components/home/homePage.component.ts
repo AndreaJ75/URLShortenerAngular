@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import {UrlLink} from '../../interfaces/url-link';
-import {API_URL_Short} from '../../app.constants';
-import {LoginAuthoLevel} from '../../interfaces/login-autho-level';
+import {API_URL_SHORT} from '../../app.constants';
 import {UrlManagementService} from '../../services/url-management.service';
 import {AccountService} from '../../services/account.service';
 import {UrlForUser} from '../../interfaces/url-for-user';
-import {ActivatedRoute, Router} from '@angular/router';
-import {PagerService} from '../../services';
+import { Router} from '@angular/router';
+import DateTimeFormat = Intl.DateTimeFormat;
+import {stringify} from 'querystring';
 
 @Component({
   selector: 'app-home',
@@ -17,15 +17,12 @@ import {PagerService} from '../../services';
 export class HomePageComponent implements OnInit {
 
   urlLinkForm;
-  urlLinkToEdit: UrlLink;
   urlLinkFormUser;
   callUrlLink = false;
   urlLinkCreated: UrlLink;
-  urlStart = API_URL_Short;
+  urlStart = API_URL_SHORT;
   token: string;
   urlLinks: UrlLink[] =[];
-  loginAuthoLevel: LoginAuthoLevel;
-  isAdmin: boolean;
 
   constructor(private formbuilder: FormBuilder,
               private formbuilderUser: FormBuilder,
@@ -58,7 +55,7 @@ export class HomePageComponent implements OnInit {
         this.urlLinkCreated = urlLink;
         this.callUrlLink = true;
       },
-      // Show error wrong login
+      // Show error can not create url for guest
       err => alert('UrlLink creation KO')
     );
     // clear guest creation form once creation completed
@@ -69,15 +66,17 @@ export class HomePageComponent implements OnInit {
 
     this.accountService.ngOnInit();
     this.token = this.accountService.token;
-    console.log('urlLong.exp date = ' + urlLongForUser.expirationDate);
 
     this.urlManagementService.createUrlLinkForUser(urlLongForUser).subscribe(
       urlLink => {
         // Update list of urllinks
         this.urlLinks.push(urlLink);
-        this.routerNav.navigate(['my-url-links']);
+        this.urlLinkCreated = urlLink;
+        this.callUrlLink = true;
+        this.routerNav.navigate(['']);
+        // this.routerNav.navigate(['my-url-links']);
       },
-      // Show error wrong login
+      // Show error can not create urlLink for user
       err => alert('UrlLink for UrlLink creation KO')
     );
 

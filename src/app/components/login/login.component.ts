@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import {LoginService} from '../../services/login.service';
 import {AccountService} from '../../services/account.service';
 import {Router} from '@angular/router';
@@ -14,16 +14,18 @@ import {TokenInt} from '../../interfaces/token-int';
 export class LoginComponent implements OnInit {
 
   loginForm;
-  tokenToStore:TokenInt;
+  tokenToStore: TokenInt;
+  isSubmitted = false;
 
-  constructor(private formbuilder: FormBuilder,
+  constructor(private formBuilder: FormBuilder,
               private loginService: LoginService,
               private routerNav: Router,
               private accountService: AccountService) {
-    this.loginForm = this.formbuilder.group (
+    this.loginForm = this.formBuilder.group (
       {
-        login : '',
-        password : ''
+        login : ['', [Validators.minLength(1), Validators.maxLength(10)]],
+          // , Validators.pattern('[a-z]*')]],
+        password : ['', [Validators.minLength(1), Validators.maxLength(10)]]
       }
     );
   }
@@ -32,6 +34,8 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(signLogin: Login) {
+
+    this.isSubmitted = true;
     this.loginService.authenticateUser(signLogin).subscribe(
       token => {
         this.tokenToStore = token;
@@ -41,13 +45,13 @@ export class LoginComponent implements OnInit {
         // inform top-bar about status change before going back to home page
         this.accountService.ngOnInit();
         this.routerNav.navigate(['']);
+        // clear user login form once completed OK
+        this.loginForm.reset();
       },
       // Show error wrong login
-      err => alert('Invalid Authentication')
+      err => {alert('Invalid Authentication');}
     );
 
-    // clear user creation form once creation completed
-    this.loginForm.reset();
   }
 }
 

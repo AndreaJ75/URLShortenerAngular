@@ -12,7 +12,7 @@ export class TopBarComponent implements OnInit {
   constructor(private accountService: AccountService) {
     accountService.ngOnInit();
     this.accountService.isLoggedIn = accountService.isLoggedIn;
-    this.accountService.loginAuthoLevel= accountService.loginAuthoLevel;
+    this.accountService.loginAuthoLevel = accountService.loginAuthoLevel;
     this.accountService.isAdmin = accountService.isAdmin;
   }
 

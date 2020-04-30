@@ -1,6 +1,6 @@
 import {AppUser} from './app-user';
 
 export interface AppUserLocal {
-  appUser : AppUser;
+  appUser: AppUser;
   highestAuthorityLevel: string;
 }

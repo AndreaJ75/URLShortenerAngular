@@ -1,4 +1,4 @@
 export interface LoginAuthoLevel {
-  loginCon : string;
-  authoLevel : string
+  loginCon: string;
+  authoLevel: string;
 }

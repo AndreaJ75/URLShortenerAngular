@@ -1,3 +1,10 @@
+<app-custom-pagination
+  [page]="page"
+  (nextPageEvent)="getNextPage()"
+  (previousPageEvent)="getPreviousPage()"
+  (pageSizeEvent)="getPageInNewSize($event)">
+</app-custom-pagination>
+
 <div class="urlLinks" *ngIf="urlLinks">
   <table>
     <thead>
@@ -6,23 +13,23 @@
       <th class="short_cell"> UrlShort                  </th>
       <th class="short_cell"> Creation Date             </th>
       <th class="short_cell"> Expiration Date           </th>
-      <th class="short_cell"> Click Number/Max click    </th>
-      <th class="short_cell"> Last update Date          </th>
-      <th class="admin" *myAdminIf="accountService?.isAdmin">
+      <th class="short_cell"> Click Number              </th>
+      <th class="short_cell"> Update Date               </th>
+      <th class="short_cell" *myAdminIf="accountService?.isAdmin">
         User                    </th>
-      <th class="icon4"> Edit                    </th>
-      <th class="icon3"> Delete                  </th>
+      <th class="short_cell">      Edit               </th>
+      <th class="short_cell">      Delete             </th>
     </tr>
     </thead>
-    <tr *ngFor="let urlLink of pagedItems; index as urlInd">
-      <td>{{ urlLink?.urlLong }} </td>
-      <td> <a href="{{ urlStart }}{{ urlLink?.urlShortKey }}">
+    <tr *ngFor="let urlLink of urlLinks; index as urlInd">
+      <td class="shorten_cell">{{ urlLink?.urlLong }} </td>
+      <td class="short_cell"> <a href="{{ urlStart }}{{ urlLink?.urlShortKey }}">
         {{ urlStart }}{{ urlLink?.urlShortKey }} </a></td>
-      <td>{{ urlLink?.creationDate | date : 'dd/MM/yyyy' }}</td>
-      <td>{{ urlLink?.expirationDate | date : 'dd/MM/yyyy'}}</td>
-      <td>{{ urlLink?.clickNumber }} / {{ urlLink?.maxClickNumber }} </td>
-      <td>{{ urlLink?.updateDate  | date : 'dd/MM/yyyy' }}</td>
-      <td class="admin" *myAdminIf="isAdmin">
+      <td class="short_cell">{{ urlLink?.creationDate | date : 'dd/MM/yyyy' }}</td>
+      <td class="short_cell">{{ urlLink?.expirationDate | date : 'dd/MM/yyyy'}}</td>
+      <td class="short_cell">{{ urlLink?.clickNumber }} / {{ urlLink?.maxClickNumber }} </td>
+      <td class="short_cell">{{ urlLink?.updateDate  | date : 'dd/MM/yyyy' }}</td>
+      <td class="short_cell" *myAdminIf="isAdmin">
         {{ urlLink.appUser?.completeName }} </td>
       <td class="editButton">
         <img src="pencilWhite.png" class="icon4" (click)="onEditUrlLink(urlLink)"
@@ -33,24 +40,4 @@
       </td>
     </tr>
   </table>
-
-  <!-- pager *******************-->
-  <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
-    <li [ngClass]="{disabled:pager.currentPage === 1}">
-      <a (click)="setPage(1)">First</a>
-    </li>
-    <li [ngClass]="{disabled:pager.currentPage === 1}">
-      <a (click)="setPage(pager.currentPage - 1)">Previous</a>
-    </li>
-    <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
-      <a (click)="setPage(page)">{{page}}</a>
-    </li>
-    <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
-      <a (click)="setPage(pager.currentPage + 1)">Next</a>
-    </li>
-    <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
-      <a (click)="setPage(pager.totalPages)">Last</a>
-    </li>
-  </ul>
-  <!--*******************************-->
 </div>

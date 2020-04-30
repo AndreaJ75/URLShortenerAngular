@@ -14,6 +14,9 @@ import { UserManagementComponent } from './components/user-management/user-manag
 import {PagerService} from './services/pager.service';
 import { HomePageComponent } from './components/home/homePage.component';
 import { UrlUpdateComponent } from './components/url-update/url-update.component';
+import {DatePipe} from '@angular/common';
+import { SortableHeadersComponent } from './sort-Pagination/sorting/component/sortable-headers/sortable-headers.component';
+import { CustomPaginationComponent } from './sort-Pagination/pagination/component/custom-pagination/custom-pagination.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +27,9 @@ import { UrlUpdateComponent } from './components/url-update/url-update.component
     MyAdminIfDirective,
     UserManagementComponent,
     HomePageComponent,
-    UrlUpdateComponent
+    UrlUpdateComponent,
+    SortableHeadersComponent,
+    CustomPaginationComponent
   ],
   imports: [
     BrowserModule,
@@ -39,6 +44,7 @@ import { UrlUpdateComponent } from './components/url-update/url-update.component
     ])
   ],
   providers: [
+    DatePipe,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,

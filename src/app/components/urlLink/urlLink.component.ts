@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
 import { UrlManagementService } from '../../services/url-management.service';
 import { UrlLink } from '../../interfaces/url-link';
 import {API_URL_SHORT} from '../../app.constants';
-import {AccountService} from '../../services/account.service';
-import {UrlForUser} from '../../interfaces/url-for-user';
-import {LoginAuthoLevel} from '../../interfaces/login-autho-level';
-import {PagerService} from '../../services';
-import {ActivatedRoute, Router} from '@angular/router';
+import { AccountService } from '../../services/account.service';
+import { LoginAuthoLevel } from '../../interfaces/login-autho-level';
+import { Router } from '@angular/router';
+import { CustomPaginationService } from '../../sort-Pagination/pagination/service/custom-pagination.service';
+import { CustomSortingService } from '../../sort-Pagination/sorting/service/custom-sorting.service';
+import { Page } from '../../sort-Pagination/pagination/page';
+import { SortableColumn } from '../../sort-Pagination/sorting/sortable-column';
 
 
 @Component({
@@ -17,28 +18,22 @@ import {ActivatedRoute, Router} from '@angular/router';
 })
 export class UrlLinkComponent implements OnInit {
 
-  urlLinkForm ;
-  urlLinkFormUser;
-  callUrlLink = false;
-  urlLinkCreated: UrlLink;
   urlStart = API_URL_SHORT;
   token: string;
   urlLinks: UrlLink[] =[];
   loginAuthoLevel: LoginAuthoLevel;
   isAdmin: boolean;
 
-  // array of all items to be paged
-  private allItems: any[];
-  // pager object
-  pager: any = {};
-  // paged items
-  pagedItems: UrlLink[];
-
+  // Pagination & sort data
+  page: Page<UrlLink> = new Page();
+  sortableColumns: Array<SortableColumn> =[];
+  column: SortableColumn;
 
   constructor(private urlManagementService: UrlManagementService,
               private accountService: AccountService,
-              private pagerService: PagerService,
-              private routerNav: Router) {
+              private routerNav: Router,
+              private paginationService: CustomPaginationService,
+              private sortingService: CustomSortingService) {
   }
 
   ngOnInit() {
@@ -71,45 +66,42 @@ export class UrlLinkComponent implements OnInit {
   }
 
   getUrlLinksForAdmin() {
+    // set default sortCriteria to updateDate
+    this.sortableColumns = [
+      new SortableColumn('updateDate', 'Name', 'desc')
+    ];
+    this.column = this.sortingService.getSortableColumn(this.sortableColumns);
 
-    this.urlManagementService.getUrlLinksForAdmin().subscribe(
+    this.urlManagementService.getUrlLinksForAdmin(this.page.pageable, this.column).subscribe(
       urlLinkList =>
       {if (urlLinkList != null) {
+        console.log('pageSize = ' + this.page.pageable.pageSize);
+        console.log('pageNumber = ' + this.page.pageable.pageNumber);
+        console.log('sort = ' + this.page.pageable.sort);
+
         this.urlLinks = urlLinkList.content;
-        // Initialize Pagination
-        console.log('URLLINKS SIZE ADMIN = ' + this.urlLinks.length);
-        this.allItems = this.urlLinks;
-        this.setPage(1);
+        this.page = urlLinkList;
       }
       },
       err => console.log('UrlLinks for admin   not accessible')
     );
   }
   getUrlLinksForUser(){
+    // set default sortCriteria to updateDate
+    this.sortableColumns = [
+      new SortableColumn('updateDate', 'Name', 'desc')
+    ];
+    this.column = this.sortingService.getSortableColumn(this.sortableColumns);
 
-    this.urlManagementService.getUrlLinksForUser().subscribe(
+    this.urlManagementService.getUrlLinksForUser(this.page.pageable, this.column).subscribe(
       urlLinkList =>
       {if (urlLinkList != null) {
         this.urlLinks = urlLinkList.content;
-        console.log('URLLINKS SIZE USER = ' + this.urlLinks.length);
-        // Initialize Pagination
-        this.allItems = this.urlLinks;
-        this.setPage(1);
+        this.page = urlLinkList;
       }
       },
       err => console.log('UrlLinks for users not accessible')
     );
-  }
-
-  setPage(page: number) {
-    if (page < 1 || page > this.pager.totalPages) {
-      return;
-    }
-
-    // get pager object from service
-    this.pager = this.pagerService.getPager(this.allItems.length, page);
-    // get current page of items
-    this.pagedItems = this.allItems.slice(this.pager.startIndex, this.pager.endIndex + 1);
   }
 
   onEditUrlLink(urlLinkToEdit: UrlLink) {
@@ -117,7 +109,7 @@ export class UrlLinkComponent implements OnInit {
   }
 
   onDeleteUrlLink(urlLinkToDelete: UrlLink) {
-    console.log('****** on delete ');
+
     // Retrieve UrlLink data from database using its urlLinkId
     const index: number = this.urlLinks.indexOf(urlLinkToDelete);
 
@@ -125,11 +117,28 @@ export class UrlLinkComponent implements OnInit {
       this.urlManagementService.delUrllLink(urlLinkToDelete.id).subscribe(
         status => {
           this.urlLinks.splice(index, 1);
-          this.allItems = this.urlLinks;
-          this.setPage(1);
+          this.getUrlLinks();
         },
         err => console.log('Delete UrlLink KO' + err)
       );
     }
+  }
+
+
+  // Pagination method
+
+  public getNextPage(): void {
+    this.page.pageable = this.paginationService.getNextPage(this.page);
+    this.getUrlLinks();
+  }
+
+  public getPreviousPage(): void {
+    this.page.pageable = this.paginationService.getPreviousPage(this.page);
+    this.getUrlLinks();
+  }
+
+  public getPageInNewSize(pageSize: number): void {
+    this.page.pageable = this.paginationService.getPageInNewSize(this.page, pageSize);
+    this.getUrlLinks();
   }
 }

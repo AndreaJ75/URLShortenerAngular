@@ -1,0 +1,27 @@
+<div *ngIf="page" class="pageE">
+  <span class="pagetxt">Elements per page:</span>
+  <button class="pageEl">
+    {{page.size}}
+  </button>
+  <form [formGroup]="pageSizeForm" class="ElementPerPage">
+    <select id="ElementPerPage" formControlName="pageSize"
+        (change)="updatePageSize($event.target.value)">
+      <option [value]= "5" [routerLink]="" > 5 </option>
+      <option [value]= "10" [routerLink]="" > 10 </option>
+      <option [value]= "20" [routerLink]="" > 20 </option>
+    </select>
+  </form>
+  <span class="pagetxt">
+    Shows {{page.numberOfElements}} of {{page.totalElements}}
+  </span>
+</div>
+<ul class="pagination">
+  <li class="pageEl2" [ngClass]="{'disabled': page.first }"
+      [routerLink]="">
+    <a (click)="previousPage()"> <<&nbsp;Previous </a>
+  </li>
+  <li class="pageEl2" [ngClass]="{'disabled': page.last }"
+      [routerLink]="">
+    <a (click)="nextPage()"> Next&nbsp;>> </a>
+  </li>
+</ul>

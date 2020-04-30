@@ -18,10 +18,10 @@
     </tr>
     </thead>
     <tr *ngFor="let appUserAutho of pagedItems; let ind = index">
-      <td> {{ appUserAutho.appUserLocal.appUser?.uid }} </td>
-      <td> {{ appUserAutho.appUserLocal.appUser?.completeName }} </td>
-      <td> {{ appUserAutho.appUserLocal?.highestAuthorityLevel }} </td>
-      <td>
+      <td class="medium_cell"> {{ appUserAutho.appUserLocal.appUser?.uid }} </td>
+      <td class="medium_cell"> {{ appUserAutho.appUserLocal.appUser?.completeName }} </td>
+      <td class="medium_cell"> {{ appUserAutho.appUserLocal?.highestAuthorityLevel }} </td>
+      <td class="medium_cell">
         <form [formGroup]="authoLevelForm">
           <select id="authoLevelSelect" formControlName="authoLevel"
                   (change)="authoLevelSelectChange($event.target.value,

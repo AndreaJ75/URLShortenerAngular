@@ -13,6 +13,10 @@ export class PagerService {
     // calculate total pages
     const totalPages = Math.ceil(totalItems / pageSize);
     let startPage: number, endPage: number;
+    console.log('totalItems = ' + totalItems);
+    console.log('totalPages = ' + totalPages);
+    console.log('pageSize = ' + pageSize);
+
 
     if (totalPages <= 5) {
       startPage = 1;

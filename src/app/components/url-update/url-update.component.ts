@@ -6,6 +6,8 @@ import {UrlLink} from '../../interfaces/url-link';
 import {AccountService} from '../../services/account.service';
 import {UrlForUser} from '../../interfaces/url-for-user';
 import {API_URL_SHORT} from '../../app.constants';
+import {UrlDateReformat} from '../../interfaces/urlDateReformat';
+import DateTimeFormat = Intl.DateTimeFormat;
 
 @Component({
   selector: 'app-url-update',
@@ -18,6 +20,7 @@ export class UrlUpdateComponent implements OnInit {
   urlLinkToEdit: UrlLink;
   callUrlLink = false;
   urlStart = API_URL_SHORT;
+  dateReformated: string;
 
   constructor(private formbuilderUser: FormBuilder,
               private routeAct: ActivatedRoute,
@@ -43,11 +46,14 @@ export class UrlUpdateComponent implements OnInit {
       this.urlManagementService.getUrlLinkById([params.get('urlInd')]).subscribe(
         urlLink => {
           this.urlLinkToEdit = urlLink;
+          // Reformat expiration date
+          this.dateReformated = this.urlManagementService
+            .ReformatDate(this.urlLinkToEdit.expirationDate);
           // pre-filled the form with existing user's data
           this.urlLinkFormUser = this.formbuilderUser.group({
             id: this.urlLinkToEdit.id,
             urlLong: this.urlLinkToEdit.urlLong,
-            expirationDate: this.urlLinkToEdit.expirationDate,
+            expirationDate: this.dateReformated,
             appPassword: this.urlLinkToEdit.urlPassword,
             maxClickNumber: this.urlLinkToEdit.maxClickNumber
           })
@@ -58,7 +64,6 @@ export class UrlUpdateComponent implements OnInit {
   }
 
   onUpdateUrlLink(urlLongForUser: UrlForUser) {
-
     console.log('UPDATE Url ID = ' + urlLongForUser.id);
     // Update urlLink on urlFeedLink data (3 attributes) for dedicated user
     this.urlManagementService.updateUrlFeedLinkForUser(urlLongForUser).subscribe(

@@ -50,8 +50,10 @@ export class UrlManagementService {
     return this.http.get<any>(urlForGetUsersUrls);
   }
   private getSortParameters(sortableColumn: SortableColumn): string {
+    console.log('sortable column name = ' + sortableColumn.name);
+    console.log('sortable column direction = ' + sortableColumn.direction);
     if (sortableColumn == null) {
-      return '&sort=urlLong';
+      return '&sort=expirationDate';
     }
     return '&sort=' + sortableColumn.name + ',' + sortableColumn.direction;
   }

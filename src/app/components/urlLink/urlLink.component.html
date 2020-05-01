@@ -1,3 +1,11 @@
+<form [formGroup]="searchForm">
+  <div class="search">
+    <input id="searchField" type="text"
+           placeholder='Search data : ' formControlName="searchField">
+    <button class= "button2" (click)="onSearch(searchForm.value)"> Search </button>
+  </div>
+</form>
+
 <app-custom-pagination
   [page]="page"
   (nextPageEvent)="getNextPage()"
@@ -9,14 +17,41 @@
   <table>
     <thead>
     <tr>
-      <th class="shorten_cell"> UrlLong                 </th>
-      <th class="short_cell"> UrlShort                  </th>
-      <th class="short_cell"> Creation Date             </th>
-      <th class="short_cell"> Expiration Date           </th>
-      <th class="short_cell"> Click Number              </th>
-      <th class="short_cell"> Update Date               </th>
+      <th class="shorten_cell">
+        <a (click)="sortUrl('urlLong', 'asc', 'UrlLong')">
+            UrlLong ^ </a>
+        <a (click)="sortUrl('urlLong', 'desc', 'UrlLong')">
+            v </a></th>
+      <th class="short_cell">
+        <a (click)="sortUrl('urlShortKey', 'asc', 'UrlShort')">
+            UrlShort ^ </a>
+      <a (click)="sortUrl('urlShortKey', 'desc', 'UrlShort')">
+            v </a></th>
+      <th class="short_cell">
+        <a (click)="sortUrl('creationDate', 'asc', 'Creation Date')">
+            Creation Date ^ </a>
+      <a (click)="sortUrl('creationDate', 'desc', 'Creation Date')">
+            v </a></th>
+      <th class="short_cell">
+        <a (click)="sortUrl('expirationDate', 'asc', 'Expiration Date')">
+            Expiration Date ^ </a>
+      <a (click)="sortUrl('expirationDate', 'desc', 'Expiration Date')">
+            v </a></th>
+      <th class="short_cell">
+        <a (click)="sortUrl('clickNumber', 'asc', 'Click Number')">
+            Click Number ^ </a>
+      <a (click)="sortUrl('clickNumber', 'desc', 'Click Number')">
+            v </a></th>
+      <th class="short_cell">
+          <a (click)="sortUrl('updateDate', 'asc','Update Date')">
+            Update Date ^ </a>
+      <a (click)="sortUrl('updateDate', 'desc','Update Date')">
+            v </a></th>
       <th class="short_cell" *myAdminIf="accountService?.isAdmin">
-        User                    </th>
+        <a (click)="sortUrl('appUser.completeName', 'asc', 'User')">
+            User ^ </a>
+      <a (click)="sortUrl('appUser.completeName', 'desc', 'User')">
+            v </a></th>
       <th class="short_cell">      Edit               </th>
       <th class="short_cell">      Delete             </th>
     </tr>

@@ -11,9 +11,13 @@ export class CustomSortingService {
 
   public getSortableColumn(sortableColumns: SortableColumn[]): SortableColumn {
 
-    sortableColumns.forEach(column => {
-        if (column.direction != null) {
-          this.column = column;
+    sortableColumns.forEach(sortableColumn => {
+        if (sortableColumn.direction != null) {
+          this.column = sortableColumn;
+        } else {
+          this.column.direction = 'desc';
+          this.column.name = 'expirationDate';
+          this.column.title = 'Expiration Date';
         }
       }
     );

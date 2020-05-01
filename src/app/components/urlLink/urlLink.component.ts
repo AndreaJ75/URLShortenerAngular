@@ -28,8 +28,17 @@ export class UrlLinkComponent implements OnInit {
 
   // Pagination & sort data
   page: Page<UrlLink> = new Page();
-  sortableColumns: Array<SortableColumn> =[];
   column: SortableColumn;
+  sortableColumns: Array<SortableColumn> = [
+    // new SortableColumn('urlLong', 'UrlLong', 'asc'),
+    // new SortableColumn('urlShortKey', 'UrlShort', 'asc'),
+    // new SortableColumn('creationDate', 'Creation Date', 'asc'),
+    new SortableColumn('expirationDate', 'Expiration Date', 'asc'),
+    // new SortableColumn('clickNumber', 'Click Number', 'asc'),
+    // new SortableColumn('updateDate', 'Update Date', 'asc'),
+    // new SortableColumn('appUser.completeName', 'User', 'asc'),
+];
+
 
   constructor(private urlManagementService: UrlManagementService,
               private accountService: AccountService,
@@ -45,12 +54,23 @@ export class UrlLinkComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    // get defaultSort:
+    this.getDefaultSort();
     // Get if connected
     this.token = this.accountService.token;
 
     if (this.token != null) {
       this.getUrlLinks();
     }
+  }
+
+  getDefaultSort(){
+    // set default sortCriteria to expiration date
+    this.sortableColumns = [
+      new SortableColumn('expirationDate', 'Expiration Date', 'desc')
+    ];
+    this.column = this.sortingService.getSortableColumn(this.sortableColumns);
   }
 
   getUrlLinks(){
@@ -74,19 +94,10 @@ export class UrlLinkComponent implements OnInit {
   }
 
   getUrlLinksForAdmin() {
-    // set default sortCriteria to updateDate
-    this.sortableColumns = [
-      new SortableColumn('updateDate', 'Name', 'desc')
-    ];
-    this.column = this.sortingService.getSortableColumn(this.sortableColumns);
 
     this.urlManagementService.getUrlLinksForAdmin(this.page.pageable, this.column).subscribe(
       urlLinkList =>
       {if (urlLinkList != null) {
-        console.log('pageSize = ' + this.page.pageable.pageSize);
-        console.log('pageNumber = ' + this.page.pageable.pageNumber);
-        console.log('sort = ' + this.page.pageable.sort);
-
         this.urlLinks = urlLinkList.content;
         this.page = urlLinkList;
       }
@@ -95,11 +106,6 @@ export class UrlLinkComponent implements OnInit {
     );
   }
   getUrlLinksForUser(){
-    // set default sortCriteria to updateDate
-    this.sortableColumns = [
-      new SortableColumn('updateDate', 'Name', 'desc')
-    ];
-    this.column = this.sortingService.getSortableColumn(this.sortableColumns);
 
     this.urlManagementService.getUrlLinksForUser(this.page.pageable, this.column).subscribe(
       urlLinkList =>
@@ -132,7 +138,6 @@ export class UrlLinkComponent implements OnInit {
     }
   }
 
-
   // Pagination method
 
   public getNextPage(): void {
@@ -150,7 +155,24 @@ export class UrlLinkComponent implements OnInit {
     this.getUrlLinks();
   }
 
-  onSearch(searchForm){
-
+  onSearch(searchForm) {
   }
+  sortUrl(sortCriteria, direction, name) {
+    // set default sortCriteria to updateDate
+    this.sortableColumns = [
+      new SortableColumn(sortCriteria, name, direction)
+    ];
+    this.column = this.sortingService.getSortableColumn(this.sortableColumns);
+    this.getUrlLinks();
+  }
+
+  // sort(sortableColumn: SortableColumn): void {
+  //   this.sortingService.clearPreviousSorting(sortableColumn, this.sortableColumns);
+  //   this.getData();
+  // }
+  //
+  // private getData(): void {
+  //   let column = this.sortingService.getSortableColumn(this.sortableColumns);
+  //   this.getUrlLinks();
+  // }
 }

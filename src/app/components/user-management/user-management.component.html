@@ -3,11 +3,18 @@
     <div class="search">
       <input id="searchField" type="text"
              placeholder='Search data : ' formControlName="searchField">
-      <button class= "button" (click)="onSearch(searchForm.value)"> Search </button>
+      <button class= "button2" (click)="onSearch(searchForm.value)"> Search </button>
     </div>
   </form>
 
-  <table *ngIf="appUsersAndHighestAutho">
+  <app-custom-pagination
+    [page]="page"
+    (nextPageEvent)="getNextPage()"
+    (previousPageEvent)="getPreviousPage()"
+    (pageSizeEvent)="getPageInNewSize($event)">
+  </app-custom-pagination>
+
+  <table *ngIf="appUsersAutho">
     <thead>
     <tr>
       <th class="medium_cell"> Login             </th>
@@ -17,19 +24,19 @@
       <th class="medium_cell">                   </th>
     </tr>
     </thead>
-    <tr *ngFor="let appUserAutho of pagedItems; let ind = index">
-      <td class="medium_cell"> {{ appUserAutho.appUserLocal.appUser?.uid }} </td>
-      <td class="medium_cell"> {{ appUserAutho.appUserLocal.appUser?.completeName }} </td>
-      <td class="medium_cell"> {{ appUserAutho.appUserLocal?.highestAuthorityLevel }} </td>
+    <tr *ngFor="let appUserAutho of appUsersAutho; index as ind">
+      <td class="medium_cell"> {{ appUserAutho.appUser?.uid }} </td>
+      <td class="medium_cell"> {{ appUserAutho.appUser?.completeName }} </td>
+      <td class="medium_cell"> {{ appUserAutho?.highestAuthorityLevel }} </td>
       <td class="medium_cell">
         <form [formGroup]="authoLevelForm">
           <select id="authoLevelSelect" formControlName="authoLevel"
                   (change)="authoLevelSelectChange($event.target.value,
-                  appUserAutho.appUserLocal?.appUser)">
-            <option [value]="appUserAutho.appUserLocal.highestAuthorityLevel">
-              {{ appUserAutho.appUserLocal?.highestAuthorityLevel }} </option>
-            <option [value]="appUserAutho.authoLevelChange">
-              {{ appUserAutho?.authoLevelChange }} </option>
+                  appUserAutho?.appUser)">
+            <option [value]="'ROLE_USER'">
+              ROLE_USER </option>
+            <option [value]="'ROLE_ADMIN'">
+              ROLE_ADMIN </option>
           </select>
         </form>
       </td>
@@ -38,24 +45,5 @@
       </td>
     </tr>
   </table>
-  <!-- pager *******************-->
-  <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
-    <li [ngClass]="{disabled:pager.currentPage === 1}">
-      <a (click)="setPage(1)">First</a>
-    </li>
-    <li [ngClass]="{disabled:pager.currentPage === 1}">
-      <a (click)="setPage(pager.currentPage - 1)">Previous</a>
-    </li>
-    <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
-      <a (click)="setPage(page)">{{page}}</a>
-    </li>
-    <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
-      <a (click)="setPage(pager.currentPage + 1)">Next</a>
-    </li>
-    <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
-      <a (click)="setPage(pager.totalPages)">Last</a>
-    </li>
-  </ul>
-  <!--*******************************-->
 </div>
 

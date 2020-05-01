@@ -6,8 +6,7 @@ import {UrlManagementService} from '../../services/url-management.service';
 import {AccountService} from '../../services/account.service';
 import {UrlForUser} from '../../interfaces/url-for-user';
 import { Router} from '@angular/router';
-import DateTimeFormat = Intl.DateTimeFormat;
-import {stringify} from 'querystring';
+
 
 @Component({
   selector: 'app-home',

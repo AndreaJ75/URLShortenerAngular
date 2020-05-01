@@ -9,6 +9,7 @@ import { CustomPaginationService } from '../../sort-Pagination/pagination/servic
 import { CustomSortingService } from '../../sort-Pagination/sorting/service/custom-sorting.service';
 import { Page } from '../../sort-Pagination/pagination/page';
 import { SortableColumn } from '../../sort-Pagination/sorting/sortable-column';
+import {FormBuilder} from '@angular/forms';
 
 
 @Component({
@@ -23,6 +24,7 @@ export class UrlLinkComponent implements OnInit {
   urlLinks: UrlLink[] =[];
   loginAuthoLevel: LoginAuthoLevel;
   isAdmin: boolean;
+  searchForm;
 
   // Pagination & sort data
   page: Page<UrlLink> = new Page();
@@ -33,7 +35,13 @@ export class UrlLinkComponent implements OnInit {
               private accountService: AccountService,
               private routerNav: Router,
               private paginationService: CustomPaginationService,
-              private sortingService: CustomSortingService) {
+              private sortingService: CustomSortingService,
+              private formbuilderSearch: FormBuilder,) {
+    this.searchForm = this.formbuilderSearch.group({
+        searchField: ''
+      }
+    );
+
   }
 
   ngOnInit() {
@@ -140,5 +148,9 @@ export class UrlLinkComponent implements OnInit {
   public getPageInNewSize(pageSize: number): void {
     this.page.pageable = this.paginationService.getPageInNewSize(this.page, pageSize);
     this.getUrlLinks();
+  }
+
+  onSearch(searchForm){
+
   }
 }

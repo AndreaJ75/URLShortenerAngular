@@ -24,7 +24,10 @@ img{
   font-size: larger;
   cursor: pointer;
 }
-
+h4{
+  font-size: larger;
+  color: darkblue;
+}
 .page-header,
 .jumbotron{
   background-color: rgba(32, 199, 167, 0.99);
@@ -131,28 +134,63 @@ disconnectImg{
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  width: 130%;
+  width: 100%;
   white-space: nowrap;
 }
 
 .sign,
-.urlLong,
 .guestP{
   display: flex;
   flex-direction: column;
   justify-content: center;
   text-align: left;
-  color: darkblue;
+  color: darkcyan;
   margin: 3%;
   font-weight: bolder;
   font-size: medium;
 }
+.urlLong{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  text-align: left;
+  color: darkcyan;
+  margin-left: 0%;
+  margin-right: 0%;
+  font-weight: bolder;
+  font-size: medium;
+}
+
+.urlFormL2,
+.urlFormL3{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  margin-bottom: 4%;
+  width: 100%;
+}
+.urlFormL1{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  width: 100%;
+  margin-left: 0%;
+  margin-right: 2%;
+  margin-bottom: 2%;
+  padding-left: 0%;
+
+}
+
+.urlformLongcell{
+  width: 100%;
+}
+.urlformcell{
+  margin: 1%;
+}
 .UserHomePage{
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  padding-left: 10%;
-  padding-right: 10%;
+  justify-content: flex-start;
   text-align: center;
   color: white;
   font-weight: bold;
@@ -163,10 +201,10 @@ disconnectImg{
 }
 
 .urlLongField {
-  margin: 3%;
+  margin: 1%;
   border: none;
   height: 40px;
-  width: 94%;
+  width: 100%;
   border-radius: 5px;
 }
 
@@ -175,16 +213,24 @@ disconnectImg{
   margin: 3%;
   border: none;
   height: 40px;
-  width: 300px;
+  width: 250px;
   border-radius: 5px;
 }
 
 .button{
-  margin: 3%;
+  margin: 1%;
   border: none;
   height: 40px;
   width: 250px;
   border-radius: 5px;
+}
+.button2{
+  margin-left: 2%;
+  padding: 0;
+  height: 40px;
+  width: 250px;
+  border-radius: 5px;
+  color: darkcyan;
 }
 
 .short_cell{
@@ -202,7 +248,7 @@ disconnectImg{
     margin-bottom: 7%;
 }
 .URLLinkCreated>a{
-  color: darkblue;
+  color: white;
 }
 .urlLinks{
   margin-bottom: 3%;
@@ -218,13 +264,19 @@ disconnectImg{
 
 }
 .search{
-  margin-bottom: 2%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  margin-bottom: 1%;
 }
 
 #searchField{
+  margin-right: 1%;
+  margin-bottom: 3%;
   height: 40px;
-  width: 40%;
+  width: 90%;
   border-radius: 8px;
+  font-size: smaller;
 }
 
 th, td{
@@ -289,13 +341,14 @@ chevronDroite{
   flex-direction: row;
   justify-content: center;
   font-size: larger;
+
 }
 .pagetxt{
   display: flex;
   flex-wrap: nowrap;
   justify-content: space-around;
   color: darkcyan;
-  width: 12%;
+  width: 15%;
 }
 
 .pageEl{

@@ -10,13 +10,6 @@ export class CustomPaginationService {
 
   constructor() { }
 
-  public getFirstPage(page: Page<any>): Pageable {
-    if (page.first) {
-      page.pageable.pageNumber = 1;
-    }
-    return page.pageable;
-  }
-
   public getNextPage(page: Page<any>): Pageable {
     if (!page.last) {
       page.pageable.pageNumber = page.pageable.pageNumber + 1;
@@ -31,15 +24,12 @@ export class CustomPaginationService {
     return page.pageable;
   }
 
-  public getLastPage(page: Page<any>): Pageable {
-    if (page.last) {
-      return page.pageable;;
-    }
-  }
-
   public getPageInNewSize(page: Page<any>, pageSize: number): Pageable {
     page.pageable.pageSize = pageSize;
     page.pageable.pageNumber = Pageable.FIRST_PAGE_NUMBER;
+    console.log('pageNBR' + page.pageable.pageNumber);
+    console.log('pageSize' + page.pageable.pageSize);
+    console.log('pageTotal' + page.totalPages);
     return page.pageable;
   }
 }

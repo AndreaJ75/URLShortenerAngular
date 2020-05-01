@@ -12,15 +12,33 @@
     <form [formGroup]="urlLinkFormUser">
       <div class="urlLongU">
         <input id="id" type="hidden" formControlName="id">
-        <input class="urlLongField" type="text"
-               placeholder='Type URL to be shortened' formControlName="urlLong">
-        <input class="urlLongform" type="date"
-               placeholder='Type URL expiration date' formControlName="expirationDate">
-        <input class="urlLongform" type="password"
-               placeholder='Type URL password' formControlName="appPassword">
-        <input class="urlLongform" type="number"
-               placeholder='Type URL maximum Click Number' formControlName="maxClickNumber">
-        <button class= "button" (click)="onCreateUrlLink(urlLinkFormUser.value)"> Create </button>
+        <div class="urlFormL1">
+          <div class="urlformLongcell">
+            <p> &nbsp;Type URL to shorten : </p>
+            <input class="urlLongField" type="text"
+                   formControlName="urlLong">
+          </div>
+        </div>
+        <div class="urlFormL2">
+          <div class="urlformcell">
+            <p> &nbsp;Expiration date : </p>
+            <input class="urlLongform" type="date"
+                   formControlName="expirationDate">
+          </div>
+          <div class="urlformcell">
+            <p> &nbsp;Password for UrlLink : </p>
+            <input class="urlLongform" type="password"
+                   formControlName="appPassword">
+          </div>
+          <div class="urlformcell">
+            <p> &nbsp;Maximum click nbr allowed : </p>
+            <input class="urlLongform" type="number"
+                   formControlName="maxClickNumber">
+          </div>
+        </div>
+        <div class="urlFormL3">
+          <button class= "button" (click)="onCreateUrlLink(urlLinkFormUser.value)"> Create </button>
+        </div>
       </div>
     </form>
   </div>

@@ -1,3 +1,11 @@
+<form [formGroup]="searchForm">
+  <div class="search">
+    <input id="searchField" type="text"
+           placeholder='Search data : ' formControlName="searchField">
+    <button class= "button2" (click)="onSearch(searchForm.value)"> Search </button>
+  </div>
+</form>
+
 <app-custom-pagination
   [page]="page"
   (nextPageEvent)="getNextPage()"

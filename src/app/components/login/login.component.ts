@@ -23,9 +23,9 @@ export class LoginComponent implements OnInit {
               private accountService: AccountService) {
     this.loginForm = this.formBuilder.group (
       {
-        login : ['', [Validators.minLength(1), Validators.maxLength(10)]],
+        login : ['', Validators.required],
           // , Validators.pattern('[a-z]*')]],
-        password : ['', [Validators.minLength(1), Validators.maxLength(10)]]
+        password : ['', Validators.required]
       }
     );
   }

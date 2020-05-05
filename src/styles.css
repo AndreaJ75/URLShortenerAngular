@@ -139,6 +139,7 @@ disconnectImg{
 }
 
 .sign,
+.urlPassW,
 .guestP{
   display: flex;
   flex-direction: column;
@@ -209,6 +210,7 @@ disconnectImg{
 }
 
 .loginform,
+.urlPassForm,
 .urlLongform{
   margin: 3%;
   border: none;
@@ -227,6 +229,14 @@ disconnectImg{
 .button2{
   margin-left: 2%;
   padding: 0;
+  height: 40px;
+  width: 250px;
+  border-radius: 5px;
+  color: darkcyan;
+}
+.button3{
+  display: block;
+  margin: 3% auto 0;
   height: 40px;
   width: 250px;
   border-radius: 5px;

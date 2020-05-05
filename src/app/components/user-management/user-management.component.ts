@@ -77,7 +77,8 @@ export class UserManagementComponent implements OnInit {
 
   authoLevelSelectChange(authoLevelChange, appUser: AppUser){
 
-    if(confirm ('Do you really want to change user\'s authoritylevel change : ' + appUser.completeName)) {
+    if(confirm ('Do you really want to change user\'s authoritylevel change : '
+      + appUser.firstName + appUser.name)) {
       console.log('AUTHOLEVEL CHANGE ');
       console.log('authoLevelChange ? ' + authoLevelChange);
       if (authoLevelChange === 'ROLE_USER') {
@@ -108,7 +109,7 @@ export class UserManagementComponent implements OnInit {
     const index: number = this.appUsersAutho.indexOf(userToDelete);
 
     if(confirm ('Do you really want to delete user : ' +
-      userToDelete.appUser.completeName)) {
+      userToDelete.appUser.firstName + ' ' +userToDelete.appUser.name)) {
       this.userManagementService.deleteUser(userToDelete.appUser.id).subscribe(
         status => {
           this.appUsersAutho.splice(index, 1);

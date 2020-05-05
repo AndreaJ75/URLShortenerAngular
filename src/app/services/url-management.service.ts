@@ -9,6 +9,8 @@ import {DatePipe} from '@angular/common';
 import {Pageable} from '../sort-Pagination/pagination/pageable';
 import {SortableColumn} from '../sort-Pagination/sorting/sortable-column';
 import {UrlRedirect} from '../interfaces/url-redirect';
+import {Page} from '../sort-Pagination/pagination/page';
+import {SearchForm} from '../interfaces/search-form';
 
 
 @Injectable({
@@ -57,6 +59,46 @@ export class UrlManagementService {
       return '&sort=expirationDate';
     }
     return '&sort=' + sortableColumn.name + ',' + sortableColumn.direction;
+  }
+
+  // getUrlLinkFilteredForOneUser(pageable: Pageable,
+  //                              sortableColumn: SortableColumn,
+  //                              searchFormData): Observable<Page<UrlLink>> {
+  //   const urlForOneUserFilteredAndSorted = API_URL + USER_URL + '/getFiltered'
+  //     // + '?clickNumber=' + searchFormData.clickNumber
+  //     // + '?creationDate=' + searchFormData.creationDate + 'T00:00:00.000'
+  //     // + '?expirationDate=' + searchFormData.expirationDate + 'T00:00:00.000'
+  //     // + '?maxClickNumber=' + searchFormData.maxClickNumber
+  //     // + '?updateDate=' + searchFormData.updateDate
+  //     // + '?urlLong=' + searchFormData.urlLong
+  //     + '?urlShortKey=' + searchFormData
+  //     + '?page=' + pageable.pageNumber
+  //     + '&size=' + pageable.pageSize
+  //     + this.getSortParameters(sortableColumn);
+  //
+  //   console.log('URL filtered for user = ' + urlForOneUserFilteredAndSorted);
+  //   return this.http.get<Page<UrlLink>>(urlForOneUserFilteredAndSorted);
+  // }
+
+  getUrlLinkFilteredForAdmin(pageable: Pageable,
+                             sortableColumn: SortableColumn,
+                             searchFormData: SearchForm): Observable<Page<UrlLink>> {
+    const urlForAdminFilteredAndSorted = API_URL + ADMIN_URL + '/getFiltered'
+      + '?firstName=' + searchFormData.firstName
+      + '&name=' + searchFormData.name
+      // + '?clickNumber=' + searchFormData.clickNumber
+      // + '?creationDate=' + searchFormData.creationDate + 'T00:00:00.000'
+      // + '?expirationDate=' + searchFormData.expirationDate + 'T00:00:00.000'
+      // + '?maxClickNumber=' + searchFormData.maxClickNumber
+      // + '?updateDate=' + searchFormData.updateDate
+      // + '?urlLong=' + searchFormData.urlLong
+      // + '?urlShortKey=' + searchFormData.urlShortKey
+      + '&page=' + pageable.pageNumber
+      + '&size=' + pageable.pageSize
+      + this.getSortParameters(sortableColumn);
+
+    console.log('URL filtered for user = ' + urlForAdminFilteredAndSorted);
+    return this.http.get<Page<UrlLink>>(urlForAdminFilteredAndSorted);
   }
 
   getUrlLinkRedirectwithPassword(urlKey, urlPassword): Observable<UrlRedirect> {

@@ -1,7 +1,8 @@
 export interface AppUser {
     id: number;
     uid: string;
-    completeName: string;
+    firstName: string;
+    name: string;
     email: string;
     creationDate: Date;
     updateDate: Date;

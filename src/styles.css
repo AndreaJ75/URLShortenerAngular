@@ -233,6 +233,7 @@ disconnectImg{
   width: 250px;
   border-radius: 5px;
   color: darkcyan;
+  font-size: medium;
 }
 .button3{
   display: block;
@@ -286,7 +287,8 @@ disconnectImg{
   height: 40px;
   width: 90%;
   border-radius: 8px;
-  font-size: smaller;
+  font-size: medium;
+  color: darkcyan;
 }
 
 th, td{

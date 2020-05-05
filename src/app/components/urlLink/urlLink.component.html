@@ -48,9 +48,9 @@
       <a (click)="sortUrl('updateDate', 'desc','Update Date')">
             v </a></th>
       <th class="short_cell" *myAdminIf="accountService?.isAdmin">
-        <a (click)="sortUrl('appUser.completeName', 'asc', 'User')">
+        <a (click)="sortUrl('appUser.name', 'asc', 'User')">
             User ^ </a>
-      <a (click)="sortUrl('appUser.completeName', 'desc', 'User')">
+      <a (click)="sortUrl('appUser.name', 'desc', 'User')">
             v </a></th>
       <th class="short_cell">      Edit               </th>
       <th class="short_cell">      Delete             </th>
@@ -65,7 +65,7 @@
       <td class="short_cell">{{ urlLink?.clickNumber }} / {{ urlLink?.maxClickNumber }} </td>
       <td class="short_cell">{{ urlLink?.updateDate  | date : 'dd/MM/yyyy' }}</td>
       <td class="short_cell" *myAdminIf="isAdmin">
-        {{ urlLink.appUser?.completeName }} </td>
+        {{ urlLink.appUser?.firstName }} &nbsp;{{ urlLink.appUser?.name }} </td>
       <td class="editButton">
         <img src="pencilWhite.png" class="icon4" (click)="onEditUrlLink(urlLink)"
              [routerLink]="['url-update', urlInd]">

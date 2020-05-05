@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { UrlLink } from '../interfaces/url-link';
-import {ADMIN_URL, API_URL, USER_URL} from '../app.constants';
+import {ADMIN_URL, API_URL, API_URL_SHORT, USER_URL} from '../app.constants';
 import {UrlForUser} from '../interfaces/url-for-user';
 import {UrlDateReformat} from '../interfaces/urlDateReformat';
 import {DatePipe} from '@angular/common';
 import {Pageable} from '../sort-Pagination/pagination/pageable';
 import {SortableColumn} from '../sort-Pagination/sorting/sortable-column';
+import {UrlRedirect} from '../interfaces/url-redirect';
 
 
 @Injectable({
@@ -56,6 +57,13 @@ export class UrlManagementService {
       return '&sort=expirationDate';
     }
     return '&sort=' + sortableColumn.name + ',' + sortableColumn.direction;
+  }
+
+  getUrlLinkRedirectwithPassword(urlKey, urlPassword): Observable<UrlRedirect> {
+    const urlForRedirectWithPassword = API_URL_SHORT + urlKey
+    + '/' + urlPassword;
+    console.log('URL for Redirect with password = ' + urlForRedirectWithPassword);
+    return this.http.get<UrlRedirect>(urlForRedirectWithPassword);
   }
 
 

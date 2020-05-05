@@ -7,8 +7,8 @@
 
       <!--check error on field :
    -when the user submits the form  -->
-      <div *ngIf="(isSubmitted && loginForm.get('login').errors)">
-        <div *ngIf="loginForm.get('login').errors" class="error">
+      <div *ngIf="isSubmitted && loginForm.get('login').error || loginForm.get('login').touched">
+        <div *ngIf="loginForm.get('login').required" class="error">
           Login must be provided
         </div>
       </div>
@@ -18,8 +18,8 @@
              placeholder="" formControlName="password" required>
       <!--check error on field :
 -when the user submits the form  -->
-      <div *ngIf="(isSubmitted && loginForm.get('password').errors)">
-        <div *ngIf="loginForm.get('password').errors" class="error">
+      <div *ngIf="isSubmitted && loginForm.get('password').error || loginForm.get('password').touched">
+        <div *ngIf="loginForm.get('password').required" class="error">
           Password must be provided
         </div>
       </div>

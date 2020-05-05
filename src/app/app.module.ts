@@ -17,6 +17,7 @@ import { UrlUpdateComponent } from './components/url-update/url-update.component
 import {DatePipe} from '@angular/common';
 import { SortableHeadersComponent } from './sort-Pagination/sorting/component/sortable-headers/sortable-headers.component';
 import { CustomPaginationComponent } from './sort-Pagination/pagination/component/custom-pagination/custom-pagination.component';
+import { UrlPasswordComponent } from './components/url-password/url-password.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { CustomPaginationComponent } from './sort-Pagination/pagination/componen
     HomePageComponent,
     UrlUpdateComponent,
     SortableHeadersComponent,
-    CustomPaginationComponent
+    CustomPaginationComponent,
+    UrlPasswordComponent
   ],
   imports: [
     BrowserModule,
@@ -40,6 +42,7 @@ import { CustomPaginationComponent } from './sort-Pagination/pagination/componen
       { path: 'my-url-links', component: UrlLinkComponent},
       { path: 'login', component: LoginComponent},
       { path: 'url-update/:urlInd' , component: UrlUpdateComponent},
+      { path: 'url-password/:urlKey' , component: UrlPasswordComponent},
       { path: 'user-management', component: UserManagementComponent}
     ])
   ],

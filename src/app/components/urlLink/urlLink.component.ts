@@ -10,6 +10,7 @@ import { CustomSortingService } from '../../sort-Pagination/sorting/service/cust
 import { Page } from '../../sort-Pagination/pagination/page';
 import { SortableColumn } from '../../sort-Pagination/sorting/sortable-column';
 import {FormBuilder} from '@angular/forms';
+import {SearchForm} from '../../interfaces/search-form';
 
 
 @Component({
@@ -30,15 +31,10 @@ export class UrlLinkComponent implements OnInit {
   page: Page<UrlLink> = new Page();
   column: SortableColumn;
   sortableColumns: Array<SortableColumn> = [
-    // new SortableColumn('urlLong', 'UrlLong', 'asc'),
-    // new SortableColumn('urlShortKey', 'UrlShort', 'asc'),
-    // new SortableColumn('creationDate', 'Creation Date', 'asc'),
     new SortableColumn('expirationDate', 'Expiration Date', 'asc'),
-    // new SortableColumn('clickNumber', 'Click Number', 'asc'),
-    // new SortableColumn('updateDate', 'Update Date', 'asc'),
-    // new SortableColumn('appUser.completeName', 'User', 'asc'),
-];
+  ];
 
+  searchData: SearchForm;
 
   constructor(private urlManagementService: UrlManagementService,
               private accountService: AccountService,
@@ -155,8 +151,89 @@ export class UrlLinkComponent implements OnInit {
     this.getUrlLinks();
   }
 
-  onSearch(searchForm) {
+  onSearch(searchFormData) {
+
+    console.log('isAdmin ***** ? = ' + this.isAdmin);
+    if (this.isAdmin) {
+      this.getUrlLinksFilterForAdmin(searchFormData);
+    // } else {
+    //   this.getUrlLinksFilterForUser(searchFormData);
+    }
+
   }
+
+  getUrlLinksFilterForAdmin(searchFormData){
+
+    console.log('searchFormData = ' + searchFormData);
+    console.log('searchFormData.searchfield = ' + searchFormData.searchField);
+
+    const completeName: string = searchFormData.searchField;
+    let firstName = '';
+    let name = '';
+    for (let i = 0 ; i < completeName.length ; i++) {
+        while(completeName.charAt(i) !== ' ') {
+          firstName = firstName + completeName.charAt(i);
+          i = i + 1;
+          console.log('firstName = ' + firstName);
+        }
+        if (completeName.charAt(i) === ' ') {
+          i = i + 1;
+        }
+        while(i < completeName.length) {
+          name = name + completeName.charAt(i);
+          console.log('name = ' + name);
+          i = i + 1;
+        }
+    }
+    console.log('firstName = ' + firstName);
+
+    const completeSepName: SearchForm = {
+      firstName: firstName,
+      name: name
+    };
+
+    // this.searchData.clickNumber = searchFormData.searchField;
+    // this.searchData.creationDate = searchFormData.searchField;
+    // this.searchData.expirationDate = searchFormData.searchField;
+    // this.searchData.maxClickNumber = searchFormData.searchField;
+    // this.searchData.updateDate = searchFormData.searchField;
+    // this.searchData.urlLong = searchFormData.searchField;
+    // this.searchData.urlShortKey = searchFormData.searchField;
+
+    this.urlManagementService.getUrlLinkFilteredForAdmin(this.page.pageable
+      , this.column, completeSepName)
+      .subscribe(urlPage => {
+          if (urlPage != null) {
+            this.urlLinks = urlPage.content;
+            this.page = urlPage;
+          }
+        },
+        error => console.log('Filter for admin Not found'));
+  }
+
+  // getUrlLinksFilterForUser(searchFormData){
+  //
+  //   this.searchData = searchFormData.searchField;
+  //   // this.searchData.clickNumber = searchFormData.searchField;
+  //   // this.searchData.creationDate = searchFormData.searchField;
+  //   // this.searchData.expirationDate = searchFormData.searchField;
+  //   // this.searchData.maxClickNumber = searchFormData.searchField;
+  //   // this.searchData.updateDate = searchFormData.searchField;
+  //   // this.searchData.urlLong = searchFormData.searchField;
+  //   // this.searchData.urlShortKey = searchFormData.searchField;
+  //
+  //
+  //   this.urlManagementService.getUrlLinkFilteredForOneUser(this.page.pageable
+  //     , this.column, searchFormData.searchField)
+  //     .subscribe(urlPage => {
+  //         if (urlPage != null) {
+  //           this.urlLinks = urlPage.content;
+  //           this.page = urlPage;
+  //         }
+  //       },
+  //       error => console.log('Filter for user Not found'));
+  // }
+
   sortUrl(sortCriteria, direction, name) {
     // set default sortCriteria to updateDate
     this.sortableColumns = [

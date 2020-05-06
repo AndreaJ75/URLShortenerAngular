@@ -18,40 +18,47 @@
     <thead>
     <tr>
       <th class="shorten_cell">
+        UrlLong
         <a (click)="sortUrl('urlLong', 'asc', 'UrlLong')">
-            UrlLong ^ </a>
+          ^ </a>
         <a (click)="sortUrl('urlLong', 'desc', 'UrlLong')">
-            v </a></th>
+          v </a></th>
       <th class="short_cell">
+        UrlShort
         <a (click)="sortUrl('urlShortKey', 'asc', 'UrlShort')">
-            UrlShort ^ </a>
+          ^ </a>
       <a (click)="sortUrl('urlShortKey', 'desc', 'UrlShort')">
-            v </a></th>
+          v </a></th>
       <th class="short_cell">
+        Creation Date
         <a (click)="sortUrl('creationDate', 'asc', 'Creation Date')">
-            Creation Date ^ </a>
+          ^ </a>
       <a (click)="sortUrl('creationDate', 'desc', 'Creation Date')">
-            v </a></th>
+          v </a></th>
       <th class="short_cell">
+        Expiration Date
         <a (click)="sortUrl('expirationDate', 'asc', 'Expiration Date')">
-            Expiration Date ^ </a>
+          ^ </a>
       <a (click)="sortUrl('expirationDate', 'desc', 'Expiration Date')">
-            v </a></th>
+          v </a></th>
       <th class="short_cell">
+        Click Number
         <a (click)="sortUrl('clickNumber', 'asc', 'Click Number')">
-            Click Number ^ </a>
+          ^ </a>
       <a (click)="sortUrl('clickNumber', 'desc', 'Click Number')">
-            v </a></th>
+          v </a></th>
       <th class="short_cell">
+        Update Date
           <a (click)="sortUrl('updateDate', 'asc','Update Date')">
-            Update Date ^ </a>
+          ^ </a>
       <a (click)="sortUrl('updateDate', 'desc','Update Date')">
-            v </a></th>
+          v </a></th>
       <th class="short_cell" *myAdminIf="accountService?.isAdmin">
+        User
         <a (click)="sortUrl('appUser.name', 'asc', 'User')">
-            User ^ </a>
+          ^ </a>
       <a (click)="sortUrl('appUser.name', 'desc', 'User')">
-            v </a></th>
+          v </a></th>
       <th class="short_cell">      Edit               </th>
       <th class="short_cell">      Delete             </th>
     </tr>

@@ -15,20 +15,22 @@
   </div>
 </div>
 
-<div class="nav-tab">
-  <div class="nav-capt">
+<nav class="nav-tab">
+  <ul>
+  <li class="nav-capt">
     <a routerLink=""> HOME </a>
-  </div>
+  </li>
   <!-- Show only once connected-->
   <div *ngIf="accountService?.isLoggedIn" class="connected">
-    <div class="nav-capt2">
+    <li class="nav-capt2">
       <a routerLink="my-url-links"> URLLINKS </a>
-    </div>
-    <div class="nav-capt2" *myAdminIf="accountService?.isAdmin">
+    </li>
+    <li class="nav-capt2" *myAdminIf="accountService?.isAdmin">
       <a routerLink="user-management"> USERS ADMIN </a>
-    </div>
+    </li>
   </div>
-</div>
+  </ul>
+</nav>
 
 <div class="page-header">
   <div class="page-title">

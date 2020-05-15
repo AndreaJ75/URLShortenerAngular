@@ -23,7 +23,7 @@
           ^ </a>
         <a (click)="sortUrl('urlLong', 'desc', 'UrlLong')">
           v </a></th>
-      <th class="short_cell">
+      <th class="short_cell1">
         UrlShort
         <a (click)="sortUrl('urlShortKey', 'asc', 'UrlShort')">
           ^ </a>
@@ -59,20 +59,20 @@
           ^ </a>
       <a (click)="sortUrl('appUser.name', 'desc', 'User')">
           v </a></th>
-      <th class="short_cell">      Edit               </th>
-      <th class="short_cell">      Delete             </th>
+      <th class="short_cell1">      Edit               </th>
+      <th class="short_cell1">      Delete             </th>
     </tr>
     </thead>
     <tr *ngFor="let urlLink of urlLinks; index as urlInd">
       <td class="shorten_cell">{{ urlLink?.urlLong }} </td>
-      <td class="short_cell"> <a href="{{ urlStart }}{{ urlLink?.urlShortKey }}">
+      <td class="short_cell1"> <a href="{{ urlStart }}{{ urlLink?.urlShortKey }}">
         {{ urlStart }}{{ urlLink?.urlShortKey }} </a></td>
       <td class="short_cell">{{ urlLink?.creationDate | date : 'dd/MM/yyyy' }}</td>
       <td class="short_cell">{{ urlLink?.expirationDate | date : 'dd/MM/yyyy'}}</td>
       <td class="short_cell">{{ urlLink?.clickNumber }} / {{ urlLink?.maxClickNumber }} </td>
       <td class="short_cell">{{ urlLink?.updateDate  | date : 'dd/MM/yyyy' }}</td>
       <td class="short_cell" *myAdminIf="isAdmin">
-        {{ urlLink.appUser?.firstName }} &nbsp;{{ urlLink.appUser?.name }} </td>
+          {{ urlLink.appUser?.firstName }} &nbsp;{{ urlLink.appUser?.name }} </td>
       <td class="editButton">
         <img src="pencilWhite.png" class="icon4" (click)="onEditUrlLink(urlLink)"
              [routerLink]="['url-update', urlInd]">

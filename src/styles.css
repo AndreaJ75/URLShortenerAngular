@@ -11,9 +11,9 @@ body{
   display: flex;
   flex-direction: row;
   justify-content: center;
-  padding-left: 1%;
-  padding-right: 1%;
-  padding-bottom: 1%;
+  padding-left: 5%;
+  padding-right: 5%;
+  padding-bottom: 5%;
 }
 
 a {
@@ -62,8 +62,8 @@ disconnectImg{
 }
 
 .icon1{
-  width: 13%;
-  height: 13%;
+  width: 15%;
+  height: 20%;
   border-radius: 8px;
 }
 .icon2{
@@ -75,7 +75,7 @@ disconnectImg{
   display: block;
   margin-left: auto;
   margin-right: auto;
-  width: 30%;
+  width: 45%;
   height: 25%;
   border-radius: 6px;
   padding-right: 2%;
@@ -85,7 +85,7 @@ disconnectImg{
   display: block;
   margin-left: auto;
   margin-right: auto;
-  width: 30%;
+  width: 45%;
   height: 25%;
   padding-right: 2%;
   padding-left: 2%;
@@ -156,7 +156,7 @@ li{
   font-size: medium;
 }
 table{
-  padding: 1%;
+  padding: 5%;
 }
 
 .urlLong{
@@ -253,7 +253,13 @@ table{
   color: darkcyan;
 }
 
-.short_cell{
+.shorten_cell{
+  margin: 0.50%;
+  width: 10%;
+}
+
+.short_cell,
+.short_cell1{
   margin-left: 0.5%;
   margin-right: 0.5%;
   padding-right: 1.5%;
@@ -391,11 +397,6 @@ chevronDroite{
   color: darkcyan;
 }
 
-.shorten_cell{
-  margin: 0.50%;
-  width: 10%;
-}
-
 .error{
   color: red;
   font-weight: normal;
@@ -424,6 +425,17 @@ chevronDroite{
     margin-left: 1%;
   }
 
+  .short_cell{
+    display: none;
+  }
+
+  .medium_cell{
+    width: 10px;
+    height: 20px;
+    padding-right: 0.5%;
+    padding-left: 0.5%;
+    white-space: normal;
+  }
   .urlLongField{
     width: 100%;
   }

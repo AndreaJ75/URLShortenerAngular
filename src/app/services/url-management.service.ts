@@ -84,8 +84,8 @@ export class UrlManagementService {
                              sortableColumn: SortableColumn,
                              searchFormData: SearchForm): Observable<Page<UrlLink>> {
     const urlForAdminFilteredAndSorted = API_URL + ADMIN_URL + '/getFiltered'
-      + '?firstName=' + searchFormData.firstName
-      + '&name=' + searchFormData.name
+        + '?firstName=' + searchFormData.firstName
+        + '&name=' + searchFormData.name
       // + '?clickNumber=' + searchFormData.clickNumber
       // + '?creationDate=' + searchFormData.creationDate + 'T00:00:00.000'
       // + '?expirationDate=' + searchFormData.expirationDate + 'T00:00:00.000'
@@ -111,9 +111,7 @@ export class UrlManagementService {
 
   createUrlLinkForUser(urlLongForUser: UrlForUser): Observable<UrlLink> {
     const urlForCreation = API_URL + USER_URL;
-    console.log('BEF CREATE expiration date =' + urlLongForUser.expirationDate);
     this.urlDateReformat = this.urlForUserDateReformat(urlLongForUser);
-
     return this.http.post<UrlLink>(urlForCreation, this.urlDateReformat);
   }
 

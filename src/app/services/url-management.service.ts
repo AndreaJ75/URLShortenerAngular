@@ -20,6 +20,7 @@ export class UrlManagementService {
 
   urlDateReformat: UrlDateReformat;
   dateReformated: string;
+  dataTofilter: SearchForm;
 
   constructor(private http: HttpClient,
               public datepipe: DatePipe) {
@@ -61,38 +62,43 @@ export class UrlManagementService {
     return '&sort=' + sortableColumn.name + ',' + sortableColumn.direction;
   }
 
-  // getUrlLinkFilteredForOneUser(pageable: Pageable,
-  //                              sortableColumn: SortableColumn,
-  //                              searchFormData): Observable<Page<UrlLink>> {
-  //   const urlForOneUserFilteredAndSorted = API_URL + USER_URL + '/getFiltered'
-  //     // + '?clickNumber=' + searchFormData.clickNumber
-  //     // + '?creationDate=' + searchFormData.creationDate + 'T00:00:00.000'
-  //     // + '?expirationDate=' + searchFormData.expirationDate + 'T00:00:00.000'
-  //     // + '?maxClickNumber=' + searchFormData.maxClickNumber
-  //     // + '?updateDate=' + searchFormData.updateDate
-  //     // + '?urlLong=' + searchFormData.urlLong
-  //     + '?urlShortKey=' + searchFormData
-  //     + '?page=' + pageable.pageNumber
-  //     + '&size=' + pageable.pageSize
-  //     + this.getSortParameters(sortableColumn);
-  //
-  //   console.log('URL filtered for user = ' + urlForOneUserFilteredAndSorted);
-  //   return this.http.get<Page<UrlLink>>(urlForOneUserFilteredAndSorted);
-  // }
+  getUrlLinkFilteredForOneUser(pageable: Pageable,
+                               sortableColumn: SortableColumn,
+                               searchFormData): Observable<Page<UrlLink>> {
+
+    console.log('**********   WITHIN SERVICE START       ************');
+
+    console.log('searchFormData.urlLong = ' + searchFormData.urlLong);
+    // console.log('searchFormData.starDate = ' + searchFormData.startDate);
+    // console.log('searchFormData.endDate = ' + searchFormData.endDate);
+
+    console.log('**********   WITHIN SERVICE END       ************');
+
+    this.setDefaultFilterValues(searchFormData);
+
+    const urlForOneUserFilteredAndSorted = API_URL + USER_URL + '/getFiltered'
+      + '?urlLong=' + this.dataTofilter.urlLong
+      + '&startDate=' + this.dataTofilter.startDate + 'T00:00:00.000'
+      + '&endDate=' + this.dataTofilter.endDate + 'T23:59:00.000'
+      + '&page=' + pageable.pageNumber
+      + '&size=' + pageable.pageSize
+      + this.getSortParameters(sortableColumn);
+
+    console.log('URL filtered for user = ' + urlForOneUserFilteredAndSorted);
+    return this.http.get<Page<UrlLink>>(urlForOneUserFilteredAndSorted);
+  }
 
   getUrlLinkFilteredForAdmin(pageable: Pageable,
                              sortableColumn: SortableColumn,
                              searchFormData: SearchForm): Observable<Page<UrlLink>> {
+
+    this.setDefaultFilterValues(searchFormData);
+
     const urlForAdminFilteredAndSorted = API_URL + ADMIN_URL + '/getFiltered'
-        + '?firstName=' + searchFormData.firstName
-        + '&name=' + searchFormData.name
-      // + '?clickNumber=' + searchFormData.clickNumber
-      // + '?creationDate=' + searchFormData.creationDate + 'T00:00:00.000'
-      // + '?expirationDate=' + searchFormData.expirationDate + 'T00:00:00.000'
-      // + '?maxClickNumber=' + searchFormData.maxClickNumber
-      // + '?updateDate=' + searchFormData.updateDate
-      // + '?urlLong=' + searchFormData.urlLong
-      // + '?urlShortKey=' + searchFormData.urlShortKey
+      + '?name=' + this.dataTofilter.name
+      + '&urlLong=' + this.dataTofilter.urlLong
+      + '&startDate=' + this.dataTofilter.startDate + 'T00:00:00.000'
+      + '&endDate=' + this.dataTofilter.endDate + 'T23:59:00.000'
       + '&page=' + pageable.pageNumber
       + '&size=' + pageable.pageSize
       + this.getSortParameters(sortableColumn);
@@ -163,5 +169,28 @@ export class UrlManagementService {
     console.log('dateTransfoYYYY = '  + dateTransfoYY);
     this.dateReformated = dateTransfoYY + '-' + dateTransfoMM + '-' + dateTransfoDD;
     return this.dateReformated;
+  }
+
+  setDefaultFilterValues(searchFormData: SearchForm) {
+
+    this.dataTofilter = searchFormData;
+
+    if (searchFormData.name == null) {
+      this.dataTofilter.name = '';
+    }
+    if(searchFormData.urlLong == null) {
+      this.dataTofilter.urlLong = '';
+    }
+    console.log('searchFormData.startDate = ' + searchFormData.startDate);
+    console.log('searchFormData.endDate = ' + searchFormData.endDate);
+
+    if (searchFormData.startDate == null
+    || searchFormData.startDate === '') {
+      this.dataTofilter.startDate = '0001-01-01';
+    }
+    if (searchFormData.endDate == null
+    || searchFormData.endDate === '') {
+      this.dataTofilter.endDate = '9999-12-01';
+    }
   }
 }

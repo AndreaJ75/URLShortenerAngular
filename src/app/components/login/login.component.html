@@ -3,23 +3,25 @@
     <div class="sign">
       <p> &nbsp; User uid </p>
       <input class="loginform" type="text"
-             placeholder="" formControlName="login" required>
+             placeholder="" formControlName="login">
 
       <!--check error on field :
    -when the user submits the form  -->
-      <div *ngIf="isSubmitted && loginForm.get('login').error || loginForm.get('login').touched">
-        <div *ngIf="loginForm.get('login').required" class="error">
+      <div *ngIf="loginForm.controls['login'].invalid
+      && (loginForm.controls['login'].touched || loginForm.controls['login'].dirty)">
+        <div *ngIf="loginForm.controls['login'].errors.required" class="error">
           Login must be provided
         </div>
       </div>
 
       <p> &nbsp; User password </p>
       <input class="loginform" type="password"
-             placeholder="" formControlName="password" required>
+             placeholder="" formControlName="password">
       <!--check error on field :
 -when the user submits the form  -->
-      <div *ngIf="isSubmitted && loginForm.get('password').error || loginForm.get('password').touched">
-        <div *ngIf="loginForm.get('password').required" class="error">
+      <div *ngIf="loginForm.controls['password'].invalid
+       && (loginForm.controls['password'].touched || loginForm.controls['password'].dirty)">
+        <div *ngIf="loginForm.controls['password'].errors.required" class="error">
           Password must be provided
         </div>
       </div>

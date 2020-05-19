@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {LoginService} from '../../services/login.service';
 import {AccountService} from '../../services/account.service';
 import {Router} from '@angular/router';
@@ -13,7 +13,7 @@ import {TokenInt} from '../../interfaces/token-int';
 })
 export class LoginComponent implements OnInit {
 
-  loginForm;
+  loginForm: FormGroup;
   tokenToStore: TokenInt;
   isSubmitted = false;
 
@@ -24,7 +24,6 @@ export class LoginComponent implements OnInit {
     this.loginForm = this.formBuilder.group (
       {
         login : ['', Validators.required],
-          // , Validators.pattern('[a-z]*')]],
         password : ['', Validators.required]
       }
     );
@@ -35,6 +34,7 @@ export class LoginComponent implements OnInit {
 
   onSubmit(signLogin: Login) {
 
+    console.log('valeur loginFormget = ' + this.loginForm.get('login'));
     this.isSubmitted = true;
     this.loginService.authenticateUser(signLogin).subscribe(
       token => {

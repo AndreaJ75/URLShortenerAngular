@@ -1,7 +1,16 @@
 <form [formGroup]="searchForm">
   <div class="search">
-    <input id="searchField" type="text"
-           placeholder='Search data : ' formControlName="searchField">
+    <input class="searchField" type="text" *myAdminIf="isAdmin"
+           placeholder='User Name : ' formControlName="name">
+    urlLong data :
+    <input class="searchField" type="text"
+           placeholder='Url data : ' formControlName="urlLong">
+    Expiration Start Date :
+    <input class="searchField" type="date"
+           placeholder='Expiration Start date : ' formControlName="startDate">
+    Expiration End Date :
+    <input class="searchField" type="date"
+           placeholder='Expiration End date : ' formControlName="endDate">
     <button class= "button2" (click)="onSearch(searchForm.value)"> Search </button>
   </div>
 </form>
@@ -14,7 +23,7 @@
 </app-custom-pagination>
 
 <div class="urlLinks" *ngIf="urlLinks">
-  <table>
+  <table class="urlLinktab">
     <thead>
     <tr>
       <th class="shorten_cell">

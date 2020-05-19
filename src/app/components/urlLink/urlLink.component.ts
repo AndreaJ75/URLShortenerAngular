@@ -41,12 +41,14 @@ export class UrlLinkComponent implements OnInit {
               private routerNav: Router,
               private paginationService: CustomPaginationService,
               private sortingService: CustomSortingService,
-              private formbuilderSearch: FormBuilder,) {
+              private formbuilderSearch: FormBuilder) {
     this.searchForm = this.formbuilderSearch.group({
-        searchField: ''
+      name: '',
+      urlLong: '',
+      startDate: '',
+      endDate: ''
       }
     );
-
   }
 
   ngOnInit() {
@@ -156,8 +158,8 @@ export class UrlLinkComponent implements OnInit {
     console.log('isAdmin ***** ? = ' + this.isAdmin);
     if (this.isAdmin) {
       this.getUrlLinksFilterForAdmin(searchFormData);
-    // } else {
-    //   this.getUrlLinksFilterForUser(searchFormData);
+    } else {
+       this.getUrlLinksFilterForUser(searchFormData);
     }
 
   }
@@ -165,43 +167,10 @@ export class UrlLinkComponent implements OnInit {
   getUrlLinksFilterForAdmin(searchFormData){
 
     console.log('searchFormData = ' + searchFormData);
-    console.log('searchFormData.searchfield = ' + searchFormData.searchField);
-
-    const completeName: string = searchFormData.searchField;
-    let firstName = '';
-    let name = '';
-    for (let i = 0 ; i < completeName.length ; i++) {
-        while(completeName.charAt(i) !== ' ') {
-          firstName = firstName + completeName.charAt(i);
-          i = i + 1;
-          console.log('firstName = ' + firstName);
-        }
-        if (completeName.charAt(i) === ' ') {
-          i = i + 1;
-        }
-        while(i < completeName.length) {
-          name = name + completeName.charAt(i);
-          console.log('name = ' + name);
-          i = i + 1;
-        }
-    }
-    console.log('firstName = ' + firstName);
-
-    const completeSepName: SearchForm = {
-      firstName: firstName,
-      name: name
-    };
-
-    // this.searchData.clickNumber = searchFormData.searchField;
-    // this.searchData.creationDate = searchFormData.searchField;
-    // this.searchData.expirationDate = searchFormData.searchField;
-    // this.searchData.maxClickNumber = searchFormData.searchField;
-    // this.searchData.updateDate = searchFormData.searchField;
-    // this.searchData.urlLong = searchFormData.searchField;
-    // this.searchData.urlShortKey = searchFormData.searchField;
+    console.log('searchFormData.name = ' + searchFormData.name);
 
     this.urlManagementService.getUrlLinkFilteredForAdmin(this.page.pageable
-      , this.column, completeSepName)
+      , this.column, searchFormData)
       .subscribe(urlPage => {
           if (urlPage != null) {
             this.urlLinks = urlPage.content;
@@ -209,30 +178,29 @@ export class UrlLinkComponent implements OnInit {
           }
         },
         error => console.log('Filter for admin Not found'));
+    this.searchForm.reset();
   }
 
-  // getUrlLinksFilterForUser(searchFormData){
-  //
-  //   this.searchData = searchFormData.searchField;
-  //   // this.searchData.clickNumber = searchFormData.searchField;
-  //   // this.searchData.creationDate = searchFormData.searchField;
-  //   // this.searchData.expirationDate = searchFormData.searchField;
-  //   // this.searchData.maxClickNumber = searchFormData.searchField;
-  //   // this.searchData.updateDate = searchFormData.searchField;
-  //   // this.searchData.urlLong = searchFormData.searchField;
-  //   // this.searchData.urlShortKey = searchFormData.searchField;
-  //
-  //
-  //   this.urlManagementService.getUrlLinkFilteredForOneUser(this.page.pageable
-  //     , this.column, searchFormData.searchField)
-  //     .subscribe(urlPage => {
-  //         if (urlPage != null) {
-  //           this.urlLinks = urlPage.content;
-  //           this.page = urlPage;
-  //         }
-  //       },
-  //       error => console.log('Filter for user Not found'));
-  // }
+  getUrlLinksFilterForUser(searchFormData){
+
+    console.log('**********   WITHIN COMPONENT START       ************');
+    console.log('searchFormData.urlLong = ' + searchFormData.urlLong);
+    console.log('searchFormData.starDate = ' + searchFormData.startDate);
+    console.log('searchFormData.endDate = ' + searchFormData.endDate);
+
+    console.log('**********   WITHIN COMPONENT   END     ************');
+
+    this.urlManagementService.getUrlLinkFilteredForOneUser(this.page.pageable
+      , this.column, searchFormData)
+      .subscribe(urlPage => {
+          if (urlPage != null) {
+            this.urlLinks = urlPage.content;
+            this.page = urlPage;
+          }
+        },
+        error => console.log('Filter for user Not found'));
+    this.searchForm.reset();
+  }
 
   sortUrl(sortCriteria, direction, name) {
     // set default sortCriteria to updateDate

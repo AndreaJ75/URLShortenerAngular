@@ -42,7 +42,6 @@ export class UrlUpdateComponent implements OnInit {
   ngOnInit() {
 
     this.routeAct.paramMap.subscribe(params => {
-      console.log('PARAM results = ' + params.get('urlInd'));
       this.urlManagementService.getUrlLinkById([params.get('urlInd')]).subscribe(
         urlLink => {
           this.urlLinkToEdit = urlLink;
@@ -64,7 +63,6 @@ export class UrlUpdateComponent implements OnInit {
   }
 
   onUpdateUrlLink(urlLongForUser: UrlForUser) {
-    console.log('UPDATE Url ID = ' + urlLongForUser.id);
     // Update urlLink on urlFeedLink data (3 attributes) for dedicated user
     this.urlManagementService.updateUrlFeedLinkForUser(urlLongForUser).subscribe(
       urlLink => {

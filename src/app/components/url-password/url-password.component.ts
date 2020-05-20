@@ -28,7 +28,6 @@ export class UrlPasswordComponent implements OnInit {
 
   ngOnInit() {
     this.routeAct.paramMap.subscribe(params => {
-      console.log('PARAM URLKey = ' + params.get('urlKey'));
       this.urlKey = params.get('urlKey');
     },
       err => console.log('wrong param key')

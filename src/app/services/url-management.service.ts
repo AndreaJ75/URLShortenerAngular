@@ -18,8 +18,6 @@ import {SearchForm} from '../interfaces/search-form';
 })
 export class UrlManagementService {
 
-  urlDateReformat: UrlDateReformat;
-  dateReformated: string;
   dataTofilter: SearchForm;
 
   constructor(private http: HttpClient,
@@ -33,11 +31,10 @@ export class UrlManagementService {
 
   getUrlLinkById(urlLinkId): Observable<UrlLink> {
     const urlForGetById = API_URL + USER_URL + '/getById/' + urlLinkId;
-    console.log('URL for GETBy ID = ' + urlForGetById);
     return this.http.get<UrlLink>(urlForGetById);
   }
   getUrlLinksForAdmin(pageable: Pageable, sortableColumn: SortableColumn): Observable<any>{
-    console.log('Admin urlLinks');
+
     const urlForGetAdminsUrls = API_URL + ADMIN_URL + '/urlsAll'
       + '?page=' + pageable.pageNumber
       + '&size=' + pageable.pageSize
@@ -46,7 +43,7 @@ export class UrlManagementService {
   }
 
   getUrlLinksForUser(pageable: Pageable, sortableColumn: SortableColumn): Observable<any> {
-    console.log('User urlLinks');
+
     const urlForGetUsersUrls = API_URL + USER_URL + '/getsorted'
     + '?page=' + pageable.pageNumber
     + '&size=' + pageable.pageSize
@@ -54,10 +51,9 @@ export class UrlManagementService {
     return this.http.get<any>(urlForGetUsersUrls);
   }
   private getSortParameters(sortableColumn: SortableColumn): string {
-    console.log('sortable column name = ' + sortableColumn.name);
-    console.log('sortable column direction = ' + sortableColumn.direction);
+
     if (sortableColumn == null) {
-      return '&sort=expirationDate';
+      return '&sort=updateDate';
     }
     return '&sort=' + sortableColumn.name + ',' + sortableColumn.direction;
   }
@@ -65,14 +61,6 @@ export class UrlManagementService {
   getUrlLinkFilteredForOneUser(pageable: Pageable,
                                sortableColumn: SortableColumn,
                                searchFormData): Observable<Page<UrlLink>> {
-
-    console.log('**********   WITHIN SERVICE START       ************');
-
-    console.log('searchFormData.urlLong = ' + searchFormData.urlLong);
-    // console.log('searchFormData.starDate = ' + searchFormData.startDate);
-    // console.log('searchFormData.endDate = ' + searchFormData.endDate);
-
-    console.log('**********   WITHIN SERVICE END       ************');
 
     this.setDefaultFilterValues(searchFormData);
 
@@ -84,7 +72,6 @@ export class UrlManagementService {
       + '&size=' + pageable.pageSize
       + this.getSortParameters(sortableColumn);
 
-    console.log('URL filtered for user = ' + urlForOneUserFilteredAndSorted);
     return this.http.get<Page<UrlLink>>(urlForOneUserFilteredAndSorted);
   }
 
@@ -103,44 +90,43 @@ export class UrlManagementService {
       + '&size=' + pageable.pageSize
       + this.getSortParameters(sortableColumn);
 
-    console.log('URL filtered for user = ' + urlForAdminFilteredAndSorted);
     return this.http.get<Page<UrlLink>>(urlForAdminFilteredAndSorted);
   }
 
   getUrlLinkRedirectwithPassword(urlKey, urlPassword): Observable<UrlRedirect> {
     const urlForRedirectWithPassword = API_URL_SHORT + urlKey
     + '/' + urlPassword;
-    console.log('URL for Redirect with password = ' + urlForRedirectWithPassword);
     return this.http.get<UrlRedirect>(urlForRedirectWithPassword);
   }
 
 
   createUrlLinkForUser(urlLongForUser: UrlForUser): Observable<UrlLink> {
     const urlForCreation = API_URL + USER_URL;
-    this.urlDateReformat = this.urlForUserDateReformat(urlLongForUser);
-    return this.http.post<UrlLink>(urlForCreation, this.urlDateReformat);
+    const urlDateReformat = this.urlForUserDateReformat(urlLongForUser);
+    return this.http.post<UrlLink>(urlForCreation, urlDateReformat);
   }
 
   updateUrlFeedLinkForUser(urlLongForUser: UrlForUser): Observable<UrlLink> {
     const urlForUpdate = API_URL + USER_URL;
-    this.urlDateReformat = this.urlForUserDateReformat(urlLongForUser);
-    console.log('LIEN UPDATE = ' + urlForUpdate);
-    return this.http.put<UrlLink>(urlForUpdate, this.urlDateReformat);
+    const urlDateReformat = this.urlForUserDateReformat(urlLongForUser);
+
+    return this.http.put<UrlLink>(urlForUpdate, urlDateReformat);
   }
 
   delUrllLink(urlLinkIdToDelete: number): Observable<any>{
     const urlForDelete = API_URL + USER_URL + '/deleteUrl/' + urlLinkIdToDelete ;
-    console.log('urlfor delete = ' + urlForDelete);
+
     return this.http.delete<any>(urlForDelete);
   }
 
   urlForUserDateReformat(urlLongForUser: UrlForUser): UrlDateReformat {
     let date: string;
+    let urlDateReformat: UrlDateReformat;
     // tslint:disable-next-line:no-unused-expression
     if (!urlLongForUser.expirationDate ) {
       date = this.datepipe.transform(new Date(Date.now()), 'yyyy-MM-ddT00:00:00.000');
 
-      return this.urlDateReformat = {
+      return urlDateReformat = {
         id: urlLongForUser.id,
         urlLong: urlLongForUser.urlLong,
         maxClickNumber: urlLongForUser.maxClickNumber,
@@ -148,7 +134,7 @@ export class UrlManagementService {
         appPassword: urlLongForUser.appPassword
       };
     } else {
-      return this.urlDateReformat = {
+      return urlDateReformat = {
         id: urlLongForUser.id,
         urlLong: urlLongForUser.urlLong,
         maxClickNumber: urlLongForUser.maxClickNumber,
@@ -159,16 +145,13 @@ export class UrlManagementService {
   }
 
   ReformatDate(datetoReformat) {
+    let dateReformated: string;
     const dateTransfoYY = datetoReformat.substring(0, 4);
     const dateTransfoMM = datetoReformat.substring(5, 7);
     const dateTransfoDD = datetoReformat.substring(8, 10);
 
-    console.log('datetoReformat = ' + datetoReformat);
-    console.log('dateTransfoDD = '    + dateTransfoDD);
-    console.log('dateTransfoMM = '    + dateTransfoMM);
-    console.log('dateTransfoYYYY = '  + dateTransfoYY);
-    this.dateReformated = dateTransfoYY + '-' + dateTransfoMM + '-' + dateTransfoDD;
-    return this.dateReformated;
+    dateReformated = dateTransfoYY + '-' + dateTransfoMM + '-' + dateTransfoDD;
+    return dateReformated;
   }
 
   setDefaultFilterValues(searchFormData: SearchForm) {
@@ -181,9 +164,6 @@ export class UrlManagementService {
     if(searchFormData.urlLong == null) {
       this.dataTofilter.urlLong = '';
     }
-    console.log('searchFormData.startDate = ' + searchFormData.startDate);
-    console.log('searchFormData.endDate = ' + searchFormData.endDate);
-
     if (searchFormData.startDate == null
     || searchFormData.startDate === '') {
       this.dataTofilter.startDate = '0001-01-01';

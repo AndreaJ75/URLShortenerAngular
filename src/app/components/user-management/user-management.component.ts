@@ -46,7 +46,7 @@ export class UserManagementComponent implements OnInit {
 
   ngOnInit() {
     // get all Users with their highest authority level
-    this.accountService.ngOnInit();
+    this.accountService.connectedAccountCheck();
     this.getAllUsersWithHighestAutho();
   }
 
@@ -79,10 +79,8 @@ export class UserManagementComponent implements OnInit {
 
     if(confirm ('Do you really want to change user\'s authoritylevel change : '
       + appUser.firstName + appUser.name)) {
-      console.log('AUTHOLEVEL CHANGE ');
-      console.log('authoLevelChange ? ' + authoLevelChange);
       if (authoLevelChange === 'ROLE_USER') {
-        console.log ('GO REMOVE ROLE ADMIN');
+        // request admin role removal
         this.userManagementService.removeAppUserRole(appUser).subscribe(
           appUserAuthoAndOppAutoPage => {
             this.getAllUsersWithHighestAutho();
@@ -90,7 +88,7 @@ export class UserManagementComponent implements OnInit {
           error => console.log ('AuthorityLevel removal KO')
         );
       } else {
-        console.log ('GO CREATE ROLE ADMIN');
+        // Add admin role to user
         this.userManagementService.createAppUserRole(appUser).subscribe(
           appUserAuthoAndOppAutoPage => {
             this.getAllUsersWithHighestAutho();

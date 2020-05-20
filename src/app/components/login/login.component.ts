@@ -34,7 +34,6 @@ export class LoginComponent implements OnInit {
 
   onSubmit(signLogin: Login) {
 
-    console.log('valeur loginFormget = ' + this.loginForm.get('login'));
     this.isSubmitted = true;
     this.loginService.authenticateUser(signLogin).subscribe(
       token => {
@@ -43,7 +42,7 @@ export class LoginComponent implements OnInit {
         this.accountService.OnAuthentication(token);
         alert('Welcome ' + signLogin.login);
         // inform top-bar about status change before going back to home page
-        this.accountService.ngOnInit();
+        this.accountService.connectedAccountCheck();
         this.routerNav.navigate(['']);
         // clear user login form once completed OK
         this.loginForm.reset();

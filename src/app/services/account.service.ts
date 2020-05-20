@@ -18,7 +18,8 @@ export class AccountService {
 
   constructor(private http: HttpClient) { }
 
-  ngOnInit() {
+  connectedAccountCheck(){
+
     // Get user's token stored in LocalStorage
       this.token = this.getToken();
 
@@ -28,7 +29,6 @@ export class AccountService {
           isActive => {
             this.isLoggedIn = isActive;
 
-            console.log('is Active ? = ' + isActive);
             if (isActive === true) {
               // If loggedIn get User Login and authoLevel
                 this.getCurrentUserLoginAndAuthoLevel().subscribe(
@@ -61,7 +61,7 @@ export class AccountService {
   }
 
   OnAuthentication(token: TokenInt) {
-    let key = 'token';
+    const key = 'token';
 
     localStorage.setItem(key, token.token);
   }

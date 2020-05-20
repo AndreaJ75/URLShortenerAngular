@@ -31,7 +31,7 @@ export class UrlLinkComponent implements OnInit {
   page: Page<UrlLink> = new Page();
   column: SortableColumn;
   sortableColumns: Array<SortableColumn> = [
-    new SortableColumn('expirationDate', 'Expiration Date', 'asc'),
+    new SortableColumn('updateDate', 'Update Date', 'desc'),
   ];
 
   searchData: SearchForm;
@@ -66,7 +66,7 @@ export class UrlLinkComponent implements OnInit {
   getDefaultSort(){
     // set default sortCriteria to expiration date
     this.sortableColumns = [
-      new SortableColumn('expirationDate', 'Expiration Date', 'desc')
+      new SortableColumn('updateDate', 'Update Date', 'desc')
     ];
     this.column = this.sortingService.getSortableColumn(this.sortableColumns);
   }
@@ -80,7 +80,6 @@ export class UrlLinkComponent implements OnInit {
         } else {
           this.isAdmin = false;
         };
-        console.log('isAdmin ***** ? = ' + this.isAdmin);
         if (this.isAdmin) {
           this.getUrlLinksForAdmin();
         } else {
@@ -155,7 +154,6 @@ export class UrlLinkComponent implements OnInit {
 
   onSearch(searchFormData) {
 
-    console.log('isAdmin ***** ? = ' + this.isAdmin);
     if (this.isAdmin) {
       this.getUrlLinksFilterForAdmin(searchFormData);
     } else {
@@ -165,9 +163,6 @@ export class UrlLinkComponent implements OnInit {
   }
 
   getUrlLinksFilterForAdmin(searchFormData){
-
-    console.log('searchFormData = ' + searchFormData);
-    console.log('searchFormData.name = ' + searchFormData.name);
 
     this.urlManagementService.getUrlLinkFilteredForAdmin(this.page.pageable
       , this.column, searchFormData)
@@ -182,13 +177,6 @@ export class UrlLinkComponent implements OnInit {
   }
 
   getUrlLinksFilterForUser(searchFormData){
-
-    console.log('**********   WITHIN COMPONENT START       ************');
-    console.log('searchFormData.urlLong = ' + searchFormData.urlLong);
-    console.log('searchFormData.starDate = ' + searchFormData.startDate);
-    console.log('searchFormData.endDate = ' + searchFormData.endDate);
-
-    console.log('**********   WITHIN COMPONENT   END     ************');
 
     this.urlManagementService.getUrlLinkFilteredForOneUser(this.page.pageable
       , this.column, searchFormData)
@@ -210,14 +198,4 @@ export class UrlLinkComponent implements OnInit {
     this.column = this.sortingService.getSortableColumn(this.sortableColumns);
     this.getUrlLinks();
   }
-
-  // sort(sortableColumn: SortableColumn): void {
-  //   this.sortingService.clearPreviousSorting(sortableColumn, this.sortableColumns);
-  //   this.getData();
-  // }
-  //
-  // private getData(): void {
-  //   let column = this.sortingService.getSortableColumn(this.sortableColumns);
-  //   this.getUrlLinks();
-  // }
 }

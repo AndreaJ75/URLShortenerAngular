@@ -63,7 +63,7 @@ export class HomePageComponent implements OnInit {
 
   onCreateUrlLink(urlLongForUser: UrlForUser) {
 
-    this.accountService.ngOnInit();
+    this.accountService.connectedAccountCheck();
     this.token = this.accountService.token;
 
     this.urlManagementService.createUrlLinkForUser(urlLongForUser).subscribe(

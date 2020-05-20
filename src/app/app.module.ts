@@ -15,7 +15,6 @@ import {PagerService} from './services/pager.service';
 import { HomePageComponent } from './components/home/homePage.component';
 import { UrlUpdateComponent } from './components/url-update/url-update.component';
 import {DatePipe} from '@angular/common';
-import { SortableHeadersComponent } from './sort-Pagination/sorting/component/sortable-headers/sortable-headers.component';
 import { CustomPaginationComponent } from './sort-Pagination/pagination/component/custom-pagination/custom-pagination.component';
 import { UrlPasswordComponent } from './components/url-password/url-password.component';
 
@@ -29,7 +28,6 @@ import { UrlPasswordComponent } from './components/url-password/url-password.com
     UserManagementComponent,
     HomePageComponent,
     UrlUpdateComponent,
-    SortableHeadersComponent,
     CustomPaginationComponent,
     UrlPasswordComponent
   ],

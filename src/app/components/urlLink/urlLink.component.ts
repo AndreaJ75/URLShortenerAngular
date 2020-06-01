@@ -34,8 +34,6 @@ export class UrlLinkComponent implements OnInit {
     new SortableColumn('updateDate', 'Update Date', 'desc'),
   ];
 
-  searchData: SearchForm;
-
   constructor(private urlManagementService: UrlManagementService,
               private accountService: AccountService,
               private routerNav: Router,

@@ -24,12 +24,6 @@ export class UserManagementComponent implements OnInit {
   column: SortableColumn;
   ifIsAdmins: boolean[] = [];
   ifIsAdmin: boolean;
-  isRoleAdmin: string;
-  isRoleUser: string;
-  highestRole: string;
-  indAutoAdmin: number;
-  indAutoUser: number;
-  maxInd: number;
 
   constructor(private accountService: AccountService,
               private userManagementService: UserManagementService,
@@ -39,7 +33,7 @@ export class UserManagementComponent implements OnInit {
               private sortingService: CustomSortingService) {
     this.searchForm = this.formbuilder.group (
       {
-        searchField : ''
+        name : ''
       }
     );
     this.authoLevelForm = this.formbuilder2.group(
@@ -118,8 +112,19 @@ export class UserManagementComponent implements OnInit {
     }
   }
 
-  onSearch(searchForm) {
-  }
+  onSearch(searchData) {
+
+    this.userManagementService.getAppUserFiltered(this.page.pageable
+      , this.column, searchData)
+      .subscribe(appUserPage => {
+          if (appUserPage != null) {
+            this.appUsersAutho = appUserPage.content;
+            this.page = appUserPage;
+          }
+        },
+        error => console.log('AppUser Filter Not found'));
+    this.searchForm.reset();
+}
 
   onDeleteUser(userToDelete: AppUser){
 

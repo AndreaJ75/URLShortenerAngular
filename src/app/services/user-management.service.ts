@@ -14,14 +14,14 @@ export class UserManagementService {
 
   constructor(private http: HttpClient) { }
 
-  getAllUsersWithHighestAutho(pageable: Pageable, sortableColumn: SortableColumn)
+  getAllUsersWithAuthoLevel(pageable: Pageable, sortableColumn: SortableColumn)
     : Observable<any> {
-    const urlForGetAllUserHighestAutho = API_URL + ADMIN_USER
-      + '/appUserAllWithHighestAutho'
+    const urlForGetAllUserWithAuthoLevel = API_URL + ADMIN_USER
+    + '/appUserAll'
     + '?page=' + pageable.pageNumber
     + '&size=' + pageable.pageSize
     + this.getSortParameters(sortableColumn);
-    return this.http.get<any>(urlForGetAllUserHighestAutho);
+    return this.http.get<any>(urlForGetAllUserWithAuthoLevel);
   }
   private getSortParameters(sortableColumn: SortableColumn): string {
     if (sortableColumn == null) {

@@ -1,3 +1,5 @@
+import {Authority} from './authority';
+
 export interface AppUser {
     id: number;
     uid: string;
@@ -6,4 +8,5 @@ export interface AppUser {
     email: string;
     creationDate: Date;
     updateDate: Date;
+    authorities: Authority[];
 }

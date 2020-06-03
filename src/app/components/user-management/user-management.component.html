@@ -19,23 +19,21 @@
     <tr>
       <th class="medium_cell"> Login             </th>
       <th class="medium_cell"> Complete name     </th>
-      <th class="medium_cell"> Current Role      </th>
       <th class="medium_cell"> Role Management   </th>
       <th class="medium_cell">                   </th>
     </tr>
     </thead>
     <tr *ngFor="let appUserAutho of appUsersAutho; index as ind">
-      <td class="medium_cell"> {{ appUserAutho.appUser?.uid }} </td>
-      <td class="medium_cell"> {{ appUserAutho.appUser?.firstName }} &nbsp;{{ appUserAutho.appUser?.name }} </td>
-      <td class="medium_cell"> {{ appUserAutho?.highestAuthorityLevel }} </td>
+      <td class="medium_cell"> {{ appUserAutho?.uid }} </td>
+      <td class="medium_cell"> {{ appUserAutho?.firstName }} &nbsp;{{ appUserAutho?.name }} </td>
       <td class="medium_cell">
         <form [formGroup]="authoLevelForm">
           <select id="authoLevelSelect" formControlName="authoLevel"
                   (change)="authoLevelSelectChange($event.target.value,
-                  appUserAutho?.appUser)">
-            <option [value]="'ROLE_USER'">
+                   appUserAutho)">
+            <option [value]="'ROLE_USER'" [selected]="!(ifIsAdmins[ind])">
               ROLE_USER </option>
-            <option [value]="'ROLE_ADMIN'">
+            <option [value]="'ROLE_ADMIN'" [selected]="ifIsAdmins[ind]">
               ROLE_ADMIN </option>
           </select>
         </form>

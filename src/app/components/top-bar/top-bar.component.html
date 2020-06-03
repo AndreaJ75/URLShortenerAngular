@@ -1,5 +1,5 @@
 <div class="identification">
-  <div class="signin">
+  <div class="signin" *ngIf="!accountService?.isLoggedIn">
     <p> SignIn
       <a class="connectImg" routerLink="login">
         <img src="loginButton.png" class="icon1"> </a>

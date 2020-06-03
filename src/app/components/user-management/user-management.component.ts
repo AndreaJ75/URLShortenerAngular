@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {AccountService} from '../../services/account.service';
 import {UserManagementService} from '../../services/user-management.service';
 import {AppUser} from '../../interfaces/app-user';
-import {FormBuilder} from '@angular/forms';
-import {AppUserAutho} from '../../interfaces/app-user-autho';
+import {FormBuilder, Validators} from '@angular/forms';
 import {Page} from '../../sort-Pagination/pagination/page';
 import {SortableColumn} from '../../sort-Pagination/sorting/sortable-column';
 import {CustomPaginationService} from '../../sort-Pagination/pagination/service/custom-pagination.service';
@@ -18,12 +17,19 @@ export class UserManagementComponent implements OnInit {
 
   searchForm;
   authoLevelForm;
-  appUsersAutho: AppUserAutho[] = [];
+  appUsersAutho: AppUser[] = [];
   // Pagination & sort data
-  page: Page<AppUserAutho> = new Page();
+  page: Page<AppUser> = new Page();
   sortableColumns: Array<SortableColumn> = [];
   column: SortableColumn;
-
+  ifIsAdmins: boolean[] = [];
+  ifIsAdmin: boolean;
+  isRoleAdmin: string;
+  isRoleUser: string;
+  highestRole: string;
+  indAutoAdmin: number;
+  indAutoUser: number;
+  maxInd: number;
 
   constructor(private accountService: AccountService,
               private userManagementService: UserManagementService,
@@ -47,27 +53,40 @@ export class UserManagementComponent implements OnInit {
   ngOnInit() {
     // get all Users with their highest authority level
     this.accountService.connectedAccountCheck();
-    this.getAllUsersWithHighestAutho();
+    this.getAllUsersWithAuthoLevel();
   }
 
-  getAllUsersWithHighestAutho() {
+  getAllUsersWithAuthoLevel() {
 
     this.sortableColumns = [
-      new SortableColumn('uid', 'Name', 'desc')
+      new SortableColumn('uid', 'Name', 'asc')
     ];
     this.column = this.sortingService.getSortableColumn(this.sortableColumns);
 
     this.appUsersAutho = [];
+    this.ifIsAdmins = [];
     this.userManagementService
-      .getAllUsersWithHighestAutho(this.page.pageable, this.column)
+      .getAllUsersWithAuthoLevel(this.page.pageable, this.column)
       .subscribe(usersAutho => {
         if (usersAutho != null) {
           this.appUsersAutho = usersAutho.content;
+          this.appUsersAutho.forEach(
+            appUser => {
+              // Initialization of boolean to check if is "user" admin or user
+              this.ifIsAdmin = false;
+              appUser.authorities.forEach(
+                authority => {
+                  if (authority.authorityLevel === 'ROLE_ADMIN') {
+                      this.ifIsAdmin = true;
+                  }
+                }
+              )
+              // for each user we populate boolean array with dedicated value
+              this.ifIsAdmins.push(this.ifIsAdmin);
+            }
+          )
             // populate page
           this.page = usersAutho;
-          console.log('pageSize = ' + this.page.size);
-          console.log('pageNumber = ' + this.page.number);
-          console.log('sort = ' + this.page.pageable.sort);
         }
       }
       ,
@@ -83,7 +102,7 @@ export class UserManagementComponent implements OnInit {
         // request admin role removal
         this.userManagementService.removeAppUserRole(appUser).subscribe(
           appUserAuthoAndOppAutoPage => {
-            this.getAllUsersWithHighestAutho();
+            this.getAllUsersWithAuthoLevel();
           },
           error => console.log ('AuthorityLevel removal KO')
         );
@@ -91,7 +110,7 @@ export class UserManagementComponent implements OnInit {
         // Add admin role to user
         this.userManagementService.createAppUserRole(appUser).subscribe(
           appUserAuthoAndOppAutoPage => {
-            this.getAllUsersWithHighestAutho();
+            this.getAllUsersWithAuthoLevel();
           },
           error => console.log('AuthorityLevel creation KO')
         );
@@ -102,16 +121,16 @@ export class UserManagementComponent implements OnInit {
   onSearch(searchForm) {
   }
 
-  onDeleteUser(userToDelete: AppUserAutho){
+  onDeleteUser(userToDelete: AppUser){
 
     const index: number = this.appUsersAutho.indexOf(userToDelete);
 
     if(confirm ('Do you really want to delete user : ' +
-      userToDelete.appUser.firstName + ' ' +userToDelete.appUser.name)) {
-      this.userManagementService.deleteUser(userToDelete.appUser.id).subscribe(
+      userToDelete.firstName + ' ' + userToDelete.name)) {
+      this.userManagementService.deleteUser(userToDelete.id).subscribe(
         status => {
           this.appUsersAutho.splice(index, 1);
-          this.getAllUsersWithHighestAutho();},
+          this.getAllUsersWithAuthoLevel();},
         error => console.log('Delete user KO ' + error));
     }
   }
@@ -119,16 +138,16 @@ export class UserManagementComponent implements OnInit {
 
   public getNextPage(): void {
     this.page.pageable = this.paginationService.getNextPage(this.page);
-    this.getAllUsersWithHighestAutho();
+    this.getAllUsersWithAuthoLevel();
   }
 
   public getPreviousPage(): void {
     this.page.pageable = this.paginationService.getPreviousPage(this.page);
-    this.getAllUsersWithHighestAutho();
+    this.getAllUsersWithAuthoLevel();
   }
 
   public getPageInNewSize(pageSize: number): void {
     this.page.pageable = this.paginationService.getPageInNewSize(this.page, pageSize);
-    this.getAllUsersWithHighestAutho();
+    this.getAllUsersWithAuthoLevel();
   }
 }

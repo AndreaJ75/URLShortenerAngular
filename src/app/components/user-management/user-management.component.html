@@ -2,7 +2,7 @@
   <form [formGroup]="searchForm">
     <div class="search">
       <input id="searchField" type="text"
-             placeholder='Search data : ' formControlName="searchField">
+             placeholder='Name searched : ' formControlName="name">
       <button class= "button2" (click)="onSearch(searchForm.value)"> Search </button>
     </div>
   </form>

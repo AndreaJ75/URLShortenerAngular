@@ -4,7 +4,7 @@ import { UrlLink } from '../../interfaces/url-link';
 import {API_URL_SHORT} from '../../app.constants';
 import { AccountService } from '../../services/account.service';
 import { LoginAuthoLevel } from '../../interfaces/login-autho-level';
-import { Router } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import { CustomPaginationService } from '../../sort-Pagination/pagination/service/custom-pagination.service';
 import { CustomSortingService } from '../../sort-Pagination/sorting/service/custom-sorting.service';
 import { Page } from '../../sort-Pagination/pagination/page';
@@ -26,6 +26,8 @@ export class UrlLinkComponent implements OnInit {
   loginAuthoLevel: LoginAuthoLevel;
   isAdmin: boolean;
   searchForm;
+  show = false;
+  shows: boolean[] = [];
 
   // Pagination & sort data
   page: Page<UrlLink> = new Page();
@@ -195,5 +197,20 @@ export class UrlLinkComponent implements OnInit {
     ];
     this.column = this.sortingService.getSortableColumn(this.sortableColumns);
     this.getUrlLinks();
+  }
+
+  // click event function toggle
+  passwordShow(urlInd) {
+    let i = 0 ;
+    this.shows = [];
+    this.show = false;
+
+    while (i !== urlInd) {
+        this.show = false;
+        this.shows.push(this.show);
+        i = i + 1;
+    }
+    this.show = !this.show;
+    this.shows.push(this.show);
   }
 }

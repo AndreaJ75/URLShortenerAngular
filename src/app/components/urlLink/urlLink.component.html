@@ -38,12 +38,13 @@
           ^ </a>
       <a (click)="sortUrl('urlShortKey', 'desc', 'UrlShort')">
           v </a></th>
-      <th class="short_cell">
-        Creation Date
-        <a (click)="sortUrl('creationDate', 'asc', 'Creation Date')">
-          ^ </a>
-      <a (click)="sortUrl('creationDate', 'desc', 'Creation Date')">
-          v </a></th>
+<!--      <th class="short_cell">-->
+<!--        Creation Date-->
+<!--        <a (click)="sortUrl('creationDate', 'asc', 'Creation Date')">-->
+<!--          ^ </a>-->
+<!--      <a (click)="sortUrl('creationDate', 'desc', 'Creation Date')">-->
+<!--          v </a></th>-->
+      <th class="short_cell"> Password </th>
       <th class="short_cell">
         Expiration Date
         <a (click)="sortUrl('expirationDate', 'asc', 'Expiration Date')">
@@ -76,7 +77,13 @@
       <td class="shorten_cell">{{ urlLink?.urlLong }} </td>
       <td class="short_cell1"> <a href="{{ urlStart }}{{ urlLink?.urlShortKey }}">
         {{ urlStart }}{{ urlLink?.urlShortKey }} </a></td>
-      <td class="short_cell">{{ urlLink?.creationDate | date : 'dd/MM/yyyy' }}</td>
+<!--      <td class="short_cell">{{ urlLink?.creationDate | date : 'dd/MM/yyyy' }}</td>-->
+      <td class="passIN">
+          <a *ngIf="urlLink.urlPassword && !shows[urlInd]" (click)="passwordShow(urlInd)" class="eyeImg">
+              <img src="eye.png" class="icon7">
+          </a>
+          <p *ngIf="shows[urlInd]"> {{urlLink.urlPassword}} </p>
+      </td>
       <td class="short_cell">{{ urlLink?.expirationDate | date : 'dd/MM/yyyy'}}</td>
       <td class="short_cell">{{ urlLink?.clickNumber }} / {{ urlLink?.maxClickNumber }} </td>
       <td class="short_cell">{{ urlLink?.updateDate  | date : 'dd/MM/yyyy' }}</td>

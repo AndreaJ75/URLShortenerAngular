@@ -2,7 +2,7 @@
   <div class="signin" *ngIf="!accountService?.isLoggedIn">
     <p> SignIn
       <a class="connectImg" routerLink="login">
-        <img src="loginButton.png" class="icon1"> </a>
+        <img src="loginButton.png" class="icon1" alt="login"> </a>
     </p>
   </div>
   <!-- Show only once connected-->
@@ -11,7 +11,7 @@
      {{accountService.loginAuthoLevel?.authoLevel}} &nbsp;
 
     <a class="disconnectImg" (click)="disconnect()" routerLink="">
-      <img src="logoutButton.png" class="icon2"> </a></p>
+      <img src="logoutButton.png" class="icon2" alt="logout"> </a></p>
   </div>
 </div>
 

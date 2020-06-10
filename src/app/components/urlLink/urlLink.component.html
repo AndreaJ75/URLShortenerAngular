@@ -79,8 +79,9 @@
         {{ urlStart }}{{ urlLink?.urlShortKey }} </a></td>
 <!--      <td class="short_cell">{{ urlLink?.creationDate | date : 'dd/MM/yyyy' }}</td>-->
       <td class="passIN">
-          <a *ngIf="urlLink.urlPassword && !shows[urlInd]" (click)="passwordShow(urlInd)" class="eyeImg">
-              <img src="eye.png" class="icon7">
+          <a *ngIf="urlLink.urlPassword && !shows[urlInd]" (click)="passwordShow(urlInd)"
+             class="eyeImg">
+              <img src="eye.png" class="icon7" alt="View password">
           </a>
           <p *ngIf="shows[urlInd]"> {{urlLink.urlPassword}} </p>
       </td>
@@ -91,10 +92,11 @@
           {{ urlLink.appUser?.firstName }} &nbsp;{{ urlLink.appUser?.name }} </td>
       <td class="editButton">
         <img src="pencilWhite.png" class="icon4" (click)="onEditUrlLink(urlLink)"
-             [routerLink]="['url-update', urlInd]">
+             [routerLink]="['url-update', urlInd]" alt="request update on URLLink">
       </td>
       <td class="trashCanImg">
-        <img src="trashGreen.png" class="icon3" (click)="onDeleteUrlLink(urlLink)">
+        <img src="trashGreen.png" class="icon3" (click)="onDeleteUrlLink(urlLink)"
+             alt="request delete on URLLink">
       </td>
     </tr>
   </table>

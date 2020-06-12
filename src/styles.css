@@ -252,8 +252,12 @@ table{
 }
 
 .shorten_cell{
-  overflow: auto;
+  /*overflow: auto;*/
+  /*white-space: nowrap;*/
+  /*max-width: 350px;*/
+  display: inline-block;
   white-space: nowrap;
+  overflow-x: scroll;
   max-width: 350px;
 }
 

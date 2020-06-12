@@ -75,20 +75,16 @@ disconnectImg{
   display: block;
   margin-left: auto;
   margin-right: auto;
-  width: 45%;
-  height: 25%;
+  width: 3.5rem;
+  height: 3.5rem;
   border-radius: 6px;
-  padding-right: 2%;
-  padding-left: 2%;
 }
 .icon4{
   display: block;
   margin-left: auto;
   margin-right: auto;
-  width: 45%;
-  height: 25%;
-  padding-right: 2%;
-  padding-left: 2%;
+  width: 3.5rem;
+  height: 3.5rem;
 }
 .icon5{
   width: 6%;
@@ -108,11 +104,10 @@ disconnectImg{
   display: block;
   margin-left: auto;
   margin-right: auto;
-  width: 50%;
-  height: 40%;
-  padding-right: 2%;
-  padding-left: 2%;
+  width: 4.5rem;
+  height: 3.5rem;
 }
+
 
 nav>ul {
   display: flex;
@@ -318,13 +313,16 @@ table{
   flex-direction: row;
   justify-content: center;
 }
-
+td, th {
+  padding-left: 2%;
+  padding-right: 2%;
+}
 th, td{
   color: white;
 }
 th {
   font-size: 22px;
-  height: 80px;
+  /*height: 80px;*/
 }
 td {
   font-size: 18px;

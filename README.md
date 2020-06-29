@@ -4,6 +4,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 It purpose is to provide :
 - a user interface to allow short URLs creation
+- user login interface
 - short URLs management (modification, delete)
 - for Admin user : User authorization level management
 
